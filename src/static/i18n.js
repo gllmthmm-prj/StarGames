@@ -208,6 +208,85 @@ function initLang() {
   document.querySelectorAll('.lang-select').forEach(sel => sel.value = lang);
 }
 
+/* ── Easter egg modal ───────────────────────────────────────────────────── */
+function initEggModal() {
+  if (document.getElementById('egg-modal')) return;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .egg-btn {
+      background: none; border: none; font-size: 1.3rem;
+      cursor: pointer; line-height: 1; padding: 2px 4px;
+      transition: transform 0.25s;
+      filter: grayscale(0.2);
+    }
+    .egg-btn:hover { transform: scale(1.3) rotate(-10deg); }
+
+    #egg-modal {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(10px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s;
+    }
+    #egg-modal.open { opacity: 1; pointer-events: all; }
+
+    .egg-box {
+      background: rgba(14,12,36,0.97);
+      border: 1px solid rgba(167,139,255,0.35);
+      border-radius: 24px; padding: 48px 52px;
+      text-align: center; max-width: 440px;
+      box-shadow: 0 0 80px rgba(99,51,255,0.3), 0 30px 60px rgba(0,0,0,0.7);
+      transform: scale(0.88) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    #egg-modal.open .egg-box { transform: scale(1) translateY(0); }
+
+    .egg-box-icon { font-size: 3.5rem; margin-bottom: 20px; animation: eggWobble 2s ease-in-out infinite; }
+    @keyframes eggWobble {
+      0%,100% { transform: rotate(-5deg); }
+      50%      { transform: rotate(5deg); }
+    }
+
+    .egg-box-text {
+      font-size: 1.3rem; font-weight: 700; line-height: 1.55;
+      background: linear-gradient(135deg, #c4a8ff, #6ee7ff, #f5c518);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .egg-box-close {
+      margin-top: 28px; background: linear-gradient(135deg,#6333ff,#3b82f6);
+      color: #fff; border: none; padding: 10px 32px;
+      border-radius: 50px; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; box-shadow: 0 6px 22px rgba(99,51,255,0.4);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .egg-box-close:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(99,51,255,0.6); }
+  `;
+  document.head.appendChild(style);
+
+  const modal = document.createElement('div');
+  modal.id = 'egg-modal';
+  modal.innerHTML = `
+    <div class="egg-box">
+      <div class="egg-box-icon">🥚</div>
+      <div class="egg-box-text">Giulian et Milan,<br>c'est pour vous mes fils&nbsp;❤️</div>
+      <br>
+      <button class="egg-box-close" onclick="closeEgg()">✨ Fermer</button>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeEgg(); });
+}
+
+function openEgg()  {
+  initEggModal();
+  document.getElementById('egg-modal').classList.add('open');
+}
+function closeEgg() {
+  const m = document.getElementById('egg-modal');
+  if (m) m.classList.remove('open');
+}
+
 /* ── Lang selector HTML helper ─────────────────────────────────────────── */
 function langSelectorHTML() {
   return `
