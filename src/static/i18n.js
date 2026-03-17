@@ -270,7 +270,7 @@ function initEggModal() {
   modal.innerHTML = `
     <div class="egg-box">
       <div class="egg-box-icon">🥚</div>
-      <div class="egg-box-text">Giulian et Milan,<br>c'est pour vous mes fils&nbsp;❤️</div>
+      <div class="egg-box-text">Giulian et Milán,<br>c'est pour vous mes fils&nbsp;❤️</div>
       <br>
       <button class="egg-box-close" onclick="closeEgg()">✨ Fermer</button>
     </div>`;
