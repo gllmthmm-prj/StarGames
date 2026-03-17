@@ -13,10 +13,10 @@
             height: 100vh; display: flex; flex-direction: column; overflow: hidden;
         }
 
-        #starfield { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-        .nebula { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 1; }
-        .nb1 { width:450px;height:380px;top:-80px;left:-100px; background:rgba(60,20,160,0.15); }
-        .nb2 { width:380px;height:320px;bottom:-60px;right:-70px;background:rgba(0,130,200,0.11); }
+        #spacebg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .lang-select { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.82rem; cursor:pointer; outline:none; }
+        .lang-select:hover { border-color:rgba(255,255,255,0.28); color:#fff; }
+        .lang-select option { background:#12122a; color:#e8e8ff; }
 
         nav {
             position: relative; z-index: 20;
@@ -103,18 +103,18 @@
     </style>
 </head>
 <body>
-    <canvas id="starfield"></canvas>
-    <div class="nebula nb1"></div>
-    <div class="nebula nb2"></div>
-
+    <canvas id="spacebg"></canvas>
     <nav>
         <div class="logo">★ StarGames</div>
-        <a href="/">← Back</a>
+        <div style="display:flex;align-items:center;gap:16px">
+            <a href="/" data-i18n="nav_back">← Back to games</a>
+            <select class="lang-select" onchange="setLang(this.value)"><option value="en">🌐 EN</option><option value="fr">🌐 FR</option></select>
+        </div>
     </nav>
     <div class="hud">
-        <div class="hud-stat"><span class="hud-label">Score</span><span class="hud-val" id="scoreVal">0</span></div>
-        <div class="hud-stat"><span class="hud-label">Time</span><span class="hud-val" id="timerVal">20</span></div>
-        <div class="hud-stat"><span class="hud-label">Round</span><span class="hud-val" id="roundVal">1 / 8</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_score">Score</span><span class="hud-val" id="scoreVal">0</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_time">Time</span><span class="hud-val" id="timerVal">20</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_round">Round</span><span class="hud-val" id="roundVal">1 / 8</span></div>
     </div>
 
     <div class="game-area">
@@ -123,21 +123,23 @@
         <div class="canvas-wrap" id="canvasWrap">
             <canvas id="gameCanvas"></canvas>
         </div>
-        <div class="instruction" id="instruction">Click the numbered stars in order (1 → 2 → 3 …)</div>
+        <div class="instruction" id="instruction" data-i18n="dc_inst">Click star 1 first</div>
     </div>
 
     <div class="overlay" id="overlay">
         <div class="ov-icon" id="ovIcon">✨</div>
-        <div class="ov-title" id="ovTitle">Dot Connect</div>
-        <div class="ov-sub" id="ovSub">Connect the numbered stars in order to trace each constellation before time runs out!</div>
-        <button class="btn-go" id="btnGo">Start Game</button>
-        <a href="/" class="ov-back">← Back to games</a>
+        <div class="ov-title" id="ovTitle" data-i18n="dc_title">Dot Connect</div>
+        <div class="ov-sub" id="ovSub" data-i18n="dc_sub">Connect the numbered stars in order to trace each constellation before time runs out!</div>
+        <button class="btn-go" id="btnGo" data-i18n="btn_start">Start Game</button>
+        <a href="/" class="ov-back" data-i18n="nav_back">← Back to games</a>
     </div>
 
     <script>
-    // ── Starfield ──────────────────────────────────────────────────────────────
+    // starfield replaced by spacebg.js
     (function() {
-        const cv = document.getElementById('starfield');
+        // noop placeholder
+        return;
+        const cv = document.getElementById('spacebg');
         const cx = cv.getContext('2d');
         let stars = [];
         function resize() { cv.width = window.innerWidth; cv.height = window.innerHeight; }
@@ -462,5 +464,8 @@
         resetGame();
     });
     </script>
+    <script src="/static/i18n.js"></script>
+    <script src="/static/spacebg.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', initLang);</script>
 </body>
 </html>

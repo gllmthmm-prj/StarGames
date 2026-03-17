@@ -9,7 +9,7 @@
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #06060f;
+            background: #03030a;
             color: #e8e8ff;
             height: 100vh;
             display: flex;
@@ -17,15 +17,21 @@
             overflow: hidden;
         }
 
+        #spacebg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+        .lang-select { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.82rem; cursor:pointer; outline:none; transition:border-color 0.2s,color 0.2s; }
+        .lang-select:hover { border-color:rgba(255,255,255,0.28); color:#fff; }
+        .lang-select option { background:#12122a; color:#e8e8ff; }
+
         nav {
             display: flex; align-items: center; justify-content: space-between;
             padding: 14px 32px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
-            background: rgba(6,6,15,0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(3,3,10,0.82);
+            backdrop-filter: blur(14px);
             z-index: 20; flex-shrink: 0;
         }
-        .logo { font-size: 1.1rem; font-weight: 700; background: linear-gradient(90deg,#a78bff,#00c8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo { font-size: 1.1rem; font-weight: 700; background: linear-gradient(90deg,#c4a8ff,#6ee7ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         nav a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
         nav a:hover { color: #fff; }
 
@@ -184,21 +190,25 @@
     </style>
 </head>
 <body>
+    <canvas id="spacebg"></canvas>
     <nav>
         <div class="logo">★ StarGames</div>
-        <a href="/">← Back to games</a>
+        <div style="display:flex;align-items:center;gap:16px">
+            <a href="/" data-i18n="nav_back">← Back to games</a>
+            <select class="lang-select" onchange="setLang(this.value)"><option value="en">🌐 EN</option><option value="fr">🌐 FR</option></select>
+        </div>
     </nav>
     <div class="hud">
-        <div class="hud-stat"><span class="hud-label">Score</span><span class="hud-val" id="scoreVal">0</span></div>
-        <div class="hud-stat"><span class="hud-label">Time</span><span class="hud-val" id="timerVal">15</span></div>
-        <div class="hud-stat"><span class="hud-label">Round</span><span class="hud-val" id="roundVal">1 / 10</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_score">Score</span><span class="hud-val" id="scoreVal">0</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_time">Time</span><span class="hud-val" id="timerVal">15</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_round">Round</span><span class="hud-val" id="roundVal">1 / 10</span></div>
     </div>
 
     <div class="game-area">
         <div class="progress-dots" id="progressDots"></div>
         <div class="canvas-wrap" id="canvasWrap">
             <canvas id="constellationCanvas"></canvas>
-            <div class="hint-label">Identify this constellation</div>
+            <div class="hint-label" data-i18n="cq_hint">Identify this constellation</div>
         </div>
         <div class="feedback-strip" id="feedback"></div>
         <div class="answers" id="answersGrid"></div>
@@ -673,10 +683,12 @@
             ? 'Good star knowledge!'
             : 'Keep gazing at the stars!';
 
+        const lang = localStorage.getItem('sg_lang') || 'en';
+        const T    = (k) => (typeof TRANSLATIONS !== 'undefined' && TRANSLATIONS[lang]?.[k]) || k;
         oIcon.textContent  = emoji;
-        oTitle.textContent = 'Quiz Complete!';
+        oTitle.textContent = T('cq_complete');
         oSub.innerHTML     = `You scored <strong style="color:#a78bff">${score} points</strong> and identified ${correct} of ${TOTAL_ROUNDS} constellations correctly.<br><br><em style="font-size:0.85rem;color:rgba(255,255,255,0.35)">${msg}</em>`;
-        btnAction.textContent = 'Play Again';
+        btnAction.textContent = T('btn_again');
         btnAction.onclick = () => { overlay.classList.add('hidden'); resetGame(); startRound(); };
         overlay.classList.remove('hidden');
     }
@@ -700,5 +712,8 @@
         startRound();
     };
     </script>
+    <script src="/static/i18n.js"></script>
+    <script src="/static/spacebg.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', initLang);</script>
 </body>
 </html>

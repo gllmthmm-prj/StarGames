@@ -7,32 +7,27 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #06060f;
+            background: #03030a;
             color: #e8e8ff;
             min-height: 100vh;
             display: flex; flex-direction: column;
             overflow: hidden;
         }
+        #spacebg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .lang-select { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.82rem; cursor:pointer; outline:none; }
+        .lang-select:hover { border-color:rgba(255,255,255,0.28); color:#fff; }
+        .lang-select option { background:#12122a; color:#e8e8ff; }
         nav {
             display: flex; align-items: center; justify-content: space-between;
             padding: 16px 32px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
-            background: rgba(6,6,15,0.8);
-            backdrop-filter: blur(12px);
+            background: rgba(3,3,10,0.82);
+            backdrop-filter: blur(14px);
             z-index: 20;
         }
-        .logo { font-size: 1.1rem; font-weight: 700; background: linear-gradient(90deg,#a78bff,#00c8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo { font-size: 1.1rem; font-weight: 700; background: linear-gradient(90deg,#c4a8ff,#6ee7ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         nav a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; }
         nav a:hover { color: #fff; }
-
-        body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 40%, rgba(0,200,255,0.1) 0%, transparent 55%),
-                radial-gradient(ellipse at 80% 60%, rgba(99,51,255,0.1) 0%, transparent 55%);
-            pointer-events: none; z-index: 0;
-        }
 
         .arena {
             flex: 1; display: flex; align-items: center; justify-content: center;
@@ -116,22 +111,26 @@
     </style>
 </head>
 <body>
+    <canvas id="spacebg"></canvas>
     <nav>
         <div class="logo">★ StarGames</div>
-        <a href="/">← Back to games</a>
+        <div style="display:flex;align-items:center;gap:16px">
+            <a href="/" data-i18n="nav_back">← Back to games</a>
+            <select class="lang-select" onchange="setLang(this.value)"><option value="en">🌐 EN</option><option value="fr">🌐 FR</option></select>
+        </div>
     </nav>
     <div class="arena">
         <div class="card" id="quizCard">
             <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
             <div class="hud-row">
-                <div class="hud-item"><span class="hud-label">Score</span><span class="hud-val" id="scoreVal">0</span></div>
+                <div class="hud-item"><span class="hud-label" data-i18n="hud_score">Score</span><span class="hud-val" id="scoreVal">0</span></div>
                 <div class="hud-item"><span class="hud-label">Question</span><span class="hud-val" id="qNumVal">1 / 8</span></div>
                 <div class="hud-item"><span class="hud-label">Streak</span><span class="hud-val" id="streakVal">0🔥</span></div>
             </div>
-            <div class="question-text" id="questionText">Loading…</div>
+            <div class="question-text" id="questionText" data-i18n="gq_loading">Loading…</div>
             <div class="answers" id="answersGrid"></div>
             <div class="feedback" id="feedback"></div>
-            <button class="btn-next hidden" id="btnNext">Next →</button>
+            <button class="btn-next hidden" id="btnNext" data-i18n="btn_next">Next →</button>
         </div>
     </div>
 
@@ -223,5 +222,8 @@
 
         loadQuestion();
     </script>
+    <script src="/static/i18n.js"></script>
+    <script src="/static/spacebg.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', initLang);</script>
 </body>
 </html>
