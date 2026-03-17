@@ -5,18 +5,40 @@ app = Flask(__name__)
 
 GAMES = [
     {
-        "id": "starcatch",
-        "title": "Star Catcher",
-        "description": "Catch falling stars before they vanish. How many can you grab?",
-        "icon": "⭐",
-        "color": "#f5c518",
-    },
-    {
         "id": "constellation",
         "title": "Constellation Quiz",
         "description": "Recognize star constellations against the clock. Score bonus points for speed!",
         "icon": "🔭",
         "color": "#a78bff",
+        "category": "Quiz",
+        "difficulty": "Medium",
+    },
+    {
+        "id": "starcatch",
+        "title": "Star Catcher",
+        "description": "Catch falling stars before they vanish. How many can you grab?",
+        "icon": "⭐",
+        "color": "#f5c518",
+        "category": "Reflex",
+        "difficulty": "Easy",
+    },
+    {
+        "id": "starmemory",
+        "title": "Star Memory",
+        "description": "Match each constellation name to its star pattern. The fewer moves, the better!",
+        "icon": "🧠",
+        "color": "#ff6eb4",
+        "category": "Puzzle",
+        "difficulty": "Medium",
+    },
+    {
+        "id": "dotconnect",
+        "title": "Dot Connect",
+        "description": "Connect numbered stars in the correct order to trace constellations before time runs out.",
+        "icon": "🌠",
+        "color": "#6ee7ff",
+        "category": "Puzzle",
+        "difficulty": "Hard",
     },
     {
         "id": "numquiz",
@@ -24,6 +46,8 @@ GAMES = [
         "description": "Test your space knowledge with rapid-fire trivia.",
         "icon": "🌌",
         "color": "#00c8ff",
+        "category": "Trivia",
+        "difficulty": "Easy",
     },
 ]
 
