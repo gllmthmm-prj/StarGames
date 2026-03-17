@@ -132,6 +132,78 @@
         .featured-body { flex:1;display:flex;flex-direction:column;gap:10px; }
 
         footer { position:relative;z-index:10;text-align:center;padding:30px; border-top:1px solid rgba(255,255,255,0.05); color:rgba(255,255,255,0.18);font-size:0.78rem;letter-spacing:0.05em; }
+
+        /* ── Knowledge section ───────────────────────────────────── */
+        .knowledge-section {
+            position: relative; z-index: 10;
+            max-width: 1060px; margin: 0 auto;
+            padding: 20px 24px 80px;
+        }
+
+        .knowledge-header { text-align: center; margin-bottom: 48px; }
+        .know-tag {
+            display: inline-block;
+            font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase;
+            color: #f5c518; margin-bottom: 14px;
+        }
+        .know-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900;
+            letter-spacing: -0.02em; margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, #c4a8ff 60%, #6ee7ff 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .know-sub { color: rgba(255,255,255,0.35); font-size: 1rem; max-width: 480px; margin: 0 auto; line-height: 1.6; }
+
+        /* Masonry-like grid */
+        .anecdotes-grid {
+            columns: 3; column-gap: 18px;
+        }
+        @media (max-width: 900px) { .anecdotes-grid { columns: 2; } }
+        @media (max-width: 560px) { .anecdotes-grid { columns: 1; } }
+
+        .anec-card {
+            break-inside: avoid;
+            background: rgba(10,10,22,0.88);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 18px; padding: 24px;
+            margin-bottom: 18px;
+            position: relative; overflow: hidden;
+            transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+        }
+        .anec-card::before {
+            content: '';
+            position: absolute; top:0;left:0;right:0; height: 2px;
+            background: var(--ac);
+            border-radius: 18px 18px 0 0;
+        }
+        .anec-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.13);
+            box-shadow: 0 16px 44px rgba(0,0,0,0.5);
+        }
+
+        .anec-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+        .anec-icon {
+            font-size: 2rem; line-height: 1; flex-shrink: 0;
+            width: 46px; height: 46px; border-radius: 12px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .anec-meta { flex: 1; }
+        .anec-cat {
+            font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--ac); opacity: 0.85; margin-bottom: 5px;
+        }
+        .anec-title { font-size: 1rem; font-weight: 700; color: #fff; line-height: 1.3; }
+        .anec-body  { font-size: 0.86rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
+        .anec-footer {
+            margin-top: 14px; padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.72rem; color: rgba(255,255,255,0.25); letter-spacing: 0.04em;
+        }
+        .anec-footer-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--ac); opacity: 0.6; flex-shrink: 0; }
     </style>
 </head>
 <body>
@@ -214,6 +286,16 @@
         </div>
     </div>
 
+    <!-- ── Knowledge Section ──────────────────────────────────────── -->
+    <div class="knowledge-section" id="knowledge">
+        <div class="knowledge-header">
+            <div class="know-tag" data-i18n="know_tag">★ Star Knowledge</div>
+            <h2 class="know-title" data-i18n="know_title">Did You Know?</h2>
+            <p class="know-sub" data-i18n="know_sub">Fascinating facts, funny anecdotes & discovery stories from across the cosmos.</p>
+        </div>
+        <div class="anecdotes-grid" id="anecdotesGrid"></div>
+    </div>
+
     <footer data-i18n="footer">© 2026 StarGames — Play Beyond The Universe</footer>
 
     <script src="/static/i18n.js"></script>
@@ -261,7 +343,137 @@
     setTimeout(spawnShoot, 3500);
 
     // i18n
-    document.addEventListener('DOMContentLoaded', initLang);
-    </script>
+    document.addEventListener('DOMContentLoaded', () => {
+        initLang();
+        renderAnecdotes(localStorage.getItem('sg_lang') || 'en');
+    });
+
+    // Re-render cards when language changes
+    const _origSetLang = typeof setLang === 'function' ? setLang : null;
+    // Hook after i18n.js loads
+    window.addEventListener('load', () => {
+        const _sl = setLang;
+        window.setLang = function(lang) {
+            _sl(lang);
+            renderAnecdotes(lang);
+        };
+    });
+
+    // ── Anecdotes data ────────────────────────────────────────────────────────
+    const ANECDOTES = [
+        {
+            icon: '🔴',
+            color: '#ff6b6b',
+            en: { cat: 'Discovery · 1054 AD', title: 'A Star So Bright it Was Visible in Daylight',
+                  body: 'On July 4, 1054, Chinese astronomers recorded a "guest star" so brilliant it could be seen in broad daylight for 23 days. We now know it was a supernova explosion — the remnant is the Crab Nebula, still expanding at 1,500 km/s today.',
+                  footer: 'Crab Nebula — Taurus constellation' },
+            fr: { cat: 'Découverte · 1054 ap. J.-C.', title: 'Une étoile si brillante, visible en plein jour',
+                  body: 'Le 4 juillet 1054, des astronomes chinois ont consigné une "étoile invitée" si lumineuse qu\'elle était visible en plein jour pendant 23 jours. Nous savons maintenant que c\'était une supernova — le reste est la Nébuleuse du Crabe, qui s\'étend encore à 1 500 km/s.',
+                  footer: 'Nébuleuse du Crabe — constellation du Taureau' },
+        },
+        {
+            icon: '📡',
+            color: '#00c8ff',
+            en: { cat: 'Anecdote · 1967', title: 'Pulsars Were Almost Named "Little Green Men"',
+                  body: 'When Jocelyn Bell Burnell first detected the eerily regular radio pulses of a pulsar, she and her supervisor jokingly labelled the signal "LGM-1" — Little Green Men. The idea of alien origin was quickly ruled out, but the discovery earned a Nobel Prize… awarded to her supervisor, not her.',
+                  footer: 'Jocelyn Bell Burnell — Cambridge, UK' },
+            fr: { cat: 'Anecdote · 1967', title: 'Les pulsars ont failli s\'appeler "Petits Hommes Verts"',
+                  body: 'Quand Jocelyn Bell Burnell a détecté pour la première fois les impulsions radio régulières d\'un pulsar, elle et son directeur ont baptisé plaisamment le signal "LGM-1" — Little Green Men. L\'origine extraterrestre fut vite écartée, mais le Prix Nobel revint à son directeur, pas à elle.',
+                  footer: 'Jocelyn Bell Burnell — Cambridge, Royaume-Uni' },
+        },
+        {
+            icon: '☀️',
+            color: '#f5c518',
+            en: { cat: 'Fact', title: 'The Sun Accounts for 99.86 % of the Solar System\'s Mass',
+                  body: 'If you gathered every planet, moon, asteroid, comet and speck of dust in our solar system, they\'d still only make up 0.14 % of the total mass. The Sun is so dominant that even Jupiter — a thousand times larger than Earth — barely registers on the scales.',
+                  footer: 'Distance Earth–Sun: ~150 million km' },
+            fr: { cat: 'Fait', title: 'Le Soleil représente 99,86 % de la masse du système solaire',
+                  body: 'Si vous rassembliez chaque planète, lune, astéroïde, comète et grain de poussière de notre système solaire, ils ne représenteraient que 0,14 % de la masse totale. Jupiter, mille fois plus grande que la Terre, pèse à peine dans la balance.',
+                  footer: 'Distance Terre–Soleil : ~150 millions de km' },
+        },
+        {
+            icon: '🌌',
+            color: '#a78bff',
+            en: { cat: 'Discovery · 1924', title: 'Hubble Proved Other Galaxies Exist',
+                  body: 'Before 1924, most astronomers believed the Milky Way was the entire universe. Edwin Hubble measured the distance to the Andromeda "nebula" and showed it was far outside our galaxy — proving we live in one of billions. The universe literally got billions of times bigger overnight.',
+                  footer: 'Edwin Hubble — Mount Wilson Observatory' },
+            fr: { cat: 'Découverte · 1924', title: 'Hubble a prouvé que d\'autres galaxies existent',
+                  body: 'Avant 1924, la plupart des astronomes croyaient que la Voie Lactée était l\'univers entier. Edwin Hubble a mesuré la distance de la "nébuleuse" d\'Andromède et prouvé qu\'elle se trouvait bien au-delà de notre galaxie — révélant que nous vivons dans l\'une des milliards de galaxies.',
+                  footer: 'Edwin Hubble — Observatoire du Mont Wilson' },
+        },
+        {
+            icon: '🪐',
+            color: '#c4a8ff',
+            en: { cat: 'Weird Fact', title: 'Saturn\'s Rings Are Razor-Thin',
+                  body: 'Saturn\'s rings span an astonishing 282,000 km — wide enough to fit the distance between Earth and the Moon nearly 75 times. Yet their average thickness is only about 10 metres. If you scaled Saturn to the size of a football field, the rings would be thinner than a sheet of paper.',
+                  footer: 'Discovered by Galileo Galilei in 1610' },
+            fr: { cat: 'Fait Étrange', title: 'Les anneaux de Saturne sont ultra-fins',
+                  body: 'Les anneaux de Saturne s\'étendent sur 282 000 km — assez pour loger 75 fois la distance Terre-Lune. Pourtant leur épaisseur moyenne n\'est que d\'environ 10 mètres. À l\'échelle d\'un terrain de football, ils seraient plus fins qu\'une feuille de papier.',
+                  footer: 'Découverts par Galilée en 1610' },
+        },
+        {
+            icon: '🌠',
+            color: '#6ee7ff',
+            en: { cat: 'Anecdote · 1977', title: 'The "Wow!" Signal Has Never Been Explained',
+                  body: 'On August 15, 1977, astronomer Jerry Ehman was scanning a radio telescope printout when he spotted a signal so remarkable he circled it and wrote "Wow!" in the margin. Lasting 72 seconds and matching the expected profile of an alien transmission, it has never been detected again.',
+                  footer: 'Big Ear Telescope — Ohio, USA' },
+            fr: { cat: 'Anecdote · 1977', title: 'Le signal "Wow!" n\'a jamais été expliqué',
+                  body: 'Le 15 août 1977, l\'astronome Jerry Ehman parcourait l\'impression d\'un radiotélescope quand il repéra un signal si remarquable qu\'il l\'entoura d\'un cercle et écrivit "Wow!" en marge. Durant 72 secondes et correspondant au profil d\'une transmission extraterrestre, il n\'a jamais été détecté à nouveau.',
+                  footer: 'Télescope Big Ear — Ohio, États-Unis' },
+        },
+        {
+            icon: '⚫',
+            color: '#ff6eb4',
+            en: { cat: 'Discovery · 2019', title: 'The First Photo of a Black Hole Took 5 Petabytes of Data',
+                  body: 'The Event Horizon Telescope needed so much storage to image the black hole M87* that the data (5 petabytes — 5 million gigabytes) had to be physically flown on hard drives to processing centres. The internet was simply too slow. One scientist, Katie Bouman, wrote the algorithm that made it possible.',
+                  footer: 'M87* — 55 million light-years away' },
+            fr: { cat: 'Découverte · 2019', title: 'La première photo d\'un trou noir pesait 5 pétaoctets',
+                  body: 'L\'Event Horizon Telescope avait besoin de tant de stockage pour imager le trou noir M87* que les données (5 pétaoctets — 5 millions de gigaoctets) ont dû être transportées physiquement par avion sur disques durs. Internet était tout simplement trop lent. Katie Bouman a écrit l\'algorithme clé.',
+                  footer: 'M87* — 55 millions d\'années-lumière' },
+        },
+        {
+            icon: '💫',
+            color: '#f5c518',
+            en: { cat: 'Weird Fact', title: 'A Neutron Star Teaspoon Weighs 10 Million Tonnes',
+                  body: 'Neutron stars are the collapsed cores of massive stars, packing more mass than the Sun into a sphere barely 20 km across. The material is so dense that a single teaspoon would weigh about 10 million tonnes on Earth — roughly the mass of all the humans alive today.',
+                  footer: 'Fastest spin: 716 rotations per second' },
+            fr: { cat: 'Fait Étrange', title: 'Une cuillère d\'étoile à neutrons pèse 10 millions de tonnes',
+                  body: 'Les étoiles à neutrons emballent plus de masse que le Soleil dans une sphère de 20 km à peine. La matière est si dense qu\'une cuillère à café pèserait environ 10 millions de tonnes sur Terre — environ la masse de tous les humains vivants aujourd\'hui.',
+                  footer: 'Rotation la plus rapide : 716 tours/seconde' },
+        },
+        {
+            icon: '🌍',
+            color: '#00c864',
+            en: { cat: 'Future · In 4.5 Billion Years', title: 'The Milky Way Will Collide With Andromeda',
+                  body: 'Our galaxy and Andromeda are hurtling toward each other at 110 km/s. In about 4.5 billion years they will merge into a giant elliptical galaxy (nicknamed "Milkomeda"). Don\'t worry though — stars are so sparse that actual stellar collisions are very unlikely.',
+                  footer: 'Andromeda is visible to the naked eye on dark nights' },
+            fr: { cat: 'Futur · Dans 4,5 milliards d\'années', title: 'La Voie Lactée va entrer en collision avec Andromède',
+                  body: 'Notre galaxie et Andromède foncent l\'une vers l\'autre à 110 km/s. Dans environ 4,5 milliards d\'années, elles fusionneront en une galaxie elliptique géante surnommée "Milkomeda". Pas d\'inquiétude cependant — les étoiles sont si éparses que de vraies collisions stellaires restent très improbables.',
+                  footer: 'Andromède est visible à l\'œil nu par nuit sombre' },
+        },
+    ];
+
+    function renderAnecdotes(lang) {
+        const grid = document.getElementById('anecdotesGrid');
+        if (!grid) return;
+        grid.innerHTML = ANECDOTES.map(a => {
+            const d = a[lang] || a['en'];
+            return `
+            <div class="anec-card" style="--ac:${a.color}">
+                <div class="anec-top">
+                    <div class="anec-icon">${a.icon}</div>
+                    <div class="anec-meta">
+                        <div class="anec-cat">${d.cat}</div>
+                        <div class="anec-title">${d.title}</div>
+                    </div>
+                </div>
+                <div class="anec-body">${d.body}</div>
+                <div class="anec-footer">
+                    <div class="anec-footer-dot"></div>
+                    ${d.footer}
+                </div>
+            </div>`;
+        }).join('');
+    }
 </body>
 </html>

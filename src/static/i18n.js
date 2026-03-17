@@ -89,6 +89,11 @@ const TRANSLATIONS = {
     gq_good:         'Good explorer!',
     gq_keep:         'Keep studying the cosmos!',
 
+    // Knowledge section
+    know_tag:        '★ Star Knowledge',
+    know_title:      'Did You Know?',
+    know_sub:        'Fascinating facts, funny anecdotes & discovery stories from across the cosmos.',
+
     // Footer
     footer:          '© 2026 StarGames — Play Beyond The Universe',
   },
@@ -176,6 +181,11 @@ const TRANSLATIONS = {
     gq_stellar:      'Astronome hors pair !',
     gq_good:         'Bon explorateur !',
     gq_keep:         'Continuez à étudier le cosmos !',
+
+    // Knowledge section
+    know_tag:        '★ Savoir Stellaire',
+    know_title:      'Le Saviez-Vous ?',
+    know_sub:        'Faits fascinants, anecdotes amusantes et histoires de découvertes de tout l\'univers.',
 
     // Footer
     footer:          '© 2026 StarGames — Jouez au-delà de l\'Univers',
