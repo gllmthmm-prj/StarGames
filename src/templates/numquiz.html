@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Galaxy Quiz – StarGames</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #06060f;
+            color: #e8e8ff;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            overflow: hidden;
+        }
+        nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(6,6,15,0.8);
+            backdrop-filter: blur(12px);
+            z-index: 20;
+        }
+        .logo { font-size: 1.1rem; font-weight: 700; background: linear-gradient(90deg,#a78bff,#00c8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; }
+        nav a:hover { color: #fff; }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 40%, rgba(0,200,255,0.1) 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 60%, rgba(99,51,255,0.1) 0%, transparent 55%);
+            pointer-events: none; z-index: 0;
+        }
+
+        .arena {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            padding: 40px 20px;
+            position: relative; z-index: 5;
+        }
+
+        .card {
+            background: rgba(14,14,28,0.9);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%; max-width: 560px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,200,255,0.06);
+            display: flex; flex-direction: column; gap: 28px;
+            text-align: center;
+        }
+
+        .progress-bar-wrap {
+            height: 4px;
+            background: rgba(255,255,255,0.07);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #a78bff, #00c8ff);
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+
+        .hud-row { display: flex; justify-content: space-between; align-items: center; }
+        .hud-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .hud-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+        .hud-val { font-size: 1.2rem; font-weight: 700; color: #00c8ff; }
+
+        .question-num { font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+        .question-text { font-size: 1.3rem; font-weight: 600; line-height: 1.45; min-height: 70px; }
+
+        .answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ans-btn {
+            background: rgba(28,28,50,0.9);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 14px 10px;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.1s;
+            line-height: 1.3;
+        }
+        .ans-btn:hover:not(:disabled) { background: rgba(40,40,70,0.95); border-color: rgba(255,255,255,0.18); transform: translateY(-2px); }
+        .ans-btn.correct { background: rgba(0,200,100,0.2); border-color: #00c864; color: #5dffa5; }
+        .ans-btn.wrong   { background: rgba(255,51,100,0.2); border-color: #ff3364; color: #ff8aaa; }
+        .ans-btn:disabled { cursor: default; }
+
+        .feedback {
+            font-size: 1rem; font-weight: 600; min-height: 24px;
+            transition: opacity 0.2s;
+        }
+        .feedback.correct { color: #5dffa5; }
+        .feedback.wrong   { color: #ff8aaa; }
+
+        .btn-next {
+            background: linear-gradient(135deg,#6333ff,#3b82f6);
+            color: #fff; border: none; padding: 14px 32px;
+            border-radius: 50px; font-size: 0.95rem; font-weight: 600;
+            cursor: pointer; box-shadow: 0 8px 28px rgba(99,51,255,0.4);
+            transition: transform 0.15s, box-shadow 0.2s; margin: 0 auto;
+        }
+        .btn-next:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(99,51,255,0.6); }
+        .btn-next.hidden { visibility: hidden; }
+
+        /* Result screen */
+        .result-screen {
+            display: flex; flex-direction: column; align-items: center; gap: 18px;
+        }
+        .result-trophy { font-size: 4rem; }
+        .result-score { font-size: 3rem; font-weight: 900; color: #f5c518; }
+        .result-msg { color: rgba(255,255,255,0.5); font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">★ StarGames</div>
+        <a href="/">← Back to games</a>
+    </nav>
+    <div class="arena">
+        <div class="card" id="quizCard">
+            <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+            <div class="hud-row">
+                <div class="hud-item"><span class="hud-label">Score</span><span class="hud-val" id="scoreVal">0</span></div>
+                <div class="hud-item"><span class="hud-label">Question</span><span class="hud-val" id="qNumVal">1 / 8</span></div>
+                <div class="hud-item"><span class="hud-label">Streak</span><span class="hud-val" id="streakVal">0🔥</span></div>
+            </div>
+            <div class="question-text" id="questionText">Loading…</div>
+            <div class="answers" id="answersGrid"></div>
+            <div class="feedback" id="feedback"></div>
+            <button class="btn-next hidden" id="btnNext">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        const TOTAL = 8;
+        let qIndex = 0, score = 0, streak = 0, answered = false;
+
+        const progressBar  = document.getElementById('progressBar');
+        const scoreEl      = document.getElementById('scoreVal');
+        const qNumEl       = document.getElementById('qNumVal');
+        const streakEl     = document.getElementById('streakVal');
+        const questionText = document.getElementById('questionText');
+        const answersGrid  = document.getElementById('answersGrid');
+        const feedback     = document.getElementById('feedback');
+        const btnNext      = document.getElementById('btnNext');
+        const quizCard     = document.getElementById('quizCard');
+
+        async function loadQuestion() {
+            answered = false;
+            feedback.textContent = '';
+            feedback.className   = 'feedback';
+            btnNext.classList.add('hidden');
+            answersGrid.innerHTML = '<span style="color:rgba(255,255,255,0.3);font-size:0.9rem;grid-column:span 2;text-align:center;padding:20px">Loading…</span>';
+
+            const res  = await fetch('/api/quiz/question');
+            const data = await res.json();
+
+            questionText.textContent = data.question;
+            qNumEl.textContent       = `${qIndex + 1} / ${TOTAL}`;
+            progressBar.style.width  = `${(qIndex / TOTAL) * 100}%`;
+            answersGrid.innerHTML    = '';
+
+            data.answers.forEach((ans, i) => {
+                const btn = document.createElement('button');
+                btn.className   = 'ans-btn';
+                btn.textContent = ans;
+                btn.addEventListener('click', () => answer(i, data.correct, btn));
+                answersGrid.appendChild(btn);
+            });
+        }
+
+        function answer(chosen, correct, btn) {
+            if (answered) return;
+            answered = true;
+            const btns = answersGrid.querySelectorAll('.ans-btn');
+            btns.forEach(b => b.disabled = true);
+            btns[correct].classList.add('correct');
+
+            if (chosen === correct) {
+                streak++;
+                const bonus = streak >= 3 ? 2 : 1;
+                score += bonus;
+                scoreEl.textContent  = score;
+                streakEl.textContent = `${streak}🔥`;
+                feedback.textContent = streak >= 3 ? `🔥 Correct! +${bonus} (streak bonus!)` : '✓ Correct!';
+                feedback.className   = 'feedback correct';
+            } else {
+                btn.classList.add('wrong');
+                streak = 0;
+                streakEl.textContent = '0🔥';
+                feedback.textContent = '✗ Wrong!';
+                feedback.className   = 'feedback wrong';
+            }
+
+            btnNext.classList.remove('hidden');
+            btnNext.textContent = qIndex + 1 >= TOTAL ? 'See Results' : 'Next →';
+        }
+
+        btnNext.addEventListener('click', () => {
+            qIndex++;
+            if (qIndex >= TOTAL) return showResult();
+            loadQuestion();
+        });
+
+        function showResult() {
+            const pct   = Math.round((score / (TOTAL + 2)) * 100); // account for possible bonus
+            const emoji = score >= 10 ? '🏆' : score >= 6 ? '🌟' : '🚀';
+            const msg   = score >= 10 ? 'Stellar astronomer!' : score >= 6 ? 'Good explorer!' : 'Keep studying the cosmos!';
+            quizCard.innerHTML = `
+                <div class="result-screen">
+                    <div class="result-trophy">${emoji}</div>
+                    <div style="font-size:1.1rem;font-weight:700">Quiz Complete</div>
+                    <div class="result-score">${score} pts</div>
+                    <div class="result-msg">${msg}</div>
+                    <button class="btn-next" onclick="location.reload()">Play Again</button>
+                    <a href="/" style="color:rgba(255,255,255,0.3);font-size:0.85rem;text-decoration:none;margin-top:4px">← Back to games</a>
+                </div>`;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

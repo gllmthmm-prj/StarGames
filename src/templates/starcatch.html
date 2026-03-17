@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Star Catcher – StarGames</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #06060f;
+            color: #e8e8ff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(6,6,15,0.8);
+            backdrop-filter: blur(12px);
+            z-index: 20;
+        }
+        .logo { font-size: 1.1rem; font-weight: 700; background: linear-gradient(90deg,#a78bff,#00c8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; }
+        nav a:hover { color: #fff; }
+
+        .hud {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 32px;
+            background: rgba(10,10,20,0.6);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            z-index: 20;
+        }
+        .hud-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .hud-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+        .hud-val   { font-size: 1.3rem; font-weight: 700; color: #f5c518; }
+        #timerVal  { color: #ff6b8a; }
+
+        #canvas { flex: 1; display: block; cursor: none; }
+
+        /* Overlay */
+        .overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.75);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 18px; z-index: 30;
+            backdrop-filter: blur(6px);
+        }
+        .overlay.hidden { display: none; }
+        .overlay h2 { font-size: 2rem; font-weight: 800; }
+        .overlay p  { color: rgba(255,255,255,0.5); font-size: 1rem; }
+        .overlay .big { font-size: 3rem; font-weight: 900; color: #f5c518; }
+        .btn-start {
+            background: linear-gradient(135deg,#6333ff,#3b82f6);
+            color: #fff; border: none; padding: 14px 40px;
+            border-radius: 50px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; box-shadow: 0 8px 28px rgba(99,51,255,0.45);
+            transition: transform 0.15s, box-shadow 0.2s;
+        }
+        .btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(99,51,255,0.6); }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">★ StarGames</div>
+        <a href="/">← Back to games</a>
+    </nav>
+    <div class="hud">
+        <div class="hud-stat"><span class="hud-label">Score</span><span class="hud-val" id="scoreVal">0</span></div>
+        <div class="hud-stat"><span class="hud-label">Time</span><span class="hud-val" id="timerVal">30</span></div>
+        <div class="hud-stat"><span class="hud-label">Best</span><span class="hud-val" id="bestVal">0</span></div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <div class="overlay" id="overlay">
+        <div id="overlayIcon" style="font-size:3rem">⭐</div>
+        <h2 id="overlayTitle">Star Catcher</h2>
+        <p id="overlayDesc">Click the falling stars before they disappear!</p>
+        <div class="big hidden" id="overlayScore"></div>
+        <button class="btn-start" id="btnStart">Start Game</button>
+    </div>
+
+    <script>
+        const canvas    = document.getElementById('canvas');
+        const ctx       = canvas.getContext('2d');
+        const scoreEl   = document.getElementById('scoreVal');
+        const timerEl   = document.getElementById('timerVal');
+        const bestEl    = document.getElementById('bestVal');
+        const overlay   = document.getElementById('overlay');
+        const overlayTitle = document.getElementById('overlayTitle');
+        const overlayDesc  = document.getElementById('overlayDesc');
+        const overlayScore = document.getElementById('overlayScore');
+        const overlayIcon  = document.getElementById('overlayIcon');
+        const btnStart  = document.getElementById('btnStart');
+
+        let W, H, stars = [], particles = [], cursor = {x:-200, y:-200};
+        let score = 0, best = 0, timeLeft = 30, running = false, intervalId = null;
+
+        function resize() {
+            W = canvas.width  = canvas.offsetWidth;
+            H = canvas.height = canvas.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        canvas.addEventListener('mousemove', e => {
+            const r = canvas.getBoundingClientRect();
+            cursor.x = e.clientX - r.left;
+            cursor.y = e.clientY - r.top;
+        });
+
+        canvas.addEventListener('click', e => {
+            if (!running) return;
+            const r = canvas.getBoundingClientRect();
+            const mx = e.clientX - r.left, my = e.clientY - r.top;
+            stars.forEach((s, i) => {
+                const d = Math.hypot(mx - s.x, my - s.y);
+                if (d < s.r + 8) {
+                    spawnParticles(s.x, s.y, s.color);
+                    stars.splice(i, 1);
+                    score++;
+                    scoreEl.textContent = score;
+                }
+            });
+        });
+
+        function spawnStar() {
+            const colors = ['#f5c518','#00c8ff','#a78bff','#ff6b8a','#ffffff'];
+            const size   = Math.random() * 14 + 12;
+            stars.push({
+                x: Math.random() * (W - 80) + 40,
+                y: -size,
+                r: size,
+                vy: Math.random() * 1.2 + 0.6,
+                life: 1,
+                decay: Math.random() * 0.003 + 0.002,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rot: 0,
+                rotSpeed: (Math.random() - 0.5) * 0.06,
+            });
+        }
+
+        function spawnParticles(x, y, color) {
+            for (let i = 0; i < 12; i++) {
+                const angle = (Math.PI * 2 / 12) * i;
+                particles.push({
+                    x, y,
+                    vx: Math.cos(angle) * (Math.random() * 3 + 1),
+                    vy: Math.sin(angle) * (Math.random() * 3 + 1),
+                    life: 1,
+                    color,
+                    r: Math.random() * 3 + 1,
+                });
+            }
+        }
+
+        function drawStar(cx, cy, spikes, outerR, innerR, color, alpha, rot) {
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.translate(cx, cy);
+            ctx.rotate(rot);
+            ctx.beginPath();
+            for (let i = 0; i < spikes * 2; i++) {
+                const r = i % 2 === 0 ? outerR : innerR;
+                const a = (Math.PI / spikes) * i - Math.PI / 2;
+                i === 0 ? ctx.moveTo(Math.cos(a)*r, Math.sin(a)*r)
+                        : ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
+            }
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.shadowColor = color;
+            ctx.shadowBlur  = 18;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function loop() {
+            ctx.clearRect(0, 0, W, H);
+
+            // Background stars (static small dots)
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+
+            // Update & draw game stars
+            for (let i = stars.length - 1; i >= 0; i--) {
+                const s = stars[i];
+                s.y    += s.vy;
+                s.life -= s.decay;
+                s.rot  += s.rotSpeed;
+                if (s.y > H + s.r || s.life <= 0) { stars.splice(i, 1); continue; }
+                drawStar(s.x, s.y, 5, s.r, s.r * 0.45, s.color, s.life, s.rot);
+            }
+
+            // Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.life -= 0.04;
+                if (p.life <= 0) { particles.splice(i, 1); continue; }
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.life;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+
+            // Custom cursor
+            ctx.beginPath();
+            ctx.arc(cursor.x, cursor.y, 12, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(245,197,24,0.6)';
+            ctx.lineWidth   = 1.5;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cursor.x, cursor.y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = '#f5c518';
+            ctx.fill();
+
+            if (running) requestAnimationFrame(loop);
+        }
+
+        function startGame() {
+            stars = []; particles = []; score = 0; timeLeft = 30;
+            scoreEl.textContent = '0';
+            timerEl.textContent = '30';
+            overlay.classList.add('hidden');
+            running = true;
+
+            let spawnDelay = 900;
+            let spawnTimer = 0;
+            let lastTime   = performance.now();
+
+            clearInterval(intervalId);
+            intervalId = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = timeLeft;
+                if (spawnDelay > 450) spawnDelay -= 20;
+                if (timeLeft <= 0) endGame();
+            }, 1000);
+
+            function gameLoop(now) {
+                const dt = now - lastTime; lastTime = now;
+                spawnTimer += dt;
+                if (spawnTimer >= spawnDelay) { spawnStar(); spawnTimer = 0; }
+                loop();
+                if (running) requestAnimationFrame(gameLoop);
+            }
+            requestAnimationFrame(gameLoop);
+        }
+
+        function endGame() {
+            running = false;
+            clearInterval(intervalId);
+            if (score > best) { best = score; bestEl.textContent = best; }
+            overlayIcon.textContent  = score >= 20 ? '🏆' : '⭐';
+            overlayTitle.textContent = score >= 20 ? 'Stellar!' : 'Game Over';
+            overlayDesc.textContent  = `You caught ${score} star${score !== 1 ? 's' : ''}!`;
+            overlayScore.textContent = score;
+            overlayScore.classList.remove('hidden');
+            btnStart.textContent = 'Play Again';
+            overlay.classList.remove('hidden');
+        }
+
+        btnStart.addEventListener('click', startGame);
+    </script>
+</body>
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constellation Quiz – StarGames</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #06060f;
+            color: #e8e8ff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(6,6,15,0.85);
+            backdrop-filter: blur(12px);
+            z-index: 20; flex-shrink: 0;
+        }
+        .logo { font-size: 1.1rem; font-weight: 700; background: linear-gradient(90deg,#a78bff,#00c8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        nav a:hover { color: #fff; }
+
+        /* HUD */
+        .hud {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 32px;
+            background: rgba(10,10,20,0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-shrink: 0; z-index: 10;
+        }
+        .hud-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+        .hud-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+        .hud-val   { font-size: 1.15rem; font-weight: 700; color: #a78bff; }
+        #timerVal  { color: #f5c518; transition: color 0.3s; }
+        #timerVal.urgent { color: #ff6b8a; animation: pulse 0.6s ease-in-out infinite alternate; }
+        @keyframes pulse { from { opacity: 1; } to { opacity: 0.4; } }
+
+        /* Game area */
+        .game-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Nebula bg */
+        .game-area::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 40%, rgba(99,51,255,0.1) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 60%, rgba(0,200,255,0.07) 0%, transparent 55%);
+            pointer-events: none;
+        }
+
+        /* Canvas container */
+        .canvas-wrap {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 0 60px rgba(99,51,255,0.15), 0 20px 50px rgba(0,0,0,0.6);
+        }
+
+        #constellationCanvas {
+            display: block;
+        }
+
+        /* Hint label */
+        .hint-label {
+            position: absolute;
+            bottom: 12px; left: 50%; transform: translateX(-50%);
+            font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+            color: rgba(255,255,255,0.2);
+            pointer-events: none;
+        }
+
+        /* Answer buttons */
+        .answers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .ans-btn {
+            background: rgba(18,18,36,0.9);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 13px 16px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.1s, color 0.15s;
+            text-align: center;
+        }
+        .ans-btn:hover:not(:disabled) {
+            background: rgba(35,35,60,0.95);
+            border-color: rgba(167,139,255,0.4);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .ans-btn:disabled { cursor: default; }
+        .ans-btn.correct {
+            background: rgba(0,200,100,0.18);
+            border-color: #00c864;
+            color: #5dffa5;
+        }
+        .ans-btn.wrong {
+            background: rgba(255,51,100,0.18);
+            border-color: #ff3364;
+            color: #ff8aaa;
+        }
+
+        /* Feedback strip */
+        .feedback-strip {
+            height: 22px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            transition: opacity 0.3s;
+        }
+        .feedback-strip.correct { color: #5dffa5; }
+        .feedback-strip.wrong   { color: #ff8aaa; }
+
+        /* Overlay */
+        .overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.78);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 16px; z-index: 40;
+            backdrop-filter: blur(8px);
+        }
+        .overlay.hidden { display: none; }
+        .overlay-icon  { font-size: 3.5rem; line-height: 1; }
+        .overlay h2    { font-size: 1.9rem; font-weight: 800; }
+        .overlay .sub  { color: rgba(255,255,255,0.45); font-size: 0.95rem; text-align: center; max-width: 340px; line-height: 1.5; }
+        .overlay .big-score { font-size: 3.5rem; font-weight: 900; color: #a78bff; }
+        .btn-action {
+            background: linear-gradient(135deg,#6333ff,#3b82f6);
+            color: #fff; border: none; padding: 13px 38px;
+            border-radius: 50px; font-size: 0.95rem; font-weight: 600;
+            cursor: pointer; box-shadow: 0 8px 28px rgba(99,51,255,0.4);
+            transition: transform 0.15s, box-shadow 0.2s; margin-top: 4px;
+        }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(99,51,255,0.6); }
+        .overlay-back {
+            color: rgba(255,255,255,0.25); font-size: 0.82rem;
+            text-decoration: none; margin-top: 2px;
+            transition: color 0.2s;
+        }
+        .overlay-back:hover { color: rgba(255,255,255,0.6); }
+
+        /* Progress dots */
+        .progress-dots {
+            display: flex; gap: 6px;
+        }
+        .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            transition: background 0.3s;
+        }
+        .dot.done    { background: #a78bff; }
+        .dot.correct { background: #00c864; }
+        .dot.wrong   { background: #ff3364; }
+        .dot.active  { background: #f5c518; box-shadow: 0 0 6px #f5c518; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">★ StarGames</div>
+        <a href="/">← Back to games</a>
+    </nav>
+    <div class="hud">
+        <div class="hud-stat"><span class="hud-label">Score</span><span class="hud-val" id="scoreVal">0</span></div>
+        <div class="hud-stat"><span class="hud-label">Time</span><span class="hud-val" id="timerVal">15</span></div>
+        <div class="hud-stat"><span class="hud-label">Round</span><span class="hud-val" id="roundVal">1 / 10</span></div>
+    </div>
+
+    <div class="game-area">
+        <div class="progress-dots" id="progressDots"></div>
+        <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="constellationCanvas"></canvas>
+            <div class="hint-label">Identify this constellation</div>
+        </div>
+        <div class="feedback-strip" id="feedback"></div>
+        <div class="answers" id="answersGrid"></div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="overlay-icon" id="oIcon">✨</div>
+        <h2 id="oTitle">Constellation Quiz</h2>
+        <div class="sub" id="oSub">Identify 10 star constellations as fast as you can. Score bonus points for speed!</div>
+        <button class="btn-action" id="btnAction">Start Game</button>
+        <a href="/" class="overlay-back">← Back to games</a>
+    </div>
+
+    <script>
+    // ─── Constellation Data ───────────────────────────────────────────────────
+    // Stars: [{x, y}] normalized 0–1; lines: [[i,j], ...]; name + fun fact
+    const CONSTELLATIONS = [
+        {
+            name: "Orion",
+            fact: "Named after the hunter of Greek mythology. Its belt of three stars is one of the most recognizable patterns in the night sky.",
+            stars: [
+                {x:0.50, y:0.10}, // 0 head
+                {x:0.32, y:0.26}, // 1 Betelgeuse (left shoulder)
+                {x:0.68, y:0.23}, // 2 Bellatrix (right shoulder)
+                {x:0.38, y:0.50}, // 3 Mintaka (belt L)
+                {x:0.50, y:0.52}, // 4 Alnilam (belt M)
+                {x:0.62, y:0.54}, // 5 Alnitak (belt R)
+                {x:0.35, y:0.78}, // 6 Saiph (left foot)
+                {x:0.68, y:0.76}, // 7 Rigel (right foot)
+            ],
+            lines: [[0,1],[0,2],[1,2],[1,3],[2,5],[3,4],[4,5],[3,6],[5,7]],
+            bright: [1,2,4,7],
+        },
+        {
+            name: "Ursa Major",
+            fact: "The Great Bear contains the famous Big Dipper asterism. Two of its stars point directly to Polaris, the North Star.",
+            stars: [
+                {x:0.12, y:0.55}, // 0 Dubhe
+                {x:0.26, y:0.42}, // 1 Merak
+                {x:0.44, y:0.36}, // 2 Phecda
+                {x:0.56, y:0.45}, // 3 Megrez
+                {x:0.70, y:0.32}, // 4 Alioth
+                {x:0.82, y:0.20}, // 5 Mizar
+                {x:0.94, y:0.10}, // 6 Alkaid
+            ],
+            lines: [[0,1],[1,2],[2,3],[3,0],[3,4],[4,5],[5,6]],
+            bright: [0,1,6],
+        },
+        {
+            name: "Cassiopeia",
+            fact: "Named after a vain Ethiopian queen, Cassiopeia forms a distinctive W (or M) shape and is circumpolar from mid-northern latitudes.",
+            stars: [
+                {x:0.08, y:0.58}, // 0 Caph
+                {x:0.28, y:0.30}, // 1 Schedar
+                {x:0.50, y:0.52}, // 2 Gamma
+                {x:0.72, y:0.28}, // 3 Ruchbah
+                {x:0.92, y:0.48}, // 4 Segin
+            ],
+            lines: [[0,1],[1,2],[2,3],[3,4]],
+            bright: [1,3],
+        },
+        {
+            name: "Leo",
+            fact: "The Lion is one of the zodiac constellations. Its bright star Regulus sits almost exactly on the ecliptic.",
+            stars: [
+                {x:0.18, y:0.58}, // 0 Regulus
+                {x:0.22, y:0.44}, // 1 Eta
+                {x:0.30, y:0.28}, // 2 Algieba
+                {x:0.44, y:0.22}, // 3 Adhafera
+                {x:0.55, y:0.30}, // 4 Rasalas
+                {x:0.52, y:0.48}, // 5 Zosma
+                {x:0.68, y:0.58}, // 6 Denebola
+                {x:0.52, y:0.62}, // 7 Chertan
+            ],
+            lines: [[0,1],[1,2],[2,3],[3,4],[2,5],[5,6],[5,7],[7,0]],
+            bright: [0,2,6],
+        },
+        {
+            name: "Scorpius",
+            fact: "One of the few constellations that looks like its namesake. Its red giant heart, Antares, is a star nearing the end of its life.",
+            stars: [
+                {x:0.50, y:0.10}, // 0 Antares (heart)
+                {x:0.42, y:0.20}, // 1
+                {x:0.38, y:0.32}, // 2
+                {x:0.32, y:0.42}, // 3
+                {x:0.28, y:0.52}, // 4
+                {x:0.35, y:0.62}, // 5
+                {x:0.48, y:0.70}, // 6
+                {x:0.60, y:0.76}, // 7
+                {x:0.70, y:0.80}, // 8
+                {x:0.78, y:0.72}, // 9 stinger 1
+                {x:0.82, y:0.60}, // 10 stinger 2
+                {x:0.60, y:0.14}, // 11 head star R
+                {x:0.40, y:0.06}, // 12 head star L
+            ],
+            lines: [[12,0],[0,11],[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10]],
+            bright: [0,8,10],
+        },
+        {
+            name: "Cygnus",
+            fact: "The Swan flies along the Milky Way. Its cross shape earns it the nickname the Northern Cross. Deneb marks the tail.",
+            stars: [
+                {x:0.50, y:0.08}, // 0 Deneb (tail/top)
+                {x:0.50, y:0.35}, // 1 Sadr (center)
+                {x:0.50, y:0.65}, // 2 Albireo (head/bottom)
+                {x:0.18, y:0.38}, // 3 left wing
+                {x:0.82, y:0.38}, // 4 right wing
+                {x:0.50, y:0.80}, // 5 Albireo tip
+            ],
+            lines: [[0,1],[1,2],[2,5],[3,1],[1,4]],
+            bright: [0,1,2],
+        },
+        {
+            name: "Lyra",
+            fact: "Contains Vega, one of the brightest stars in the night sky and a vertex of the Summer Triangle.",
+            stars: [
+                {x:0.50, y:0.10}, // 0 Vega
+                {x:0.36, y:0.34}, // 1 Epsilon1
+                {x:0.64, y:0.34}, // 2 Epsilon2
+                {x:0.33, y:0.58}, // 3 Zeta
+                {x:0.67, y:0.58}, // 4 Delta
+                {x:0.50, y:0.74}, // 5 Beta
+            ],
+            lines: [[0,1],[0,2],[1,2],[1,3],[2,4],[3,5],[4,5]],
+            bright: [0,5],
+        },
+        {
+            name: "Gemini",
+            fact: "The Twins represent Castor and Pollux, the mythological twin sons of Zeus. Both are bright naked-eye stars.",
+            stars: [
+                {x:0.22, y:0.08}, // 0 Castor (head)
+                {x:0.40, y:0.08}, // 1 Pollux (head)
+                {x:0.20, y:0.28}, // 2 Castor body
+                {x:0.38, y:0.26}, // 3 Pollux body
+                {x:0.18, y:0.48}, // 4
+                {x:0.36, y:0.46}, // 5
+                {x:0.20, y:0.66}, // 6
+                {x:0.36, y:0.64}, // 7
+                {x:0.28, y:0.86}, // 8 Alhena
+            ],
+            lines: [[0,2],[1,3],[2,3],[2,4],[3,5],[4,6],[5,7],[6,7],[7,8]],
+            bright: [0,1,8],
+        },
+        {
+            name: "Taurus",
+            fact: "The Bull's bright eye, Aldebaran, is an orange giant. The Pleiades star cluster sits on its shoulder.",
+            stars: [
+                {x:0.52, y:0.46}, // 0 Aldebaran (eye)
+                {x:0.38, y:0.38}, // 1
+                {x:0.28, y:0.30}, // 2
+                {x:0.20, y:0.20}, // 3 horn tip L
+                {x:0.35, y:0.18}, // 4 horn fork
+                {x:0.64, y:0.38}, // 5
+                {x:0.76, y:0.28}, // 6
+                {x:0.84, y:0.18}, // 7 horn tip R
+                {x:0.64, y:0.55}, // 8 body
+                {x:0.72, y:0.64}, // 9
+            ],
+            lines: [[3,2],[2,1],[1,0],[1,4],[0,5],[5,6],[6,7],[0,8],[8,9]],
+            bright: [0,3,7],
+        },
+        {
+            name: "Aquila",
+            fact: "The Eagle carries a thunderbolt for Zeus in mythology. Its bright star Altair spins so fast it's visibly flattened at the poles.",
+            stars: [
+                {x:0.50, y:0.32}, // 0 Altair
+                {x:0.38, y:0.26}, // 1 Tarazed
+                {x:0.62, y:0.26}, // 2 Alshain
+                {x:0.36, y:0.48}, // 3
+                {x:0.64, y:0.48}, // 4
+                {x:0.28, y:0.64}, // 5 tail feather L
+                {x:0.50, y:0.68}, // 6 tail center
+                {x:0.72, y:0.62}, // 7 tail feather R
+                {x:0.50, y:0.12}, // 8 beak
+            ],
+            lines: [[8,0],[1,0],[0,2],[0,3],[0,4],[3,5],[6,5],[4,7],[3,6],[4,6]],
+            bright: [0,1,2],
+        },
+        {
+            name: "Perseus",
+            fact: "Perseus holds the severed head of Medusa, represented by the 'Demon Star' Algol — a variable star that dims every 2.87 days.",
+            stars: [
+                {x:0.50, y:0.10}, // 0 Mirfak (main body)
+                {x:0.36, y:0.22}, // 1
+                {x:0.26, y:0.18}, // 2 Algol (Medusa's head)
+                {x:0.18, y:0.26}, // 3
+                {x:0.38, y:0.36}, // 4
+                {x:0.52, y:0.30}, // 5
+                {x:0.64, y:0.22}, // 6
+                {x:0.74, y:0.30}, // 7
+                {x:0.60, y:0.46}, // 8
+                {x:0.50, y:0.60}, // 9
+                {x:0.42, y:0.72}, // 10
+                {x:0.56, y:0.76}, // 11
+            ],
+            lines: [[3,2],[2,1],[1,4],[4,0],[0,5],[5,6],[6,7],[4,8],[8,9],[9,10],[9,11]],
+            bright: [0,2],
+        },
+        {
+            name: "Boötes",
+            fact: "The Herdsman contains Arcturus, the brightest star in the northern celestial hemisphere and the fourth brightest in the sky.",
+            stars: [
+                {x:0.50, y:0.12}, // 0 Arcturus
+                {x:0.34, y:0.30}, // 1
+                {x:0.66, y:0.30}, // 2
+                {x:0.26, y:0.50}, // 3
+                {x:0.74, y:0.50}, // 4
+                {x:0.36, y:0.68}, // 5
+                {x:0.64, y:0.68}, // 6
+                {x:0.50, y:0.80}, // 7
+            ],
+            lines: [[0,1],[0,2],[1,3],[2,4],[3,5],[4,6],[5,7],[6,7],[1,2]],
+            bright: [0,7],
+        },
+    ];
+
+    // ─── State ────────────────────────────────────────────────────────────────
+    const TOTAL_ROUNDS = 10;
+    const ROUND_TIME   = 15;
+
+    let round      = 0;
+    let score      = 0;
+    let timeLeft   = ROUND_TIME;
+    let timerId    = null;
+    let answered   = false;
+    let roundResults = [];
+    let usedIndices  = [];
+    let currentIdx   = -1;
+    let animFrame    = null;
+    let revealAnim   = 0; // 0→1 draw-on progress
+    let revealSpeed  = 0.025;
+
+    // ─── DOM ─────────────────────────────────────────────────────────────────
+    const canvas      = document.getElementById('constellationCanvas');
+    const ctx         = canvas.getContext('2d');
+    const canvasWrap  = document.getElementById('canvasWrap');
+    const scoreEl     = document.getElementById('scoreVal');
+    const timerEl     = document.getElementById('timerVal');
+    const roundEl     = document.getElementById('roundVal');
+    const answersGrid = document.getElementById('answersGrid');
+    const feedback    = document.getElementById('feedback');
+    const overlay     = document.getElementById('overlay');
+    const oIcon       = document.getElementById('oIcon');
+    const oTitle      = document.getElementById('oTitle');
+    const oSub        = document.getElementById('oSub');
+    const btnAction   = document.getElementById('btnAction');
+    const progressDots= document.getElementById('progressDots');
+
+    // ─── Canvas sizing ────────────────────────────────────────────────────────
+    function sizeCanvas() {
+        const maxW  = Math.min(window.innerWidth - 32, 520);
+        const maxH  = Math.min(window.innerHeight * 0.42, 300);
+        const size  = Math.min(maxW, maxH);
+        canvas.width  = size;
+        canvas.height = size;
+        canvasWrap.style.width  = size + 'px';
+        canvasWrap.style.height = size + 'px';
+    }
+    sizeCanvas();
+    window.addEventListener('resize', () => { sizeCanvas(); drawConstellation(CONSTELLATIONS[currentIdx], revealAnim); });
+
+    // ─── Drawing ──────────────────────────────────────────────────────────────
+    function drawConstellation(c, progress) {
+        if (!c) return;
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        // Background: faint star field
+        ctx.fillStyle = 'rgba(255,255,255,0)';
+        for (let i = 0; i < 80; i++) {
+            const bx = ((i * 137.5) % 1) * W;
+            const by = ((i * 97.3)  % 1) * H;
+            const br = Math.random() * 0 + 0.6;
+            const ba = 0.1 + (i % 5) * 0.06;
+            ctx.beginPath();
+            ctx.arc(bx, by, br, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,255,${ba})`;
+            ctx.fill();
+        }
+
+        const pad = W * 0.1;
+        const cx  = (x) => pad + x * (W - 2 * pad);
+        const cy  = (y) => pad + y * (H - 2 * pad);
+
+        const totalLines = c.lines.length;
+        const drawnLines = Math.floor(progress * totalLines);
+        const partial    = (progress * totalLines) - drawnLines;
+
+        // Draw fully revealed lines
+        for (let i = 0; i < drawnLines; i++) {
+            const [a, b] = c.lines[i];
+            const ax = cx(c.stars[a].x), ay = cy(c.stars[a].y);
+            const bx = cx(c.stars[b].x), by = cy(c.stars[b].y);
+            ctx.beginPath();
+            ctx.moveTo(ax, ay);
+            ctx.lineTo(bx, by);
+            ctx.strokeStyle = 'rgba(167,139,255,0.35)';
+            ctx.lineWidth   = 1.2;
+            ctx.stroke();
+        }
+
+        // Draw partial line (animating)
+        if (drawnLines < totalLines && progress < 1) {
+            const [a, b] = c.lines[drawnLines];
+            const ax = cx(c.stars[a].x), ay = cy(c.stars[a].y);
+            const bx = cx(c.stars[b].x), by = cy(c.stars[b].y);
+            ctx.beginPath();
+            ctx.moveTo(ax, ay);
+            ctx.lineTo(ax + (bx - ax) * partial, ay + (by - ay) * partial);
+            ctx.strokeStyle = 'rgba(167,139,255,0.2)';
+            ctx.lineWidth   = 1.2;
+            ctx.stroke();
+        }
+
+        // Draw stars
+        c.stars.forEach((s, i) => {
+            const sx = cx(s.x), sy = cy(s.y);
+            const isBright = c.bright && c.bright.includes(i);
+            const r = isBright ? 4 : 2.5;
+
+            // Glow
+            const grd = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 5);
+            grd.addColorStop(0, isBright ? 'rgba(245,197,24,0.5)' : 'rgba(200,210,255,0.3)');
+            grd.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.beginPath();
+            ctx.arc(sx, sy, r * 5, 0, Math.PI * 2);
+            ctx.fillStyle = grd;
+            ctx.fill();
+
+            // Core
+            ctx.beginPath();
+            ctx.arc(sx, sy, r, 0, Math.PI * 2);
+            ctx.fillStyle = isBright ? '#f5c518' : '#d0d8ff';
+            ctx.shadowColor = isBright ? '#f5c518' : '#a78bff';
+            ctx.shadowBlur  = isBright ? 12 : 6;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        });
+    }
+
+    function animateDraw(c) {
+        revealAnim = 0;
+        if (animFrame) cancelAnimationFrame(animFrame);
+        function step() {
+            revealAnim = Math.min(revealAnim + revealSpeed, 1);
+            drawConstellation(c, revealAnim);
+            if (revealAnim < 1) animFrame = requestAnimationFrame(step);
+        }
+        animFrame = requestAnimationFrame(step);
+    }
+
+    // ─── Progress dots ────────────────────────────────────────────────────────
+    function buildDots() {
+        progressDots.innerHTML = '';
+        for (let i = 0; i < TOTAL_ROUNDS; i++) {
+            const d = document.createElement('div');
+            d.className = 'dot' + (i === 0 ? ' active' : '');
+            d.id = `dot${i}`;
+            progressDots.appendChild(d);
+        }
+    }
+
+    function updateDot(idx, result) {
+        const d = document.getElementById(`dot${idx}`);
+        if (!d) return;
+        d.classList.remove('active', 'done');
+        d.classList.add(result);
+        const next = document.getElementById(`dot${idx + 1}`);
+        if (next) next.classList.add('active');
+    }
+
+    // ─── Round logic ──────────────────────────────────────────────────────────
+    function pickConstellation() {
+        if (usedIndices.length >= CONSTELLATIONS.length) usedIndices = [];
+        let idx;
+        do { idx = Math.floor(Math.random() * CONSTELLATIONS.length); }
+        while (usedIndices.includes(idx));
+        usedIndices.push(idx);
+        return idx;
+    }
+
+    function getDistractors(correctIdx, count) {
+        const pool = CONSTELLATIONS.map((c, i) => i).filter(i => i !== correctIdx);
+        const shuffled = pool.sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, count).map(i => CONSTELLATIONS[i].name);
+    }
+
+    function startRound() {
+        answered = false;
+        feedback.textContent = '';
+        feedback.className   = 'feedback-strip';
+        timeLeft = ROUND_TIME;
+        timerEl.textContent  = timeLeft;
+        timerEl.classList.remove('urgent');
+        roundEl.textContent  = `${round + 1} / ${TOTAL_ROUNDS}`;
+
+        currentIdx = pickConstellation();
+        const c    = CONSTELLATIONS[currentIdx];
+
+        // Build answer choices
+        const distractors = getDistractors(currentIdx, 3);
+        const choices = [c.name, ...distractors].sort(() => Math.random() - 0.5);
+        answersGrid.innerHTML = '';
+        choices.forEach(name => {
+            const btn = document.createElement('button');
+            btn.className   = 'ans-btn';
+            btn.textContent = name;
+            btn.addEventListener('click', () => handleAnswer(name, c.name, btn));
+            answersGrid.appendChild(btn);
+        });
+
+        // Animate constellation draw
+        animateDraw(c);
+
+        // Start timer
+        clearInterval(timerId);
+        timerId = setInterval(() => {
+            timeLeft--;
+            timerEl.textContent = timeLeft;
+            if (timeLeft <= 5) timerEl.classList.add('urgent');
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                handleAnswer(null, c.name, null);
+            }
+        }, 1000);
+    }
+
+    function handleAnswer(chosen, correct, btn) {
+        if (answered) return;
+        answered = true;
+        clearInterval(timerId);
+
+        const btns = answersGrid.querySelectorAll('.ans-btn');
+        btns.forEach(b => {
+            b.disabled = true;
+            if (b.textContent === correct) b.classList.add('correct');
+        });
+
+        if (chosen === correct) {
+            const timeBonus = Math.ceil(timeLeft / 3);
+            const earned    = 1 + timeBonus;
+            score          += earned;
+            scoreEl.textContent  = score;
+            feedback.textContent = `✓ Correct! +${earned} pts (${timeBonus} speed bonus)`;
+            feedback.className   = 'feedback-strip correct';
+            roundResults.push('correct');
+            updateDot(round, 'correct');
+        } else {
+            if (btn) btn.classList.add('wrong');
+            feedback.textContent = chosen ? `✗ That's ${CONSTELLATIONS[currentIdx].name}` : `⏱ Time's up! That was ${correct}`;
+            feedback.className   = 'feedback-strip wrong';
+            roundResults.push('wrong');
+            updateDot(round, 'wrong');
+        }
+
+        round++;
+        if (round >= TOTAL_ROUNDS) {
+            setTimeout(showResult, 1600);
+        } else {
+            setTimeout(startRound, 1800);
+        }
+    }
+
+    // ─── Result screen ────────────────────────────────────────────────────────
+    function showResult() {
+        const correct = roundResults.filter(r => r === 'correct').length;
+        const emoji   = correct >= 8 ? '🏆' : correct >= 5 ? '🌟' : '🚀';
+        const msg     = correct >= 8
+            ? 'You\'re a master astronomer!'
+            : correct >= 5
+            ? 'Good star knowledge!'
+            : 'Keep gazing at the stars!';
+
+        oIcon.textContent  = emoji;
+        oTitle.textContent = 'Quiz Complete!';
+        oSub.innerHTML     = `You scored <strong style="color:#a78bff">${score} points</strong> and identified ${correct} of ${TOTAL_ROUNDS} constellations correctly.<br><br><em style="font-size:0.85rem;color:rgba(255,255,255,0.35)">${msg}</em>`;
+        btnAction.textContent = 'Play Again';
+        btnAction.onclick = () => { overlay.classList.add('hidden'); resetGame(); startRound(); };
+        overlay.classList.remove('hidden');
+    }
+
+    function resetGame() {
+        round        = 0;
+        score        = 0;
+        roundResults = [];
+        usedIndices  = [];
+        scoreEl.textContent = '0';
+        timerEl.classList.remove('urgent');
+        buildDots();
+    }
+
+    // ─── Boot ─────────────────────────────────────────────────────────────────
+    buildDots();
+
+    btnAction.onclick = () => {
+        overlay.classList.add('hidden');
+        resetGame();
+        startRound();
+    };
+    </script>
+</body>
+</html>
