@@ -9,6 +9,8 @@ const TRANSLATIONS = {
     // Nav
     nav_home:        'Home',
     nav_games:       'Games',
+    nav_const:       'Constellations',
+    nav_wiki:        '★ Wiki Stars',
     nav_back:        '← Back to games',
 
     // Index hero
@@ -94,6 +96,18 @@ const TRANSLATIONS = {
     know_title:      'Did You Know?',
     know_sub:        'Fascinating facts, funny anecdotes & discovery stories from across the cosmos.',
 
+    // Constellation guide
+    const_title:     'Star Constellations',
+    const_sub:       'Navigate the night sky',
+
+    // Wiki Stars
+    wiki_title:      'Wiki Stars',
+    wiki_sub:        'from infinity and beyond',
+    wiki_tab_all:      'All',
+    wiki_tab_general:  'General Knowledge',
+    wiki_tab_history:  'History',
+    wiki_tab_anec:     'Anecdotes',
+
     // Footer
     footer:          '© 2026 StarGames — Play Beyond The Universe',
   },
@@ -102,6 +116,8 @@ const TRANSLATIONS = {
     // Nav
     nav_home:        'Accueil',
     nav_games:       'Jeux',
+    nav_const:       'Constellations',
+    nav_wiki:        '★ Wiki Étoiles',
     nav_back:        '← Retour aux jeux',
 
     // Index hero
@@ -186,6 +202,18 @@ const TRANSLATIONS = {
     know_tag:        '★ Savoir Stellaire',
     know_title:      'Le Saviez-Vous ?',
     know_sub:        'Faits fascinants, anecdotes amusantes et histoires de découvertes de tout l\'univers.',
+
+    // Constellation guide
+    const_title:     'Constellations',
+    const_sub:       'Naviguer le ciel nocturne',
+
+    // Wiki Stars
+    wiki_title:      'Wiki Étoiles',
+    wiki_sub:        'de l\'infini et au-delà',
+    wiki_tab_all:      'Tout',
+    wiki_tab_general:  'Savoir Général',
+    wiki_tab_history:  'Histoire',
+    wiki_tab_anec:     'Anecdotes',
 
     // Footer
     footer:          '© 2026 StarGames — Jouez au-delà de l\'Univers',
