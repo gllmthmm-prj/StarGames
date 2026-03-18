@@ -145,6 +145,19 @@
         .feedback-strip.correct { color: #5dffa5; }
         .feedback-strip.wrong   { color: #ff8aaa; }
 
+        /* Fun fact */
+        .fact-strip {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.42);
+            text-align: center;
+            max-width: 520px;
+            line-height: 1.45;
+            min-height: 18px;
+            font-style: italic;
+            transition: opacity 0.4s;
+        }
+        .fact-strip.visible { color: rgba(200,210,255,0.55); }
+
         /* Overlay */
         .overlay {
             position: fixed; inset: 0;
@@ -211,6 +224,7 @@
             <div class="hint-label" data-i18n="cq_hint">Identify this constellation</div>
         </div>
         <div class="feedback-strip" id="feedback"></div>
+        <div class="fact-strip" id="factStrip"></div>
         <div class="answers" id="answersGrid"></div>
     </div>
 
@@ -451,6 +465,7 @@
     const roundEl     = document.getElementById('roundVal');
     const answersGrid = document.getElementById('answersGrid');
     const feedback    = document.getElementById('feedback');
+    const factStrip   = document.getElementById('factStrip');
     const overlay     = document.getElementById('overlay');
     const oIcon       = document.getElementById('oIcon');
     const oTitle      = document.getElementById('oTitle');
@@ -601,6 +616,8 @@
         answered = false;
         feedback.textContent = '';
         feedback.className   = 'feedback-strip';
+        factStrip.textContent = '';
+        factStrip.className   = 'fact-strip';
         timeLeft = ROUND_TIME;
         timerEl.textContent  = timeLeft;
         timerEl.classList.remove('urgent');
@@ -648,6 +665,8 @@
             if (b.textContent === correct) b.classList.add('correct');
         });
 
+        const constellation = CONSTELLATIONS[currentIdx];
+
         if (chosen === correct) {
             const timeBonus = Math.ceil(timeLeft / 3);
             const earned    = 1 + timeBonus;
@@ -659,17 +678,21 @@
             updateDot(round, 'correct');
         } else {
             if (btn) btn.classList.add('wrong');
-            feedback.textContent = chosen ? `✗ That's ${CONSTELLATIONS[currentIdx].name}` : `⏱ Time's up! That was ${correct}`;
+            feedback.textContent = chosen ? `✗ That's ${constellation.name}` : `⏱ Time's up! That was ${correct}`;
             feedback.className   = 'feedback-strip wrong';
             roundResults.push('wrong');
             updateDot(round, 'wrong');
         }
 
+        // Show fun fact
+        factStrip.textContent = `★ ${constellation.fact}`;
+        factStrip.className   = 'fact-strip visible';
+
         round++;
         if (round >= TOTAL_ROUNDS) {
-            setTimeout(showResult, 1600);
+            setTimeout(showResult, 2200);
         } else {
-            setTimeout(startRound, 1800);
+            setTimeout(startRound, 2400);
         }
     }
 

@@ -42,8 +42,9 @@
         .hud-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
         .hud-val   { font-size: 1.3rem; font-weight: 700; color: #f5c518; }
         #timerVal  { color: #ff6b8a; }
+        #comboVal  { color: #a78bff; }
 
-        #canvas { flex: 1; display: block; cursor: none; }
+        #canvas { flex: 1; display: block; cursor: none; touch-action: none; }
 
         /* Overlay */
         .overlay {
@@ -80,6 +81,7 @@
     <div class="hud">
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_score">Score</span><span class="hud-val" id="scoreVal">0</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_time">Time</span><span class="hud-val" id="timerVal">30</span></div>
+        <div class="hud-stat"><span class="hud-label">Combo</span><span class="hud-val" id="comboVal">x1</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_best">Best</span><span class="hud-val" id="bestVal">0</span></div>
     </div>
     <canvas id="canvas"></canvas>
@@ -97,6 +99,7 @@
         const ctx       = canvas.getContext('2d');
         const scoreEl   = document.getElementById('scoreVal');
         const timerEl   = document.getElementById('timerVal');
+        const comboEl   = document.getElementById('comboVal');
         const bestEl    = document.getElementById('bestVal');
         const overlay   = document.getElementById('overlay');
         const overlayTitle = document.getElementById('overlayTitle');
@@ -105,8 +108,10 @@
         const overlayIcon  = document.getElementById('overlayIcon');
         const btnStart  = document.getElementById('btnStart');
 
-        let W, H, stars = [], particles = [], cursor = {x:-200, y:-200};
+        const COMBO_WINDOW = 1500; // ms between catches to maintain combo
+        let W, H, stars = [], particles = [], floaters = [], cursor = {x:-200, y:-200};
         let score = 0, best = 0, timeLeft = 30, running = false, intervalId = null;
+        let combo = 1, lastCatchTime = 0;
 
         function resize() {
             W = canvas.width  = canvas.offsetWidth;
@@ -115,6 +120,7 @@
         resize();
         window.addEventListener('resize', resize);
 
+        // Mouse support
         canvas.addEventListener('mousemove', e => {
             const r = canvas.getBoundingClientRect();
             cursor.x = e.clientX - r.left;
@@ -124,17 +130,51 @@
         canvas.addEventListener('click', e => {
             if (!running) return;
             const r = canvas.getBoundingClientRect();
-            const mx = e.clientX - r.left, my = e.clientY - r.top;
-            stars.forEach((s, i) => {
-                const d = Math.hypot(mx - s.x, my - s.y);
-                if (d < s.r + 8) {
+            catchAt(e.clientX - r.left, e.clientY - r.top);
+        });
+
+        // Touch support
+        canvas.addEventListener('touchmove', e => {
+            e.preventDefault();
+            const r = canvas.getBoundingClientRect();
+            cursor.x = e.touches[0].clientX - r.left;
+            cursor.y = e.touches[0].clientY - r.top;
+        }, { passive: false });
+
+        canvas.addEventListener('touchstart', e => {
+            e.preventDefault();
+            const r = canvas.getBoundingClientRect();
+            cursor.x = e.touches[0].clientX - r.left;
+            cursor.y = e.touches[0].clientY - r.top;
+            if (running) catchAt(cursor.x, cursor.y);
+        }, { passive: false });
+
+        function catchAt(mx, my) {
+            const now = performance.now();
+            let caught = false;
+            for (let i = stars.length - 1; i >= 0; i--) {
+                const s = stars[i];
+                if (Math.hypot(mx - s.x, my - s.y) < s.r + 12) {
                     spawnParticles(s.x, s.y, s.color);
                     stars.splice(i, 1);
-                    score++;
+                    // Combo logic
+                    if (now - lastCatchTime < COMBO_WINDOW) {
+                        combo = Math.min(combo + 1, 5);
+                    } else {
+                        combo = 1;
+                    }
+                    lastCatchTime = now;
+                    const pts = combo;
+                    score += pts;
                     scoreEl.textContent = score;
+                    comboEl.textContent = `x${combo}`;
+                    if (combo >= 2) spawnFloater(s.x, s.y, `+${pts} x${combo}!`);
+                    caught = true;
+                    break; // one star per tap
                 }
-            });
-        });
+            }
+            return caught;
+        }
 
         function spawnStar() {
             const colors = ['#f5c518','#00c8ff','#a78bff','#ff6b8a','#ffffff'];
@@ -150,6 +190,10 @@
                 rot: 0,
                 rotSpeed: (Math.random() - 0.5) * 0.06,
             });
+        }
+
+        function spawnFloater(x, y, text) {
+            floaters.push({ x, y, text, life: 1, vy: -1.5 });
         }
 
         function spawnParticles(x, y, color) {
@@ -215,6 +259,28 @@
                 ctx.globalAlpha = 1;
             }
 
+            // Combo floaters
+            for (let i = floaters.length - 1; i >= 0; i--) {
+                const f = floaters[i];
+                f.y += f.vy; f.life -= 0.022;
+                if (f.life <= 0) { floaters.splice(i, 1); continue; }
+                ctx.globalAlpha = f.life;
+                ctx.font = 'bold 15px Segoe UI';
+                ctx.fillStyle = '#a78bff';
+                ctx.textAlign = 'center';
+                ctx.shadowColor = '#a78bff';
+                ctx.shadowBlur  = 10;
+                ctx.fillText(f.text, f.x, f.y);
+                ctx.shadowBlur  = 0;
+                ctx.globalAlpha = 1;
+            }
+
+            // Combo decay — reset if window expired
+            if (running && performance.now() - lastCatchTime > COMBO_WINDOW && combo > 1) {
+                combo = 1;
+                comboEl.textContent = 'x1';
+            }
+
             // Custom cursor
             ctx.beginPath();
             ctx.arc(cursor.x, cursor.y, 12, 0, Math.PI * 2);
@@ -230,8 +296,10 @@
         }
 
         function startGame() {
-            stars = []; particles = []; score = 0; timeLeft = 30;
+            stars = []; particles = []; floaters = []; score = 0; timeLeft = 30;
+            combo = 1; lastCatchTime = 0;
             scoreEl.textContent = '0';
+            comboEl.textContent = 'x1';
             timerEl.textContent = '30';
             overlay.classList.add('hidden');
             running = true;

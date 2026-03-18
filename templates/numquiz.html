@@ -64,6 +64,15 @@
         .hud-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
         .hud-val { font-size: 1.2rem; font-weight: 700; color: #00c8ff; }
 
+        /* Timer */
+        .timer-ring-wrap { position: relative; width: 54px; height: 54px; }
+        .timer-ring-wrap svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+        .timer-ring-bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 4; }
+        .timer-ring-fg { fill: none; stroke: #00c8ff; stroke-width: 4; stroke-linecap: round;
+            transition: stroke-dashoffset 0.9s linear, stroke 0.3s; }
+        .timer-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; font-weight: 700; color: #00c8ff; }
+
         .question-num { font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
         .question-text { font-size: 1.3rem; font-weight: 600; line-height: 1.45; min-height: 70px; }
 
@@ -124,7 +133,16 @@
             <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
             <div class="hud-row">
                 <div class="hud-item"><span class="hud-label" data-i18n="hud_score">Score</span><span class="hud-val" id="scoreVal">0</span></div>
-                <div class="hud-item"><span class="hud-label">Question</span><span class="hud-val" id="qNumVal">1 / 8</span></div>
+                <div class="hud-item">
+                    <div class="timer-ring-wrap">
+                        <svg viewBox="0 0 54 54" width="54" height="54">
+                            <circle class="timer-ring-bg" cx="27" cy="27" r="22"/>
+                            <circle class="timer-ring-fg" id="timerRing" cx="27" cy="27" r="22"
+                                stroke-dasharray="138.2" stroke-dashoffset="0"/>
+                        </svg>
+                        <div class="timer-num" id="timerNum">10</div>
+                    </div>
+                </div>
                 <div class="hud-item"><span class="hud-label">Streak</span><span class="hud-val" id="streakVal">0🔥</span></div>
             </div>
             <div class="question-text" id="questionText" data-i18n="gq_loading">Loading…</div>
@@ -135,18 +153,65 @@
     </div>
 
     <script>
-        const TOTAL = 8;
+        const TOTAL      = 8;
+        const TIME_LIMIT = 10; // seconds per question
+        const CIRC       = 2 * Math.PI * 22; // stroke-dasharray for r=22
+
         let qIndex = 0, score = 0, streak = 0, answered = false;
+        let timerInterval = null, timeLeft = TIME_LIMIT;
 
         const progressBar  = document.getElementById('progressBar');
         const scoreEl      = document.getElementById('scoreVal');
-        const qNumEl       = document.getElementById('qNumVal');
         const streakEl     = document.getElementById('streakVal');
         const questionText = document.getElementById('questionText');
         const answersGrid  = document.getElementById('answersGrid');
         const feedback     = document.getElementById('feedback');
         const btnNext      = document.getElementById('btnNext');
         const quizCard     = document.getElementById('quizCard');
+        const timerNum     = document.getElementById('timerNum');
+        const timerRing    = document.getElementById('timerRing');
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = TIME_LIMIT;
+            updateTimerUI();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerUI();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timeOut();
+                }
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            timerNum.textContent = timeLeft;
+            const offset = CIRC * (1 - timeLeft / TIME_LIMIT);
+            timerRing.style.strokeDashoffset = offset;
+            const danger = timeLeft <= 3;
+            timerRing.style.stroke = danger ? '#ff3364' : '#00c8ff';
+            timerNum.style.color   = danger ? '#ff3364' : '#00c8ff';
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function timeOut() {
+            if (answered) return;
+            answered = true;
+            const btns = answersGrid.querySelectorAll('.ans-btn');
+            btns.forEach(b => b.disabled = true);
+            // reveal correct answer
+            if (window._currentCorrect !== undefined) btns[window._currentCorrect].classList.add('correct');
+            streak = 0;
+            streakEl.textContent = '0🔥';
+            feedback.textContent = '⏰ Time\'s up!';
+            feedback.className   = 'feedback wrong';
+            btnNext.classList.remove('hidden');
+            btnNext.textContent = qIndex + 1 >= TOTAL ? 'See Results' : 'Next →';
+        }
 
         async function loadQuestion() {
             answered = false;
@@ -157,9 +222,9 @@
 
             const res  = await fetch('/api/quiz/question');
             const data = await res.json();
+            window._currentCorrect = data.correct;
 
             questionText.textContent = data.question;
-            qNumEl.textContent       = `${qIndex + 1} / ${TOTAL}`;
             progressBar.style.width  = `${(qIndex / TOTAL) * 100}%`;
             answersGrid.innerHTML    = '';
 
@@ -170,11 +235,14 @@
                 btn.addEventListener('click', () => answer(i, data.correct, btn));
                 answersGrid.appendChild(btn);
             });
+
+            startTimer();
         }
 
         function answer(chosen, correct, btn) {
             if (answered) return;
             answered = true;
+            stopTimer();
             const btns = answersGrid.querySelectorAll('.ans-btn');
             btns.forEach(b => b.disabled = true);
             btns[correct].classList.add('correct');
@@ -206,9 +274,9 @@
         });
 
         function showResult() {
-            const pct   = Math.round((score / (TOTAL + 2)) * 100); // account for possible bonus
-            const emoji = score >= 10 ? '🏆' : score >= 6 ? '🌟' : '🚀';
-            const msg   = score >= 10 ? 'Stellar astronomer!' : score >= 6 ? 'Good explorer!' : 'Keep studying the cosmos!';
+            stopTimer();
+            const emoji = score >= 12 ? '🏆' : score >= 7 ? '🌟' : '🚀';
+            const msg   = score >= 12 ? 'Stellar astronomer!' : score >= 7 ? 'Good explorer!' : 'Keep studying the cosmos!';
             quizCard.innerHTML = `
                 <div class="result-screen">
                     <div class="result-trophy">${emoji}</div>
