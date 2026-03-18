@@ -479,11 +479,15 @@
     function showResult() {
         gameRunning = false;
         clearInterval(timerId);
-        const icon = score >= 40 ? '🏆' : score >= 20 ? '🌟' : '🚀';
-        const msg  = score >= 40 ? 'Stellar navigator!' : score >= 20 ? 'Good star tracer!' : 'Keep practicing!';
+        const prev  = parseInt(localStorage.getItem('dc_best') || '0', 10);
+        const isNew = score > prev;
+        if (isNew) localStorage.setItem('dc_best', score);
+        const best  = isNew ? score : prev;
+        const icon  = isNew ? '🏆' : score >= 40 ? '🌟' : score >= 20 ? '✨' : '🚀';
+        const msg   = isNew ? 'New best score!' : score >= 40 ? 'Stellar navigator!' : score >= 20 ? 'Good star tracer!' : 'Keep practicing!';
         ovIcon.textContent  = icon;
         ovTitle.textContent = 'Game Over!';
-        ovSub.innerHTML     = `You scored <strong style="color:#c4a8ff">${score} points</strong> across ${ROUNDS} constellations.<br><em style="font-size:0.85rem;color:rgba(255,255,255,0.3)">${msg}</em>`;
+        ovSub.innerHTML     = `You scored <strong style="color:#c4a8ff">${score} points</strong> across ${ROUNDS} constellations.<br><span style="font-size:0.78rem;color:rgba(255,255,255,0.28)">Best: ${best} pts</span><br><em style="font-size:0.85rem;color:rgba(255,255,255,0.3)">${msg}</em>`;
         btnGo.textContent   = 'Play Again';
         btnGo.onclick       = () => { overlay.classList.add('hidden'); resetGame(); };
         overlay.classList.remove('hidden');

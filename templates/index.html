@@ -133,6 +133,48 @@
 
         footer { position:relative;z-index:10;text-align:center;padding:30px; border-top:1px solid rgba(255,255,255,0.05); color:rgba(255,255,255,0.18);font-size:0.78rem;letter-spacing:0.05em; }
 
+        /* ── Your Records panel ───────────────────────────────────── */
+        .records-section {
+            position: relative; z-index: 10;
+            max-width: 1060px; margin: 0 auto;
+            padding: 0 24px 64px;
+        }
+        .records-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:20px; }
+        .records-title { font-size:1.25rem; font-weight:700; }
+        .records-sub   { font-size:0.8rem; color:rgba(255,255,255,0.28); letter-spacing:0.15em; text-transform:uppercase; margin-top:4px; }
+        .records-grid  { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px; }
+
+        .rec-card {
+            background: rgba(10,10,22,0.88);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 18px; padding: 20px 18px;
+            display: flex; flex-direction: column; gap: 10px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .rec-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--rc); border-radius:18px 18px 0 0; }
+        .rec-card:hover { transform:translateY(-4px); border-color:rgba(255,255,255,0.12); }
+
+        .rec-top { display:flex; align-items:center; gap:10px; }
+        .rec-icon { font-size:1.4rem; width:38px;height:38px;border-radius:10px;flex-shrink:0;
+                    background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+                    display:flex;align-items:center;justify-content:center; }
+        .rec-name { font-size:0.82rem; font-weight:700; color:rgba(255,255,255,0.75); line-height:1.25; }
+
+        .rec-score { font-size:1.9rem; font-weight:900; color:var(--rc); line-height:1; letter-spacing:-0.02em; }
+        .rec-score.empty { font-size:1.1rem; color:rgba(255,255,255,0.18); font-weight:400; }
+        .rec-label { font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.25); margin-top:2px; }
+
+        .rec-memory-row { display:flex; gap:8px; margin-top:2px; }
+        .rec-diff-chip {
+            flex:1; text-align:center; padding:5px 4px;
+            background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);
+            border-radius:8px;
+        }
+        .rec-diff-chip .chip-val { font-size:0.95rem; font-weight:800; color:var(--rc); }
+        .rec-diff-chip .chip-lbl { font-size:0.55rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.22); }
+
         /* ── Knowledge section ───────────────────────────────────── */
         .knowledge-section {
             position: relative; z-index: 10;
@@ -399,6 +441,17 @@
             </a>
             {% endfor %}
         </div>
+    </div>
+
+    <!-- ── Your Records Panel ────────────────────────────────────── -->
+    <div class="records-section" id="records">
+        <div class="records-header">
+            <div>
+                <div class="records-title" data-i18n="rec_title">Your Records</div>
+                <div class="records-sub" data-i18n="rec_sub">Best scores · saved locally</div>
+            </div>
+        </div>
+        <div class="records-grid" id="recordsGrid"></div>
     </div>
 
     <!-- ── Knowledge Section ──────────────────────────────────────── -->
@@ -1037,6 +1090,61 @@
         }).join('');
     }
 
+    // ── Your Records ─────────────────────────────────────────────────────────
+    const RECORD_DEFS = [
+        { key:'sc_best',  icon:'⭐', name:'Star Catcher',      color:'#f5c518', unit:'pts' },
+        { key:'gq_best',  icon:'🔭', name:'Galaxy Quiz',       color:'#a78bff', unit:'pts' },
+        { key:'cq_best',  icon:'🌌', name:'Constellation Quiz',color:'#6ee7ff', unit:'pts' },
+        { key:'dc_best',  icon:'✦',  name:'Dot Connect',       color:'#ff6b8a', unit:'pts' },
+    ];
+    const MEMORY_KEY_PREFIX = 'sm_best_';
+    const MEMORY_DIFFS = ['easy','medium','hard'];
+
+    function renderRecords() {
+        const grid = document.getElementById('recordsGrid');
+        if (!grid) return;
+        let html = '';
+
+        RECORD_DEFS.forEach(r => {
+            const val = localStorage.getItem(r.key);
+            const hasScore = val !== null && parseInt(val, 10) > 0;
+            html += `
+            <div class="rec-card" style="--rc:${r.color}">
+                <div class="rec-top">
+                    <div class="rec-icon">${r.icon}</div>
+                    <div class="rec-name">${r.name}</div>
+                </div>
+                ${hasScore
+                    ? `<div class="rec-score">${parseInt(val,10)}</div>
+                       <div class="rec-label">Best · ${r.unit}</div>`
+                    : `<div class="rec-score empty">—</div>
+                       <div class="rec-label">Not played yet</div>`}
+            </div>`;
+        });
+
+        // Star Memory card with per-difficulty bests
+        const memColor = '#00c8ff';
+        const chips = MEMORY_DIFFS.map(d => {
+            const v = localStorage.getItem(MEMORY_KEY_PREFIX + d);
+            const score = v && parseInt(v,10) > 0 ? parseInt(v,10) : '—';
+            return `<div class="rec-diff-chip">
+                        <div class="chip-val" style="color:${memColor}">${score}</div>
+                        <div class="chip-lbl">${d}</div>
+                    </div>`;
+        }).join('');
+        html += `
+        <div class="rec-card" style="--rc:${memColor}">
+            <div class="rec-top">
+                <div class="rec-icon">🧩</div>
+                <div class="rec-name">Star Memory</div>
+            </div>
+            <div class="rec-memory-row">${chips}</div>
+            <div class="rec-label">Best · pts</div>
+        </div>`;
+
+        grid.innerHTML = html;
+    }
+
     // ── Boot — DOM is ready (inline script at bottom of body) ────────────────
     (function boot() {
         const lang = localStorage.getItem('sg_lang') || 'en';
@@ -1044,6 +1152,7 @@
         renderWikiMenu(lang);
         renderConstellations(lang);
         renderAnecdotes(lang);
+        renderRecords();
     })();
 
     function renderAnecdotes(lang) {

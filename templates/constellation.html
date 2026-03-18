@@ -699,8 +699,14 @@
     // ─── Result screen ────────────────────────────────────────────────────────
     function showResult() {
         const correct = roundResults.filter(r => r === 'correct').length;
-        const emoji   = correct >= 8 ? '🏆' : correct >= 5 ? '🌟' : '🚀';
-        const msg     = correct >= 8
+        const prev    = parseInt(localStorage.getItem('cq_best') || '0', 10);
+        const isNew   = score > prev;
+        if (isNew) localStorage.setItem('cq_best', score);
+        const best    = isNew ? score : prev;
+        const emoji   = isNew ? '🏆' : correct >= 8 ? '🌟' : correct >= 5 ? '✨' : '🚀';
+        const msg     = isNew
+            ? 'New best score!'
+            : correct >= 8
             ? 'You\'re a master astronomer!'
             : correct >= 5
             ? 'Good star knowledge!'
@@ -710,7 +716,7 @@
         const T    = (k) => (typeof TRANSLATIONS !== 'undefined' && TRANSLATIONS[lang]?.[k]) || k;
         oIcon.textContent  = emoji;
         oTitle.textContent = T('cq_complete');
-        oSub.innerHTML     = `You scored <strong style="color:#a78bff">${score} points</strong> and identified ${correct} of ${TOTAL_ROUNDS} constellations correctly.<br><br><em style="font-size:0.85rem;color:rgba(255,255,255,0.35)">${msg}</em>`;
+        oSub.innerHTML     = `You scored <strong style="color:#a78bff">${score} points</strong> and identified ${correct} of ${TOTAL_ROUNDS} correctly.<br><span style="font-size:0.78rem;color:rgba(255,255,255,0.28)">Best: ${best} pts</span><br><br><em style="font-size:0.85rem;color:rgba(255,255,255,0.35)">${msg}</em>`;
         btnAction.textContent = T('btn_again');
         btnAction.onclick = () => { overlay.classList.add('hidden'); resetGame(); startRound(); };
         overlay.classList.remove('hidden');

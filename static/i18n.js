@@ -91,6 +91,10 @@ const TRANSLATIONS = {
     gq_good:         'Good explorer!',
     gq_keep:         'Keep studying the cosmos!',
 
+    // Your Records
+    rec_title:       'Your Records',
+    rec_sub:         'Best scores · saved locally',
+
     // Knowledge section
     know_tag:        '★ Star Knowledge',
     know_title:      'Did You Know?',
@@ -197,6 +201,10 @@ const TRANSLATIONS = {
     gq_stellar:      'Astronome hors pair !',
     gq_good:         'Bon explorateur !',
     gq_keep:         'Continuez à étudier le cosmos !',
+
+    // Your Records
+    rec_title:       'Vos Records',
+    rec_sub:         'Meilleurs scores · sauvegardés localement',
 
     // Knowledge section
     know_tag:        '★ Savoir Stellaire',

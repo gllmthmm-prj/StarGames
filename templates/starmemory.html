@@ -44,6 +44,8 @@
         .hud-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .hud-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
         .hud-val   { font-size: 1.2rem; font-weight: 700; color: #c4a8ff; }
+        #scoreVal  { color: #f5c518; }
+        #bestVal   { color: rgba(167,139,255,0.55); font-size: 1rem; }
 
         /* Game area */
         .game-area {
@@ -171,6 +173,8 @@
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_pairs">Pairs</span><span class="hud-val" id="pairsVal">0 / 0</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_moves">Moves</span><span class="hud-val" id="movesVal">0</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_time">Time</span><span class="hud-val" id="timeVal">0:00</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_score">Score</span><span class="hud-val" id="scoreVal">—</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_best">Best</span><span class="hud-val" id="bestVal">—</span></div>
     </div>
 
     <div class="game-area">
@@ -229,11 +233,40 @@
     const pairsEl   = document.getElementById('pairsVal');
     const movesEl   = document.getElementById('movesVal');
     const timeEl    = document.getElementById('timeVal');
+    const scoreEl   = document.getElementById('scoreVal');
+    const bestEl    = document.getElementById('bestVal');
     const overlay   = document.getElementById('overlay');
     const ovIcon    = document.getElementById('ovIcon');
     const ovTitle   = document.getElementById('ovTitle');
     const ovSub     = document.getElementById('ovSub');
     const btnGo     = document.getElementById('btnGo');
+
+    const DIFF_MULT = { easy: 1, medium: 1.5, hard: 2 };
+
+    function calcScore(pairs, moves, secs) {
+        const base    = pairs * 200;
+        const movePen = Math.max(0, moves - pairs) * 25;
+        const timePen = Math.max(0, secs - pairs * 6) * 4;
+        return Math.max(50, Math.round((base - movePen - timePen) * DIFF_MULT[difficulty]));
+    }
+
+    function bestKey() { return `sm_best_${difficulty}`; }
+
+    function loadBest() {
+        const v = localStorage.getItem(bestKey());
+        bestEl.textContent = v ? v : '—';
+    }
+
+    function saveBest(score) {
+        const prev = parseInt(localStorage.getItem(bestKey()) || '0', 10);
+        if (score > prev) {
+            localStorage.setItem(bestKey(), score);
+            bestEl.textContent = score;
+            return true;
+        }
+        bestEl.textContent = prev;
+        return false;
+    }
 
     // ── Draw constellation on a small canvas ──────────────────────────────────
     function drawMiniConst(c, size) {
@@ -277,6 +310,8 @@
         pairsEl.textContent = `0 / ${pairs}`;
         movesEl.textContent = '0';
         timeEl.textContent  = '0:00';
+        scoreEl.textContent = '—';
+        loadBest();
 
         // Pick random constellations
         const chosen = [...CONSTELLATIONS].sort(() => Math.random()-0.5).slice(0, pairs);
@@ -392,10 +427,13 @@
         const m = Math.floor(elapsedSecs/60);
         const s = elapsedSecs % 60;
         const timeStr = `${m}:${s.toString().padStart(2,'0')}`;
+        const score   = calcScore(pairs, moves, elapsedSecs);
+        scoreEl.textContent = score;
+        const isNew   = saveBest(score);
         const perfect = moves === pairs;
-        ovIcon.textContent  = perfect ? '🏆' : matched === pairs ? '🌟' : '✨';
-        ovTitle.textContent = perfect ? 'Perfect Memory!' : 'Well done!';
-        ovSub.innerHTML     = `Matched all ${pairs} pairs in <strong style="color:#c4a8ff">${moves} moves</strong> and <strong style="color:#6ee7ff">${timeStr}</strong>.`;
+        ovIcon.textContent  = isNew ? '🏆' : perfect ? '🌟' : '✨';
+        ovTitle.textContent = isNew ? 'New Best!' : perfect ? 'Perfect Memory!' : 'Well done!';
+        ovSub.innerHTML     = `${pairs} pairs · <strong style="color:#c4a8ff">${moves} moves</strong> · <strong style="color:#6ee7ff">${timeStr}</strong><br><span style="color:#f5c518;font-size:1.1rem;font-weight:700">${score} pts</span>${isNew ? ' <span style="font-size:0.8rem;color:#f5c518">★ new best!</span>' : ''}`;
         btnGo.textContent   = 'Play Again';
         overlay.classList.remove('hidden');
     }
@@ -408,8 +446,12 @@
             // Also sync both rows
             document.querySelectorAll(`.diff-btn[data-diff="${btn.dataset.diff}"]`).forEach(b => b.classList.add('active'));
             difficulty = btn.dataset.diff;
+            loadBest();
         });
     });
+
+    // Load best on page load
+    loadBest();
 
     btnGo.addEventListener('click', () => {
         overlay.classList.add('hidden');

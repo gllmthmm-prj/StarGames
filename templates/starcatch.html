@@ -110,8 +110,10 @@
 
         const COMBO_WINDOW = 1500; // ms between catches to maintain combo
         let W, H, stars = [], particles = [], floaters = [], cursor = {x:-200, y:-200};
-        let score = 0, best = 0, timeLeft = 30, running = false, intervalId = null;
+        let score = 0, timeLeft = 30, running = false, intervalId = null;
         let combo = 1, lastCatchTime = 0;
+        let best = parseInt(localStorage.getItem('sc_best') || '0', 10);
+        bestEl.textContent = best || 0;
 
         function resize() {
             W = canvas.width  = canvas.offsetWidth;
@@ -329,7 +331,7 @@
         function endGame() {
             running = false;
             clearInterval(intervalId);
-            if (score > best) { best = score; bestEl.textContent = best; }
+            if (score > best) { best = score; bestEl.textContent = best; localStorage.setItem('sc_best', best); }
             overlayIcon.textContent  = score >= 20 ? '🏆' : '⭐';
             overlayTitle.textContent = score >= 20 ? 'Stellar!' : 'Game Over';
             overlayDesc.textContent  = `You caught ${score} star${score !== 1 ? 's' : ''}!`;
