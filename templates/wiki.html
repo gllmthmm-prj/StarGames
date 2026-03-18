@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki Stars – StarGames</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #03030a;
+            color: #e8e8ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #starfield { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .nebula { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 1; }
+        .nebula-1 { width:560px;height:400px;top:-80px;left:-100px;  background:rgba(90,40,200,0.15); animation:nebDrift 18s ease-in-out infinite alternate; }
+        .nebula-2 { width:480px;height:360px;bottom:-60px;right:-80px;background:rgba(0,160,220,0.11); animation:nebDrift 22s ease-in-out infinite alternate-reverse; }
+        .nebula-3 { width:320px;height:280px;top:40%;left:55%;       background:rgba(200,60,120,0.07); animation:nebDrift 15s ease-in-out infinite alternate; }
+        @keyframes nebDrift { from{transform:translate(0,0) scale(1)} to{transform:translate(30px,20px) scale(1.08)} }
+
+        /* Nav */
+        nav {
+            position: relative; z-index: 20;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 48px;
+            border-bottom: 1px solid rgba(255,255,255,0.055);
+            background: rgba(3,3,10,0.75); backdrop-filter: blur(18px);
+        }
+        .logo { font-size: 1.25rem; font-weight: 800; letter-spacing: 0.04em;
+            background: linear-gradient(90deg,#c4a8ff,#6ee7ff,#f5c518);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display:flex; gap:28px; align-items:center; }
+        .nav-links a { color:rgba(255,255,255,0.38); text-decoration:none; font-size:0.88rem; letter-spacing:0.04em; transition:color 0.2s; }
+        .nav-links a:hover { color:rgba(255,255,255,0.85); }
+        .lang-select { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.82rem; cursor:pointer; outline:none; }
+        .lang-select:hover { border-color:rgba(255,255,255,0.28); color:#fff; }
+        .lang-select option { background:#12122a; color:#e8e8ff; }
+
+        /* Hero */
+        .wiki-hero {
+            position: relative; z-index: 10;
+            text-align: center;
+            padding: 80px 20px 52px;
+        }
+        .wiki-hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(245,197,24,0.1); border: 1px solid rgba(245,197,24,0.28);
+            color: #f5e080; font-size: 0.7rem; letter-spacing: 0.3em;
+            text-transform: uppercase; padding: 7px 20px; border-radius: 50px; margin-bottom: 26px;
+        }
+        .badge-dot { width:6px;height:6px;border-radius:50%;background:#f5c518;box-shadow:0 0 6px #f5c518;animation:blink 2s ease-in-out infinite; }
+        @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+        .wiki-hero h1 {
+            font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 900; line-height: 1.08;
+            letter-spacing: -0.025em; margin-bottom: 18px;
+        }
+        .wiki-hero h1 .grad {
+            background: linear-gradient(135deg,#f5c518 0%,#c4a8ff 50%,#6ee7ff 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .wiki-hero p { color:rgba(255,255,255,0.38); font-size:1rem; max-width:480px; margin:0 auto 36px; line-height:1.7; }
+
+        /* Tab navigation */
+        .tab-nav {
+            position: relative; z-index: 10;
+            display: flex; justify-content: center; gap: 8px;
+            padding: 0 20px 52px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 50px; padding: 10px 26px;
+            color: rgba(255,255,255,0.45); font-size: 0.88rem; font-weight: 500;
+            cursor: pointer; letter-spacing: 0.04em; font-family: inherit;
+            transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .tab-btn:hover { background:rgba(255,255,255,0.08); color:#fff; }
+        .tab-btn.active {
+            background: rgba(167,139,255,0.15); border-color: rgba(167,139,255,0.4);
+            color: #c4a8ff; box-shadow: 0 0 20px rgba(167,139,255,0.15);
+        }
+        .tab-btn[data-tab="history"].active  { background:rgba(245,197,24,0.12); border-color:rgba(245,197,24,0.35); color:#f5d860; box-shadow:0 0 20px rgba(245,197,24,0.12); }
+        .tab-btn[data-tab="stars"].active    { background:rgba(110,231,255,0.1); border-color:rgba(110,231,255,0.32); color:#6ee7ff; box-shadow:0 0 20px rgba(110,231,255,0.1); }
+        .tab-btn[data-tab="anecdotes"].active{ background:rgba(255,110,180,0.12); border-color:rgba(255,110,180,0.3); color:#ff9fd4; box-shadow:0 0 20px rgba(255,110,180,0.1); }
+        .tab-btn[data-tab="guide"].active    { background:rgba(0,200,100,0.1); border-color:rgba(0,200,100,0.3); color:#5dffa5; box-shadow:0 0 20px rgba(0,200,100,0.1); }
+
+        /* Sections */
+        .wiki-section { position:relative; z-index:10; max-width:1120px; margin:0 auto; padding:0 24px 80px; display:none; }
+        .wiki-section.active { display:block; }
+
+        .sec-header { margin-bottom:36px; }
+        .sec-tag  { font-size:0.65rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--sc,#a78bff); margin-bottom:10px; }
+        .sec-title { font-size:clamp(1.5rem,3vw,2.2rem); font-weight:900; letter-spacing:-0.02em; line-height:1.15; margin-bottom:12px; }
+        .sec-sub  { font-size:0.92rem; color:rgba(255,255,255,0.35); max-width:540px; line-height:1.65; }
+
+        /* Knowledge cards (masonry) */
+        .know-grid { columns:3; column-gap:18px; }
+        @media(max-width:900px){ .know-grid{columns:2;} }
+        @media(max-width:560px){ .know-grid{columns:1;} }
+
+        .know-card {
+            break-inside:avoid;
+            background:rgba(10,10,22,0.9); border:1px solid rgba(255,255,255,0.07);
+            border-radius:18px; padding:24px; margin-bottom:18px;
+            position:relative; overflow:hidden;
+            transition:transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+            box-shadow:0 6px 24px rgba(0,0,0,0.35);
+        }
+        .know-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--kc); border-radius:18px 18px 0 0; }
+        .know-card:hover { transform:translateY(-5px); border-color:rgba(255,255,255,0.13); box-shadow:0 16px 44px rgba(0,0,0,0.5); }
+
+        .kc-top { display:flex; align-items:flex-start; gap:14px; margin-bottom:14px; }
+        .kc-icon { font-size:1.9rem; line-height:1; flex-shrink:0; width:46px; height:46px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; }
+        .kc-meta { flex:1; }
+        .kc-cat  { font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--kc); opacity:0.85; margin-bottom:5px; }
+        .kc-title { font-size:1rem; font-weight:700; color:#fff; line-height:1.3; }
+        .kc-body  { font-size:0.86rem; color:rgba(255,255,255,0.48); line-height:1.65; }
+        .kc-facts { display:flex; flex-direction:column; gap:5px; margin-top:12px; }
+        .kc-fact  { font-size:0.79rem; color:rgba(255,255,255,0.28); padding-left:14px; position:relative; line-height:1.5; }
+        .kc-fact::before { content:'·'; position:absolute; left:0; color:var(--kc); opacity:0.75; font-weight:700; }
+        .kc-footer { margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; gap:8px; font-size:0.72rem; color:rgba(255,255,255,0.25); letter-spacing:0.04em; }
+        .kc-dot { width:4px; height:4px; border-radius:50%; background:var(--kc); opacity:0.6; flex-shrink:0; }
+
+        /* Featured wide card */
+        .know-card.wide { break-inside:avoid; }
+        .wide .kc-top { flex-direction:row; }
+        .wide .kc-icon { width:56px; height:56px; border-radius:14px; font-size:2.2rem; }
+
+        /* Star guide grid */
+        .stars-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px; }
+
+        .star-card {
+            background:rgba(10,10,22,0.9); border:1px solid rgba(255,255,255,0.07);
+            border-radius:20px; padding:24px;
+            display:flex; flex-direction:column; gap:12px;
+            position:relative; overflow:hidden;
+            transition:transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+            box-shadow:0 8px 28px rgba(0,0,0,0.4);
+        }
+        .star-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--sc2); border-radius:20px 20px 0 0; }
+        .star-card::after  { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 0%, color-mix(in srgb,var(--sc2) 10%,transparent) 0%,transparent 70%); opacity:0; transition:opacity 0.3s; pointer-events:none; border-radius:20px; }
+        .star-card:hover { transform:translateY(-6px); border-color:rgba(255,255,255,0.13); box-shadow:0 18px 50px rgba(0,0,0,0.55); }
+        .star-card:hover::after { opacity:1; }
+
+        .sc-top { display:flex; align-items:center; gap:14px; }
+        .sc-icon { width:52px;height:52px;border-radius:14px;flex-shrink:0;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:1.7rem; }
+        .sc-meta { flex:1; }
+        .sc-tag  { font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--sc2);opacity:0.8;margin-bottom:4px; }
+        .sc-title { font-size:1.05rem;font-weight:700;color:#fff; }
+        .sc-desc  { font-size:0.84rem;color:rgba(255,255,255,0.38);line-height:1.6; }
+        .sc-facts { display:flex;flex-direction:column;gap:5px; }
+        .sc-fact  { font-size:0.78rem;color:rgba(255,255,255,0.26);padding-left:14px;position:relative;line-height:1.5; }
+        .sc-fact::before { content:'·';position:absolute;left:0;color:var(--sc2);opacity:0.7;font-weight:700; }
+        .sc-footer { font-size:0.72rem;color:rgba(255,255,255,0.22);letter-spacing:0.04em;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06); }
+
+        .star-card.featured { grid-column:span 2; flex-direction:row; align-items:center; gap:28px; padding:28px 32px; }
+        @media(max-width:700px){ .star-card.featured{grid-column:span 1;flex-direction:column;} }
+        .featured .sc-icon { width:70px;height:70px;border-radius:18px;font-size:2.3rem;flex-shrink:0; }
+        .featured-body { flex:1;display:flex;flex-direction:column;gap:10px; }
+
+        /* Constellation guide */
+        .const-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px; }
+        .const-card {
+            background:rgba(10,10,22,0.9); border:1px solid rgba(255,255,255,0.07);
+            border-radius:20px; padding:22px;
+            display:flex; flex-direction:column; gap:10px;
+            position:relative; overflow:hidden;
+            transition:transform 0.22s, box-shadow 0.22s;
+            box-shadow:0 6px 22px rgba(0,0,0,0.38);
+        }
+        .const-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--cc2); border-radius:20px 20px 0 0; }
+        .const-card:hover { transform:translateY(-5px); box-shadow:0 16px 44px rgba(0,0,0,0.5); }
+        .cc-top { display:flex; align-items:center; gap:12px; }
+        .cc-icon { width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0; }
+        .cc-meta { flex:1; }
+        .cc-tag  { font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--cc2);opacity:0.8;margin-bottom:3px; }
+        .cc-title { font-size:1rem;font-weight:700;color:#fff; }
+        .cc-sub  { font-size:0.76rem;color:rgba(255,255,255,0.3);margin-top:1px; }
+        .cc-desc  { font-size:0.83rem;color:rgba(255,255,255,0.38);line-height:1.6; }
+        .cc-detail { font-size:0.72rem;color:rgba(255,255,255,0.22);padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);letter-spacing:0.03em; }
+
+        .const-card.featured { grid-column:span 2; flex-direction:row; align-items:center; gap:24px; padding:26px 30px; }
+        @media(max-width:700px){ .const-card.featured{grid-column:span 1;flex-direction:column;} }
+        .const-feat-icon { width:68px;height:68px;border-radius:18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0; }
+        .const-feat-body { flex:1;display:flex;flex-direction:column;gap:8px; }
+
+        /* Search bar */
+        .search-wrap {
+            position:relative; max-width:520px; margin:0 auto 40px;
+        }
+        .search-input {
+            width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+            border-radius:50px; padding:12px 20px 12px 46px;
+            color:#fff; font-size:0.9rem; outline:none; font-family:inherit;
+            transition:border-color 0.2s, background 0.2s;
+        }
+        .search-input::placeholder { color:rgba(255,255,255,0.22); }
+        .search-input:focus { border-color:rgba(167,139,255,0.4); background:rgba(255,255,255,0.07); }
+        .search-icon { position:absolute; left:16px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.25); font-size:1rem; pointer-events:none; }
+        .search-count { position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:0.75rem; color:rgba(255,255,255,0.2); }
+
+        /* "No results" */
+        .no-results { text-align:center; padding:60px 20px; color:rgba(255,255,255,0.22); font-size:0.95rem; display:none; }
+
+        /* Footer */
+        footer { position:relative;z-index:10;text-align:center;padding:28px;border-top:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.16);font-size:0.78rem;letter-spacing:0.05em; }
+    </style>
+</head>
+<body>
+    <canvas id="starfield"></canvas>
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+
+    <nav>
+        <div class="logo">★ StarGames</div>
+        <div class="nav-links">
+            <a href="/" data-i18n="nav_home">← Games</a>
+            <a href="#general" class="tab-link" data-tab="general">General</a>
+            <a href="#stars" class="tab-link" data-tab="stars">★ Famous Stars</a>
+            <a href="#history" class="tab-link" data-tab="history">History</a>
+            <a href="#guide" class="tab-link" data-tab="guide">Constellations</a>
+            <a href="#anecdotes" class="tab-link" data-tab="anecdotes">Anecdotes</a>
+            <select class="lang-select" onchange="setLang(this.value)">
+                <option value="en">🌐 EN</option>
+                <option value="fr">🌐 FR</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="wiki-hero">
+        <div class="wiki-hero-badge"><span class="badge-dot"></span><span data-i18n="wiki_badge">★ Star Knowledge Base</span></div>
+        <h1><span data-i18n="wiki_h1a">Explore</span> <span class="grad" data-i18n="wiki_h1b">The Universe</span></h1>
+        <p data-i18n="wiki_sub">Science, history, myths and curious anecdotes about the cosmos — all in one place.</p>
+    </div>
+
+    <!-- Tab navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" data-tab="general">🔭 General Knowledge</button>
+        <button class="tab-btn" data-tab="stars">⭐ Famous Stars</button>
+        <button class="tab-btn" data-tab="history">📜 History</button>
+        <button class="tab-btn" data-tab="guide">🌌 Constellation Guide</button>
+        <button class="tab-btn" data-tab="anecdotes">💫 Anecdotes</button>
+    </div>
+
+    <!-- ── General Knowledge ───────────────────────────────────────────── -->
+    <div class="wiki-section active" id="sec-general" style="--sc:#a78bff">
+        <div class="sec-header">
+            <div class="sec-tag" data-i18n="sec_general_tag">Stars & Constellations</div>
+            <h2 class="sec-title" data-i18n="sec_general_title">General Knowledge</h2>
+            <p class="sec-sub" data-i18n="sec_general_sub">The essentials — star life cycles, types, clusters, and the structure of the cosmos.</p>
+        </div>
+        <div class="know-grid" id="generalGrid"></div>
+        <div class="no-results" id="generalNoResults">No results found.</div>
+    </div>
+
+    <!-- ── Famous Stars ────────────────────────────────────────────────── -->
+    <div class="wiki-section" id="sec-stars" style="--sc:#f5c518">
+        <div class="sec-header">
+            <div class="sec-tag" data-i18n="sec_stars_tag">Individual Stars</div>
+            <h2 class="sec-title" data-i18n="sec_stars_title">Famous Stars</h2>
+            <p class="sec-sub" data-i18n="sec_stars_sub">The brightest, the biggest, the closest, the strangest — stars that have shaped history and science.</p>
+        </div>
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" id="starsSearch" placeholder="Search stars…" oninput="filterStars(this.value)">
+            <span class="search-count" id="starsCount"></span>
+        </div>
+        <div class="stars-grid" id="starsGrid"></div>
+        <div class="no-results" id="starsNoResults">No stars found for that search.</div>
+    </div>
+
+    <!-- ── History ─────────────────────────────────────────────────────── -->
+    <div class="wiki-section" id="sec-history" style="--sc:#f5c518">
+        <div class="sec-header">
+            <div class="sec-tag" data-i18n="sec_history_tag">5,000 Years of Discovery</div>
+            <h2 class="sec-title" data-i18n="sec_history_title">History of Astronomy</h2>
+            <p class="sec-sub" data-i18n="sec_history_sub">From Babylonian clay tablets to the first image of a black hole — a timeline of humanity's quest to understand the cosmos.</p>
+        </div>
+        <div class="know-grid" id="historyGrid"></div>
+    </div>
+
+    <!-- ── Constellation Guide ─────────────────────────────────────────── -->
+    <div class="wiki-section" id="sec-guide" style="--sc:#00c864">
+        <div class="sec-header">
+            <div class="sec-tag" data-i18n="sec_guide_tag">Navigate the Night Sky</div>
+            <h2 class="sec-title" data-i18n="sec_guide_title">Constellation Guide</h2>
+            <p class="sec-sub" data-i18n="sec_guide_sub">Everything you need to know about the 88 officially recognised star patterns — with seasonal visibility, mythology, and key stars.</p>
+        </div>
+        <div class="const-grid" id="guideGrid"></div>
+    </div>
+
+    <!-- ── Anecdotes ───────────────────────────────────────────────────── -->
+    <div class="wiki-section" id="sec-anecdotes" style="--sc:#ff6eb4">
+        <div class="sec-header">
+            <div class="sec-tag" data-i18n="sec_anecdotes_tag">Curious & Surprising</div>
+            <h2 class="sec-title" data-i18n="sec_anecdotes_title">Cosmic Anecdotes</h2>
+            <p class="sec-sub" data-i18n="sec_anecdotes_sub">The cosmos is full of surprises — and so are the people who study it. Bizarre blunders, lucky accidents, and legendary moments from behind the science.</p>
+        </div>
+        <div class="know-grid" id="anecdotesGrid"></div>
+    </div>
+
+    <footer data-i18n="footer">© 2026 StarGames — Play Beyond The Universe</footer>
+
+    <script src="/static/i18n.js"></script>
+    <script>
+    // ── Starfield ────────────────────────────────────────────────────────────
+    const canvas = document.getElementById('starfield');
+    const ctx    = canvas.getContext('2d');
+    let stars    = [];
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function initStars() {
+        stars = Array.from({length:280}, () => ({
+            x:Math.random()*canvas.width, y:Math.random()*canvas.height,
+            r:Math.random()*1.4+0.2, baseA:Math.random()*0.6+0.1,
+            speed:Math.random()*0.006+0.001, phase:Math.random()*Math.PI*2,
+            color:Math.random()<0.08?'#f5c518':Math.random()<0.12?'#a0c8ff':'#ffffff',
+        }));
+    }
+    function drawStars(t) {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        stars.forEach(s => {
+            const alpha = s.baseA*(0.5+0.5*Math.sin(t*s.speed+s.phase));
+            ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+            ctx.fillStyle = s.color==='#ffffff'?`rgba(255,255,255,${alpha})`:s.color==='#f5c518'?`rgba(245,197,24,${alpha})`:`rgba(160,200,255,${alpha})`;
+            if(s.r>1.1){ctx.shadowColor=s.color;ctx.shadowBlur=4;}
+            ctx.fill(); ctx.shadowBlur=0;
+        });
+        requestAnimationFrame(drawStars);
+    }
+    resizeCanvas(); initStars(); requestAnimationFrame(drawStars);
+    window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
+
+    // ── Tab system ───────────────────────────────────────────────────────────
+    const TABS = ['general','stars','history','guide','anecdotes'];
+    function switchTab(id) {
+        TABS.forEach(t => {
+            document.querySelector(`.tab-btn[data-tab="${t}"]`)?.classList.toggle('active', t===id);
+            const sec = document.getElementById(`sec-${t}`);
+            if (sec) sec.classList.toggle('active', t===id);
+        });
+        window.scrollTo({top:0,behavior:'smooth'});
+    }
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+    document.querySelectorAll('.tab-link').forEach(a => {
+        a.addEventListener('click', e => { e.preventDefault(); switchTab(a.dataset.tab); });
+    });
+
+    // ── DATA ─────────────────────────────────────────────────────────────────
+
+    // ── General Knowledge ───────────────────────────────────────────────────
+    const GENERAL_DATA = [
+        {
+            icon:'🔭', color:'#a78bff',
+            en:{ cat:'Basics', title:'What Are Constellations?',
+                 body:'Constellations are imaginary patterns formed by stars as seen from Earth. Ancient civilisations used them as calendars, navigation tools, and storytelling maps.',
+                 facts:['88 officially recognised by the IAU since 1930','Different cultures drew entirely different shapes in the same sky','Stars in a constellation are rarely close — they just appear aligned from Earth'] },
+            fr:{ cat:'Bases', title:'Que sont les constellations ?',
+                 body:'Les constellations sont des motifs imaginaires formés par des étoiles vus depuis la Terre. Les civilisations anciennes les utilisaient comme calendriers, outils de navigation et cartes narratives.',
+                 facts:['88 officiellement reconnues par l\'UAI depuis 1930','Des cultures différentes ont dessiné des formes totalement différentes','Les étoiles d\'une constellation sont rarement proches'] },
+        },
+        {
+            icon:'⭐', color:'#f5c518',
+            en:{ cat:'Stellar Science', title:'The Life Cycle of a Star',
+                 body:'Stars are born, shine for millions to billions of years, then die in spectacular ways depending on their mass. All the while, they forge the elements that make up everything around us.',
+                 facts:['Born in nebulae — vast clouds of gas and dust','Our Sun is a yellow dwarf, ~4.6 billion years old and halfway through its life','Massive stars end as supernovae; smaller ones become white dwarfs'] },
+            fr:{ cat:'Science Stellaire', title:'Le cycle de vie d\'une étoile',
+                 body:'Les étoiles naissent, brillent pendant des millions à des milliards d\'années, puis meurent de façon spectaculaire selon leur masse.',
+                 facts:['Nées dans des nébuleuses — d\'immenses nuages de gaz et de poussière','Notre Soleil est une naine jaune, âgée de ~4,6 milliards d\'années','Les étoiles massives finissent en supernovae ; les plus petites en naines blanches'] },
+        },
+        {
+            icon:'🌡️', color:'#ff6b6b',
+            en:{ cat:'Star Types', title:'Temperature & Star Colour',
+                 body:'A star\'s colour directly reveals its surface temperature. The hottest stars blaze blue-white; the coolest glow deep red. Our Sun sits comfortably in the middle as a yellow-white star.',
+                 facts:['Blue stars: >30,000 K — e.g. Rigel, Vega','Yellow stars: ~5,500 K — e.g. our Sun, Alpha Centauri A','Red stars: ~3,000 K — e.g. Betelgeuse, Proxima Centauri'] },
+            fr:{ cat:'Types d\'Étoiles', title:'Température et couleur des étoiles',
+                 body:'La couleur d\'une étoile révèle directement sa température de surface. Les plus chaudes rayonnent en bleu-blanc ; les plus froides rougeoient.',
+                 facts:['Étoiles bleues : >30 000 K — ex. Rigel, Vega','Étoiles jaunes : ~5 500 K — ex. notre Soleil','Étoiles rouges : ~3 000 K — ex. Bételgeuse, Proxima du Centaure'] },
+        },
+        {
+            icon:'📏', color:'#6ee7ff',
+            en:{ cat:'Scale', title:'Just How Big Are Stars?',
+                 body:'The scale of stars is almost impossible to grasp. If the Sun were a basketball, Earth would be a grain of sand 26 metres away — and the nearest star would be another basketball in Tokyo.',
+                 facts:['The Sun could fit 1.3 million Earths inside it','UY Scuti is ~1,700× the Sun\'s radius — if it replaced the Sun, it would extend past Jupiter','Neutron stars are only ~20 km across, yet contain more mass than the Sun'] },
+            fr:{ cat:'Échelle', title:'Quelle est la taille des étoiles ?',
+                 body:'L\'échelle des étoiles est presque impossible à saisir. Si le Soleil était un ballon de basket, la Terre serait un grain de sable à 26 mètres.',
+                 facts:['Le Soleil pourrait contenir 1,3 million de Terres','UY Scuti fait ~1 700× le rayon solaire','Les étoiles à neutrons ne font que ~20 km, mais contiennent plus de masse que le Soleil'] },
+        },
+        {
+            icon:'🧭', color:'#00c864',
+            en:{ cat:'Navigation', title:'Navigating by the Stars',
+                 body:'For millennia, stars were the only reliable tool for long-distance navigation across oceans and deserts. Even today, spacecraft use star trackers to orient themselves.',
+                 facts:['Polaris (North Star) sits nearly perfectly above Earth\'s north pole','The Southern Cross guides navigators in the Southern Hemisphere','Polynesian sailors crossed the Pacific using star rising & setting points'] },
+            fr:{ cat:'Navigation', title:'Naviguer par les étoiles',
+                 body:'Pendant des millénaires, les étoiles furent le seul outil fiable pour naviguer sur de longues distances.',
+                 facts:['Polaris se trouve presque exactement au-dessus du pôle Nord','La Croix du Sud guide les navigateurs dans l\'hémisphère Sud','Les marins polynésiens ont traversé le Pacifique grâce aux étoiles'] },
+        },
+        {
+            icon:'🌟', color:'#ff9f43',
+            en:{ cat:'Star Types', title:'The Many Faces of Stars',
+                 body:'Stars come in a dazzling variety of sizes, temperatures and colours — from tiny red dwarfs that could outlive the universe to colossal blue supergiants that burn out in millions of years.',
+                 facts:['Red dwarfs are the most common — some will last trillions of years','Blue giants burn hot and bright but live only millions of years','The largest known star, UY Scuti, is ~1,700 times the Sun\'s radius'] },
+            fr:{ cat:'Types d\'Étoiles', title:'Les multiples visages des étoiles',
+                 body:'Les étoiles existent en une variété éblouissante de tailles, températures et couleurs.',
+                 facts:['Les naines rouges sont les plus communes — certaines vivront des billions d\'années','Les géants bleus brûlent vite et ne vivent que quelques millions d\'années','La plus grande étoile connue, UY Scuti, fait ~1 700× le rayon solaire'] },
+        },
+        {
+            icon:'✨', color:'#00c8ff',
+            en:{ cat:'Deep Sky', title:'Star Clusters & Stellar Nurseries',
+                 body:'Stars are rarely born alone. Open clusters are young stellar families; globular clusters are ancient, densely packed spheres containing hundreds of thousands of stars.',
+                 facts:['The Pleiades open cluster is visible to the naked eye','Omega Centauri contains ~10 million stars','The Orion Nebula is a stellar nursery just 1,344 light-years away'] },
+            fr:{ cat:'Ciel Profond', title:'Amas d\'étoiles et pouponnières stellaires',
+                 body:'Les étoiles naissent rarement seules. Les amas ouverts sont de jeunes familles stellaires ; les amas globulaires sont d\'anciennes sphères densément peuplées.',
+                 facts:['L\'amas des Pléiades est visible à l\'œil nu','Omega du Centaure contient ~10 millions d\'étoiles','La Nébuleuse d\'Orion est à seulement 1 344 années-lumière'] },
+        },
+        {
+            icon:'🌌', color:'#c4a8ff',
+            en:{ cat:'Our Galaxy', title:'The Milky Way Up Close',
+                 body:'Our home galaxy is a barred spiral containing 200–400 billion stars, with a supermassive black hole — Sagittarius A* — at its centre.',
+                 facts:['The Milky Way is ~100,000 light-years in diameter','Our solar system is ~26,000 light-years from the galactic centre','On a dark night, you can see ~5,000 stars — all in our own galaxy'] },
+            fr:{ cat:'Notre Galaxie', title:'La Voie Lactée de près',
+                 body:'Notre galaxie est une spirale barrée contenant 200 à 400 milliards d\'étoiles, avec Sagittarius A* en son centre.',
+                 facts:['La Voie Lactée fait ~100 000 années-lumière de diamètre','Notre système solaire est à ~26 000 années-lumière du centre galactique','Par nuit noire on voit ~5 000 étoiles — toutes dans notre galaxie'] },
+        },
+        {
+            icon:'💥', color:'#ff6b6b',
+            en:{ cat:'Stellar Death', title:'Supernovae: The Universe\'s Brightest Blasts',
+                 body:'A supernova is the explosive death of a massive star — briefly outshining the entire galaxy. These cataclysmic events forge heavy elements like gold, silver and uranium.',
+                 facts:['A supernova can release more energy in seconds than the Sun in its entire life','The iron in your blood was forged inside dying stars','Type Ia supernovae are used as "standard candles" to measure cosmic distances'] },
+            fr:{ cat:'Mort Stellaire', title:'Supernovae : les explosions les plus brillantes',
+                 body:'Une supernova est la mort explosive d\'une étoile massive — brillant plus que toute la galaxie.',
+                 facts:['Une supernova peut libérer plus d\'énergie en secondes que le Soleil en toute sa vie','Le fer dans votre sang a été forgé dans des étoiles mourantes','Les supernovae Ia servent de "chandelles standard" pour mesurer les distances'] },
+        },
+        {
+            icon:'⚫', color:'#ff6eb4',
+            en:{ cat:'Extreme Physics', title:'Black Holes: Where Physics Breaks Down',
+                 body:'Black holes are regions where gravity is so extreme that not even light can escape. They form when massive stars collapse at the end of their lives — and they may be the strangest objects in the universe.',
+                 facts:['The event horizon is the point of no return — cross it and nothing can escape','Supermassive black holes at the centres of galaxies contain billions of solar masses','The first image of a black hole (M87*) was published in April 2019'] },
+            fr:{ cat:'Physique Extrême', title:'Trous noirs : là où la physique s\'effondre',
+                 body:'Les trous noirs sont des régions où la gravité est si extrême que même la lumière ne peut s\'échapper.',
+                 facts:['L\'horizon des événements est le point de non-retour','Les trous noirs supermassifs contiennent des milliards de masses solaires','La première image d\'un trou noir (M87*) a été publiée en avril 2019'] },
+        },
+        {
+            icon:'♈', color:'#ff6eb4',
+            en:{ cat:'Mythology', title:'The Zodiac Belt',
+                 body:'The 12 zodiac constellations lie along the ecliptic — the Sun\'s apparent path across the sky. They have shaped culture, mythology and astrology for thousands of years.',
+                 facts:['There is actually a 13th ecliptic constellation: Ophiuchus the Serpent-Bearer','The word "zodiac" comes from Greek, meaning "circle of animals"','Babylonians formalised the zodiac system around 500 BC'] },
+            fr:{ cat:'Mythologie', title:'La ceinture du Zodiaque',
+                 body:'Les 12 constellations zodiacales se trouvent le long de l\'écliptique — le chemin apparent du Soleil dans le ciel.',
+                 facts:['Il y a en réalité une 13e constellation écliptique : Ophiuchus','Le mot "zodiaque" vient du grec signifiant "cercle d\'animaux"','Les Babyloniens ont formalisé le zodiaque vers 500 av. J.-C.'] },
+        },
+        {
+            icon:'🌠', color:'#00c864',
+            en:{ cat:'Phenomena', title:'Meteor Showers: Cosmic Confetti',
+                 body:'Meteor showers happen when Earth passes through the debris trail left by a comet. The tiny particles — most no bigger than a grain of sand — burn up in the atmosphere creating streaks of light.',
+                 facts:['The Perseids (August) can produce 100+ meteors per hour','The Leonids in 1966 produced an estimated 150,000 meteors per hour','"Shooting stars" are not stars — they\'re specks of comet dust'] },
+            fr:{ cat:'Phénomènes', title:'Pluies de météores : confettis cosmiques',
+                 body:'Les pluies de météores se produisent quand la Terre traverse les débris laissés par une comète.',
+                 facts:['Les Perséides (août) peuvent produire 100+ météores par heure','Les Léonides de 1966 ont produit ~150 000 météores par heure','Les "étoiles filantes" ne sont pas des étoiles — ce sont des poussières de comètes'] },
+        },
+    ];
+
+    // ── Famous Stars ────────────────────────────────────────────────────────
+    const STARS_DATA = [
+        {
+            icon:'☀️', color:'#f5c518', featured:true,
+            en:{ tag:'Our Star', name:'The Sun', sub:'G-type Main Sequence Star',
+                 desc:'The closest star and the gravitational anchor of our solar system. A middle-aged yellow dwarf that has been shining for 4.6 billion years and will do so for another 5 billion.',
+                 facts:['Distance from Earth: 1 AU (~150 million km)','Surface temperature: ~5,778 K','Luminosity: 3.8 × 10²⁶ watts','Contains 99.86% of the solar system\'s mass'],
+                 footer:'Spectral type: G2V · Age: 4.6 billion years' },
+            fr:{ tag:'Notre Étoile', name:'Le Soleil', sub:'Étoile de la séquence principale de type G',
+                 desc:'L\'étoile la plus proche et l\'ancre gravitationnelle de notre système solaire. Une naine jaune d\'âge moyen brillant depuis 4,6 milliards d\'années.',
+                 facts:['Distance de la Terre : 1 UA (~150 millions de km)','Température de surface : ~5 778 K','Luminosité : 3,8 × 10²⁶ watts','Contient 99,86 % de la masse du système solaire'],
+                 footer:'Type spectral : G2V · Âge : 4,6 milliards d\'années' },
+        },
+        {
+            icon:'🔴', color:'#ff6b6b',
+            en:{ tag:'Red Supergiant', name:'Betelgeuse', sub:'α Orionis',
+                 desc:'One of the largest and most luminous stars visible to the naked eye. Betelgeuse marks the left shoulder of Orion and is so large it would engulf Jupiter\'s orbit if placed at the centre of our solar system.',
+                 facts:['Distance: ~700 light-years','Radius: ~700× the Sun','Luminosity: ~100,000× the Sun','Expected to go supernova within ~100,000 years'],
+                 footer:'Spectral type: M1-2 Ia-ab · Magnitude: 0.0–1.3 (variable)' },
+            fr:{ tag:'Supergéante Rouge', name:'Bételgeuse', sub:'α Orionis',
+                 desc:'L\'une des étoiles les plus grandes et lumineuses visibles à l\'œil nu. Bételgeuse marque l\'épaule gauche d\'Orion.',
+                 facts:['Distance : ~700 années-lumière','Rayon : ~700× le Soleil','Luminosité : ~100 000× le Soleil','Devrait exploser en supernova dans ~100 000 ans'],
+                 footer:'Type spectral : M1-2 Ia-ab · Magnitude : 0,0–1,3 (variable)' },
+        },
+        {
+            icon:'💙', color:'#6ee7ff',
+            en:{ tag:'Blue Supergiant', name:'Rigel', sub:'β Orionis',
+                 desc:'The brightest star in Orion and one of the most luminous in the known universe. Rigel\'s blue-white light burns at 12,000 K — twice the temperature of the Sun\'s surface.',
+                 facts:['Distance: ~860 light-years','Luminosity: ~120,000× the Sun','Radius: ~79× the Sun','Apparent magnitude: 0.13 (7th brightest in the night sky)'],
+                 footer:'Spectral type: B8 Ia · Constellation: Orion' },
+            fr:{ tag:'Supergéante Bleue', name:'Rigel', sub:'β Orionis',
+                 desc:'L\'étoile la plus brillante d\'Orion et l\'une des plus lumineuses de l\'univers connu. La lumière bleu-blanc de Rigel brûle à 12 000 K.',
+                 facts:['Distance : ~860 années-lumière','Luminosité : ~120 000× le Soleil','Rayon : ~79× le Soleil','Magnitude apparente : 0,13 (7e plus brillante du ciel nocturne)'],
+                 footer:'Type spectral : B8 Ia · Constellation : Orion' },
+        },
+        {
+            icon:'✨', color:'#ffffff',
+            en:{ tag:'Brightest Night Star', name:'Sirius', sub:'α Canis Majoris',
+                 desc:'The brightest star in the night sky, Sirius — the "Dog Star" — blazes in the constellation Canis Major. It\'s actually a binary system: Sirius A and the white dwarf Sirius B.',
+                 facts:['Distance: 8.6 light-years (3rd closest naked-eye star)','Luminosity: ~25× the Sun','Sirius B is one of the most massive white dwarfs known','Ancient Egyptians used Sirius to predict the Nile floods'],
+                 footer:'Spectral type: A1V · Magnitude: −1.46' },
+            fr:{ tag:'Étoile la Plus Brillante', name:'Sirius', sub:'α Canis Majoris',
+                 desc:'L\'étoile la plus brillante du ciel nocturne, Sirius — "l\'Étoile du Chien" — brille dans Canis Major. C\'est en réalité un système binaire.',
+                 facts:['Distance : 8,6 années-lumière','Luminosité : ~25× le Soleil','Sirius B est l\'une des naines blanches les plus massives connues','Les anciens Égyptiens utilisaient Sirius pour prédire les crues du Nil'],
+                 footer:'Type spectral : A1V · Magnitude : −1,46' },
+        },
+        {
+            icon:'🧲', color:'#ff9f43',
+            en:{ tag:'Variable Star', name:'Algol', sub:'β Persei — The Demon Star',
+                 desc:'Algol is an eclipsing binary: every 2.87 days, a dimmer companion passes in front of the brighter star, causing a visible drop in brightness. Ancient astronomers were terrified by its periodic "winking".',
+                 facts:['Distance: 93 light-years','Period: 2 days, 20 hours, 49 minutes','Magnitude drops from 2.1 to 3.4 during eclipse','Its name comes from Arabic "ra\'s al-ghul" (head of the demon)'],
+                 footer:'Spectral type: B8V + K2IV · Constellation: Perseus' },
+            fr:{ tag:'Étoile Variable', name:'Algol', sub:'β Persei — L\'Étoile Démon',
+                 desc:'Algol est une binaire à éclipse : tous les 2,87 jours, une étoile moins lumineuse passe devant la plus brillante, provoquant une chute visible de luminosité.',
+                 facts:['Distance : 93 années-lumière','Période : 2 jours, 20 heures, 49 minutes','Magnitude passe de 2,1 à 3,4 lors de l\'éclipse','Son nom vient de l\'arabe "ra\'s al-ghul" (tête du démon)'],
+                 footer:'Type spectral : B8V + K2IV · Constellation : Persée' },
+        },
+        {
+            icon:'🧊', color:'#c4a8ff',
+            en:{ tag:'Nearest Star', name:'Proxima Centauri', sub:'α Centauri C',
+                 desc:'The closest star to Earth after the Sun — yet it would take over 73,000 years to reach it with current spacecraft. A dim red dwarf, Proxima hosts at least two confirmed planets.',
+                 facts:['Distance: 4.24 light-years','Luminosity: only 0.17% of the Sun','Radius: ~15% of the Sun','Proxima b orbits in the habitable zone'],
+                 footer:'Spectral type: M5Ve · Part of the Alpha Centauri system' },
+            fr:{ tag:'Étoile la Plus Proche', name:'Proxima du Centaure', sub:'α Centauri C',
+                 desc:'L\'étoile la plus proche de la Terre après le Soleil. Une naine rouge discrète qui héberge au moins deux planètes confirmées.',
+                 facts:['Distance : 4,24 années-lumière','Luminosité : seulement 0,17 % du Soleil','Rayon : ~15 % du Soleil','Proxima b orbite dans la zone habitable'],
+                 footer:'Type spectral : M5Ve · Fait partie du système Alpha du Centaure' },
+        },
+        {
+            icon:'💛', color:'#f5c518',
+            en:{ tag:'North Star', name:'Polaris', sub:'α Ursae Minoris',
+                 desc:'The North Star has guided navigators for centuries. It sits almost directly above Earth\'s geographic north pole, making it appear stationary in the sky while all other stars rotate around it.',
+                 facts:['Distance: ~433 light-years','Luminosity: ~2,500× the Sun','It\'s actually a triple star system','Due to Earth\'s axial precession, Polaris will be replaced as North Star in ~14,000 years by Vega'],
+                 footer:'Spectral type: F7 Ib · Currently 0.74° from celestial north pole' },
+            fr:{ tag:'Étoile Polaire', name:'Polaris', sub:'α Ursae Minoris',
+                 desc:'L\'Étoile Polaire a guidé les navigateurs pendant des siècles. Elle se situe presque directement au-dessus du pôle Nord géographique.',
+                 facts:['Distance : ~433 années-lumière','Luminosité : ~2 500× le Soleil','C\'est en réalité un système triple','En ~14 000 ans, la précession remplacera Polaris par Véga'],
+                 footer:'Type spectral : F7 Ib · Actuellement à 0,74° du pôle céleste Nord' },
+        },
+        {
+            icon:'⚡', color:'#00c864',
+            en:{ tag:'Summer Triangle', name:'Altair', sub:'α Aquilae',
+                 desc:'One of the three stars of the Summer Triangle, Altair is one of the closest bright stars to Earth. It spins so fast that it completes a full rotation in just 9 hours — bulging visibly at its equator.',
+                 facts:['Distance: 16.7 light-years','Rotation period: ~9 hours (vs. Sun\'s 25 days)','Equatorial radius is ~20% larger than polar radius due to spin','Luminosity: ~11× the Sun'],
+                 footer:'Spectral type: A7V · 5th brightest star in the night sky' },
+            fr:{ tag:'Triangle d\'Été', name:'Altaïr', sub:'α Aquilae',
+                 desc:'L\'une des trois étoiles du Triangle d\'Été. Altaïr tourne si vite (9 heures) qu\'elle est visiblement aplatie à ses pôles.',
+                 facts:['Distance : 16,7 années-lumière','Période de rotation : ~9 heures','Rayon équatorial ~20 % plus grand que polaire','Luminosité : ~11× le Soleil'],
+                 footer:'Type spectral : A7V · 5e étoile la plus brillante du ciel nocturne' },
+        },
+        {
+            icon:'🔵', color:'#6ee7ff',
+            en:{ tag:'Brightest in Lyra', name:'Vega', sub:'α Lyrae',
+                 desc:'Vega is one of the most studied stars in the sky. It was the first star (after the Sun) to be photographed and to have its spectrum recorded. In 14,000 years, Earth\'s axis will point toward Vega, making it the new North Star.',
+                 facts:['Distance: 25 light-years','Luminosity: ~40× the Sun','Future North Star in ~14,000 years','Reference star for the photometric magnitude scale (0.0 mag)'],
+                 footer:'Spectral type: A0Va · Constellation: Lyra' },
+            fr:{ tag:'Plus Brillante de la Lyre', name:'Véga', sub:'α Lyrae',
+                 desc:'Véga est l\'une des étoiles les plus étudiées. Dans 14 000 ans, l\'axe terrestre pointera vers elle, en faisant la nouvelle Étoile Polaire.',
+                 facts:['Distance : 25 années-lumière','Luminosité : ~40× le Soleil','Future Étoile Polaire dans ~14 000 ans','Étoile de référence pour la magnitude (0,0 mag)'],
+                 footer:'Type spectral : A0Va · Constellation : Lyre' },
+        },
+        {
+            icon:'🌡️', color:'#ff6b6b',
+            en:{ tag:'Hypergiant', name:'UY Scuti', sub:'Largest Known Star',
+                 desc:'UY Scuti currently holds the record as the largest known star by radius. If placed at the centre of our solar system, its surface would extend beyond the orbit of Jupiter.',
+                 facts:['Radius: ~1,700× the Sun (2.4 billion km)','Luminosity: ~340,000× the Sun','Distance: ~9,500 light-years','Despite its size, it has less mass than you might expect (~7–10× the Sun)'],
+                 footer:'Spectral type: M4 Ia · Constellation: Scutum' },
+            fr:{ tag:'Hypergéante', name:'UY Scuti', sub:'La Plus Grande Étoile Connue',
+                 desc:'UY Scuti détient le record de la plus grande étoile connue en rayon. Si elle remplaçait le Soleil, sa surface s\'étendrait au-delà de l\'orbite de Jupiter.',
+                 facts:['Rayon : ~1 700× le Soleil (2,4 milliards de km)','Luminosité : ~340 000× le Soleil','Distance : ~9 500 années-lumière','Masse d\'environ 7 à 10× le Soleil seulement'],
+                 footer:'Type spectral : M4 Ia · Constellation : Écu de Sobieski' },
+        },
+    ];
+
+    // ── History ─────────────────────────────────────────────────────────────
+    const HISTORY_DATA = [
+        {
+            icon:'🏛️', color:'#f5c518', footer:true,
+            en:{ cat:'3000 BC', title:'Babylonians: The First Star Cataloguers',
+                 body:'The Babylonians created the earliest known star catalogues around 3000 BC, mapping the sky with remarkable accuracy using only their naked eyes. Their work directly inspired Greek and later Western astronomy.',
+                 facts:['Their MUL.APIN tablets (~1200 BC) list 66 stars and constellations','They tracked Venus, Mars and Jupiter to predict harvests and wars','They identified the zodiac and a 19-year lunar cycle still used today'],
+                 foot:'Mesopotamia — modern-day Iraq' },
+            fr:{ cat:'3000 av. J.-C.', title:'Les Babyloniens : premiers catalogueurs du ciel',
+                 body:'Les Babyloniens ont créé les premiers catalogues d\'étoiles connus vers 3000 av. J.-C., cartographiant le ciel avec une précision remarquable.',
+                 facts:['Leurs tablettes MUL.APIN répertorient 66 étoiles et constellations','Ils suivaient Vénus, Mars et Jupiter pour prédire récoltes et guerres','Ils ont identifié le zodiaque et un cycle lunaire de 19 ans'],
+                 foot:'Mésopotamie — Irak actuel' },
+        },
+        {
+            icon:'🏺', color:'#ff9f43', footer:true,
+            en:{ cat:'240 BC', title:'Eratosthenes Measures the Earth',
+                 body:'Using the angle of the Sun\'s shadow at two different locations and basic geometry, the Greek mathematician Eratosthenes calculated Earth\'s circumference with astonishing accuracy — about 2% off the modern value.',
+                 facts:['He measured the shadow angle difference between Alexandria and Syene (Aswan)','His estimate: ~40,000 km — remarkably close to the actual 40,075 km','He also estimated the tilt of Earth\'s axis and the distance to the Sun'],
+                 foot:'Library of Alexandria, Egypt' },
+            fr:{ cat:'240 av. J.-C.', title:'Ératosthène mesure la Terre',
+                 body:'Avec l\'angle d\'ombre du Soleil en deux points et la géométrie, Ératosthène calcula la circonférence de la Terre avec une précision étonnante — à ~2 % de la valeur moderne.',
+                 facts:['Il mesura la différence d\'angle d\'ombre entre Alexandrie et Syène','Son estimation : ~40 000 km — proche des 40 075 km réels','Il estima aussi l\'inclinaison de l\'axe terrestre et la distance au Soleil'],
+                 foot:'Bibliothèque d\'Alexandrie, Égypte' },
+        },
+        {
+            icon:'☀️', color:'#ff6b6b', footer:true,
+            en:{ cat:'1543', title:'Copernicus Moves the Earth',
+                 body:'Nicolaus Copernicus published his heliocentric model in 1543, shifting Earth from the centre of the universe to just another planet orbiting the Sun — a revolution in human thought.',
+                 facts:['He waited until his deathbed to publish, fearing religious backlash','His model still assumed circular orbits — Kepler later corrected this to ellipses','The shift is called the "Copernican Revolution"'],
+                 foot:'Frombork, Poland · De revolutionibus orbium coelestium' },
+            fr:{ cat:'1543', title:'Copernic déplace la Terre',
+                 body:'Nicolas Copernic publia son modèle héliocentrique en 1543, faisant passer la Terre du centre de l\'univers à une simple planète en orbite.',
+                 facts:['Il attendit son lit de mort pour publier, craignant des représailles','Son modèle supposait encore des orbites circulaires','Ce basculement est appelé la "Révolution Copernicienne"'],
+                 foot:'Frombork, Pologne' },
+        },
+        {
+            icon:'🔬', color:'#6ee7ff', footer:true,
+            en:{ cat:'1609', title:'Galileo Points a Telescope at the Sky',
+                 body:'In 1609, Galileo became one of the first to use a telescope to study the heavens, making observations that contradicted the prevailing view that everything revolved around Earth.',
+                 facts:['He saw four moons orbiting Jupiter — proof not everything revolved around Earth','The Catholic Church placed him under house arrest for supporting Copernicus','He was formally acquitted by the Vatican in 1992 — 359 years later'],
+                 foot:'Padua, Italy' },
+            fr:{ cat:'1609', title:'Galilée pointe une lunette vers le ciel',
+                 body:'En 1609, Galilée fut l\'un des premiers à utiliser une lunette pour observer les cieux, faisant des observations qui contredisaient la vision dominante.',
+                 facts:['Il vit quatre lunes en orbite autour de Jupiter','L\'Église catholique le plaça en résidence surveillée','Réhabilité par le Vatican en 1992 — 359 ans plus tard'],
+                 foot:'Padoue, Italie' },
+        },
+        {
+            icon:'👩‍🔬', color:'#ff6eb4', footer:true,
+            en:{ cat:'1786', title:'Caroline Herschel: Pioneer of the Stars',
+                 body:'Caroline Herschel became the first woman to discover a comet (1786), the first paid female scientist in England, and co-mapped the Milky Way with her brother William.',
+                 facts:['She discovered 8 comets and catalogued over 2,500 nebulae','Received the Gold Medal of the Royal Astronomical Society at age 85','The asteroid 281 Lucretia is named in her honour'],
+                 foot:'Bath & London, England' },
+            fr:{ cat:'1786', title:'Caroline Herschel : pionnière des étoiles',
+                 body:'Caroline Herschel fut la première femme à découvrir une comète, la première scientifique rémunérée en Angleterre.',
+                 facts:['Elle découvrit 8 comètes et catalogua plus de 2 500 nébuleuses','Médaille d\'Or de la Royal Astronomical Society à 85 ans','L\'astéroïde 281 Lucretia porte son nom'],
+                 foot:'Bath & Londres, Angleterre' },
+        },
+        {
+            icon:'📐', color:'#c4a8ff', footer:true,
+            en:{ cat:'1908', title:'Henrietta Leavitt Measures the Universe',
+                 body:'Working as a "computer" at Harvard Observatory, Henrietta Swan Leavitt discovered that Cepheid variable stars\' brightness is linked to their pulse period — giving astronomers a cosmic ruler to measure galactic distances.',
+                 facts:['Her discovery let Hubble calculate the distance to other galaxies','She was paid 25 cents per hour; her gender barred her from using the telescope directly','Hubble said she deserved the Nobel Prize — she died before she could receive it'],
+                 foot:'Harvard Observatory, Cambridge, Massachusetts' },
+            fr:{ cat:'1908', title:'Henrietta Leavitt mesure l\'univers',
+                 body:'Travaillant comme "calculatrice" à Harvard, Leavitt découvrit que la luminosité des Céphéides est liée à leur période — une règle cosmique révolutionnaire.',
+                 facts:['Sa découverte permit à Hubble de calculer la distance des galaxies','Payée 25 cents de l\'heure, elle ne pouvait pas utiliser le télescope directement','Hubble déclara qu\'elle méritait le Nobel — elle mourut avant'],
+                 foot:'Observatoire de Harvard, Cambridge, Massachusetts' },
+        },
+        {
+            icon:'🌀', color:'#00c864', footer:true,
+            en:{ cat:'1929', title:'Hubble Discovers the Expanding Universe',
+                 body:'Edwin Hubble found that distant galaxies are moving away from us — and the farther they are, the faster they recede. This became the observational foundation of the Big Bang theory.',
+                 facts:['He used Cepheid variable stars (Leavitt\'s ruler) to measure galaxy distances','The recession velocity is described by Hubble\'s Law: v = H₀d','The discovery implied the universe had a beginning — the Big Bang'],
+                 foot:'Mount Wilson Observatory, California' },
+            fr:{ cat:'1929', title:'Hubble découvre l\'expansion de l\'univers',
+                 body:'Edwin Hubble découvrit que les galaxies lointaines s\'éloignent de nous — et plus elles sont loin, plus vite elles fuient. Fondement observationnel du Big Bang.',
+                 facts:['Il utilisa les Céphéides (règle de Leavitt) pour mesurer les distances','La loi de Hubble : v = H₀d','La découverte impliquait que l\'univers avait un début'],
+                 foot:'Observatoire du Mont Wilson, Californie' },
+        },
+        {
+            icon:'🛸', color:'#a78bff', footer:true,
+            en:{ cat:'1957', title:'Sputnik Launches the Space Age',
+                 body:'On October 4, 1957, the Soviet Union launched Sputnik 1 — the first artificial satellite. Its simple radio beep heard around the world triggered the Space Race and transformed humanity\'s relationship with the cosmos.',
+                 facts:['It completed 1,440 orbits before re-entering the atmosphere 3 months later','The Space Race led directly to the Moon landings just 12 years later','Sputnik weighed 83.6 kg and was about the size of a beach ball'],
+                 foot:'Baikonur Cosmodrome, Soviet Union' },
+            fr:{ cat:'1957', title:'Spoutnik lance l\'ère spatiale',
+                 body:'Le 4 octobre 1957, l\'URSS lança Spoutnik 1, le premier satellite artificiel. Son simple bip radio entendu dans le monde entier déclencha la course à l\'espace.',
+                 facts:['Il effectua 1 440 orbites avant de rentrer dans l\'atmosphère 3 mois plus tard','La course à l\'espace mena directement aux alunissages 12 ans plus tard','Spoutnik pesait 83,6 kg et faisait la taille d\'un ballon de plage'],
+                 foot:'Baïkonour, Union soviétique' },
+        },
+        {
+            icon:'👣', color:'#f5c518', footer:true,
+            en:{ cat:'1969', title:'Humans Walk on the Moon',
+                 body:'On July 20, 1969, Neil Armstrong and Buzz Aldrin became the first humans to set foot on the Moon. The Apollo 11 mission fulfilled President Kennedy\'s 1961 challenge and remains one of humanity\'s greatest achievements.',
+                 facts:['Neil Armstrong\'s words: "One small step for man, one giant leap for mankind"','The mission lasted 8 days and covered 800,000 km round-trip','12 humans in total walked on the Moon between 1969 and 1972'],
+                 foot:'Sea of Tranquility, Moon — watched live by 600 million people' },
+            fr:{ cat:'1969', title:'Les humains marchent sur la Lune',
+                 body:'Le 20 juillet 1969, Neil Armstrong et Buzz Aldrin devinrent les premiers humains à fouler la Lune. Apollo 11 reste l\'une des plus grandes réalisations humaines.',
+                 facts:['Paroles d\'Armstrong : "Un petit pas pour l\'homme, un bond de géant pour l\'humanité"','La mission dura 8 jours et parcourut 800 000 km aller-retour','12 humains ont marché sur la Lune entre 1969 et 1972'],
+                 foot:'Mer de la Tranquillité, Lune — suivie en direct par 600 millions de personnes' },
+        },
+        {
+            icon:'📸', color:'#ff6eb4', footer:true,
+            en:{ cat:'2019', title:'The First Image of a Black Hole',
+                 body:'On April 10, 2019, the Event Horizon Telescope Collaboration released the first-ever image of a black hole — the supermassive M87* — 55 million light-years away. Dr. Katie Bouman wrote the algorithm that made it possible.',
+                 facts:['The image required 5 petabytes (5 million GB) of data from 8 telescopes worldwide','The data had to be physically flown on hard drives — the internet was too slow','M87* has a mass of 6.5 billion suns'],
+                 foot:'M87* galaxy — 55 million light-years · April 10, 2019' },
+            fr:{ cat:'2019', title:'La première image d\'un trou noir',
+                 body:'Le 10 avril 2019, l\'Event Horizon Telescope publia la première image d\'un trou noir — M87* — à 55 millions d\'années-lumière. La Dre Katie Bouman écrivit l\'algorithme clé.',
+                 facts:['L\'image nécessita 5 pétaoctets depuis 8 télescopes dans le monde','Les données durent être transportées sur disques durs par avion','M87* a une masse de 6,5 milliards de Soleils'],
+                 foot:'Galaxie M87* — 55 millions d\'années-lumière · 10 avril 2019' },
+        },
+    ];
+
+    // ── Constellation Guide ──────────────────────────────────────────────────
+    const CONST_DATA = [
+        {
+            icon:'🏹', color:'#a78bff', featured:true,
+            en:{ tag:'Featured · Winter', name:'Orion', sub:'The Celestial Hunter',
+                 desc:'The most recognisable constellation in the sky, visible from every corner of Earth. Home to two superstars — red Betelgeuse and blue Rigel — plus a spectacular nebula.',
+                 detail:'Best season: Winter · Brightest star: Rigel (0.13 mag) · 88 stars visible to naked eye' },
+            fr:{ tag:'À la une · Hiver', name:'Orion', sub:'Le Chasseur Céleste',
+                 desc:'La constellation la plus reconnaissable du ciel. Elle abrite Bételgeuse et Rigel, plus la Nébuleuse d\'Orion visible à l\'œil nu.',
+                 detail:'Meilleure saison : Hiver · Étoile la plus brillante : Rigel (0,13 mag)' },
+        },
+        {
+            icon:'🐻', color:'#f5c518',
+            en:{ tag:'Circumpolar', name:'Ursa Major', sub:'The Great Bear',
+                 desc:'Contains the famous Big Dipper asterism. Circumpolar from most of the Northern Hemisphere — never sets below the horizon. Two stars point directly to Polaris.',
+                 detail:'Season: Year-round · Contains: Big Dipper · 7 bright stars' },
+            fr:{ tag:'Circumpolaire', name:'Grande Ourse', sub:'La Grande Ourse',
+                 desc:'Contient la Grande Casserole. Circumpolaire depuis l\'hémisphère Nord. Deux étoiles pointent directement vers Polaris.',
+                 detail:'Saison : Toute l\'année · Contient : Grande Casserole' },
+        },
+        {
+            icon:'👑', color:'#6ee7ff',
+            en:{ tag:'Circumpolar · Autumn', name:'Cassiopeia', sub:'The Chained Queen',
+                 desc:'Shaped like a bold "W" or "M" in the sky. Lies in the heart of the Milky Way, making it rich in star clusters and nebulae.',
+                 detail:'Season: Year-round · Shape: W / M pattern · Located in the Milky Way' },
+            fr:{ tag:'Circumpolaire · Automne', name:'Cassiopée', sub:'La Reine Enchaînée',
+                 desc:'En forme de "W" ou "M". Au cœur de la Voie Lactée, riche en amas et nébuleuses.',
+                 detail:'Saison : Toute l\'année · Forme : W / M' },
+        },
+        {
+            icon:'🦁', color:'#ff9f43',
+            en:{ tag:'Zodiac · Spring', name:'Leo', sub:'The Lion',
+                 desc:'One of the few constellations that actually looks like its namesake. Anchored by Regulus, almost exactly on the ecliptic — the Sun\'s path.',
+                 detail:'Season: Spring · Brightest star: Regulus (1.35 mag) · Best seen: April' },
+            fr:{ tag:'Zodiaque · Printemps', name:'Lion', sub:'Le Lion',
+                 desc:'L\'une des rares constellations ressemblant vraiment à ce qu\'elle représente. Ancrée par Régulus, presque exactement sur l\'écliptique.',
+                 detail:'Saison : Printemps · Étoile la plus brillante : Régulus (1,35 mag)' },
+        },
+        {
+            icon:'🦂', color:'#ff6b6b',
+            en:{ tag:'Zodiac · Summer', name:'Scorpius', sub:'The Scorpion',
+                 desc:'One of the most beautiful constellations, with a long curving tail and the brilliant red giant Antares at its heart — a star so large it would swallow Mercury\'s orbit.',
+                 detail:'Season: Summer · Brightest star: Antares (0.96 mag) · Best seen: July' },
+            fr:{ tag:'Zodiaque · Été', name:'Scorpion', sub:'Le Scorpion',
+                 desc:'L\'une des plus belles constellations. Antarès en son cœur — une étoile si grande qu\'elle engloutirait l\'orbite de Mercure.',
+                 detail:'Saison : Été · Étoile la plus brillante : Antarès (0,96 mag)' },
+        },
+        {
+            icon:'♊', color:'#c4a8ff',
+            en:{ tag:'Zodiac · Winter', name:'Gemini', sub:'The Twins',
+                 desc:'Named after the twin brothers Castor and Pollux. Site of the spectacular Geminid meteor shower every December — one of the year\'s best.',
+                 detail:'Season: Winter · Meteor shower: Geminids (Dec) · Brightest: Pollux (1.14)' },
+            fr:{ tag:'Zodiaque · Hiver', name:'Gémeaux', sub:'Les Jumeaux',
+                 desc:'Nommée d\'après les jumeaux Castor et Pollux. Lieu des Géminides, l\'une des meilleures pluies de météores de l\'année.',
+                 detail:'Saison : Hiver · Géminides (déc.) · Plus brillante : Pollux (1,14)' },
+        },
+        {
+            icon:'🐂', color:'#ff6eb4',
+            en:{ tag:'Zodiac · Winter', name:'Taurus', sub:'The Bull',
+                 desc:'Home to the Pleiades (Seven Sisters) and Hyades clusters, and the Crab Nebula — remnant of the 1054 supernova seen in daylight by Chinese astronomers.',
+                 detail:'Season: Winter · Contains: Pleiades + Hyades · Crab Nebula (M1)' },
+            fr:{ tag:'Zodiaque · Hiver', name:'Taureau', sub:'Le Taureau',
+                 desc:'Abrite les Pléiades, les Hyades, et la Nébuleuse du Crabe — vestige de la supernova de 1054.',
+                 detail:'Saison : Hiver · Contient : Pléiades + Hyades · Nébuleuse du Crabe (M1)' },
+        },
+        {
+            icon:'🦢', color:'#00c8ff',
+            en:{ tag:'Summer · Milky Way', name:'Cygnus', sub:'The Northern Cross',
+                 desc:'Cygnus flies along the Milky Way. Its tail star Deneb is one of the most luminous stars visible to the naked eye — ~200,000 times brighter than the Sun.',
+                 detail:'Season: Summer · Brightest star: Deneb (~200,000× Sun) · Northern Cross' },
+            fr:{ tag:'Été · Voie Lactée', name:'Cygne', sub:'La Croix du Nord',
+                 desc:'Le Cygne plane le long de la Voie Lactée. Deneb est ~200 000 fois plus lumineuse que le Soleil.',
+                 detail:'Saison : Été · Deneb (~200 000× le Soleil) · Croix du Nord' },
+        },
+        {
+            icon:'⚔️', color:'#00c864',
+            en:{ tag:'Autumn · Myth', name:'Perseus', sub:'The Hero',
+                 desc:'The hero who slew Medusa. Contains Algol — the "Demon Star" — an eclipsing binary that dims every 2.87 days. Also site of the annual Perseid meteor shower.',
+                 detail:'Season: Autumn · Famous star: Algol · Perseids meteor shower (Aug)' },
+            fr:{ tag:'Automne · Mythe', name:'Persée', sub:'Le Héros',
+                 desc:'Le héros qui tua Méduse. Contient Algol — "l\'Étoile Démon" — une binaire à éclipse. Aussi siège des Perséides.',
+                 detail:'Saison : Automne · Algol · Perséides (août)' },
+        },
+        {
+            icon:'🌾', color:'#f5c518',
+            en:{ tag:'Zodiac · Spring', name:'Virgo', sub:'The Maiden',
+                 desc:'The largest zodiac constellation and second-largest in the sky. Home to Spica and to the Virgo Cluster — a galaxy cluster with over 1,300 galaxies.',
+                 detail:'Season: Spring · Contains: Virgo Galaxy Cluster (1,300+ galaxies)' },
+            fr:{ tag:'Zodiaque · Printemps', name:'Vierge', sub:'La Vierge',
+                 desc:'La plus grande constellation du zodiaque. Abrite Spica et l\'amas de la Vierge — plus de 1 300 galaxies.',
+                 detail:'Saison : Printemps · Amas de la Vierge (1 300+ galaxies)' },
+        },
+        {
+            icon:'🌌', color:'#6ee7ff',
+            en:{ tag:'Autumn · Galaxy', name:'Andromeda', sub:'The Chained Princess',
+                 desc:'Contains the Andromeda Galaxy (M31) — our nearest large galactic neighbour at 2.5 million light-years. The most distant object visible to the naked eye.',
+                 detail:'Season: Autumn · Contains: Andromeda Galaxy (M31) · 2.5M light-years' },
+            fr:{ tag:'Automne · Galaxie', name:'Andromède', sub:'La Princesse Enchaînée',
+                 desc:'Contient la galaxie d\'Andromède (M31) — à 2,5 millions d\'années-lumière. L\'objet le plus lointain visible à l\'œil nu.',
+                 detail:'Saison : Automne · Galaxie d\'Andromède (M31)' },
+        },
+        {
+            icon:'🦅', color:'#ff9f43',
+            en:{ tag:'Summer · Milky Way', name:'Aquila', sub:'The Eagle',
+                 desc:'The eagle of Zeus soars through the Milky Way. Altair — one of the three Summer Triangle stars — is one of the closest bright stars to Earth at only 16.7 light-years.',
+                 detail:'Season: Summer · Altair: 16.7 light-years · Summer Triangle' },
+            fr:{ tag:'Été · Voie Lactée', name:'Aigle', sub:'L\'Aigle',
+                 desc:'L\'aigle de Zeus plane dans la Voie Lactée. Altaïr, membre du Triangle d\'Été, est à seulement 16,7 années-lumière.',
+                 detail:'Saison : Été · Altaïr : 16,7 années-lumière · Triangle d\'Été' },
+        },
+    ];
+
+    // ── Anecdotes ────────────────────────────────────────────────────────────
+    const ANECDOTES_DATA = [
+        {
+            icon:'🔴', color:'#ff6b6b',
+            en:{ cat:'Discovery · 1054 AD', title:'A Star So Bright it Was Visible in Daylight',
+                 body:'On July 4, 1054, Chinese astronomers recorded a "guest star" so brilliant it could be seen in broad daylight for 23 days. The remnant — the Crab Nebula — is still expanding at 1,500 km/s today.',
+                 footer:'Crab Nebula — Taurus constellation' },
+            fr:{ cat:'Découverte · 1054 ap. J.-C.', title:'Une étoile si brillante, visible en plein jour',
+                 body:'Le 4 juillet 1054, des astronomes chinois consignèrent une "étoile invitée" visible en plein jour pendant 23 jours. Le reste — la Nébuleuse du Crabe — s\'étend encore à 1 500 km/s.',
+                 footer:'Nébuleuse du Crabe — constellation du Taureau' },
+        },
+        {
+            icon:'👃', color:'#f5c518',
+            en:{ cat:'Anecdote · 1566', title:'Tycho Brahe\'s Silver Nose',
+                 body:'The greatest naked-eye astronomer in history lost his nose in a duel at age 20 over a mathematical dispute. He wore a prosthetic metal nose for the rest of his life — and still compiled the most accurate star catalogue of the pre-telescope era.',
+                 footer:'Copenhagen, Denmark — data used by Kepler for his laws' },
+            fr:{ cat:'Anecdote · 1566', title:'Le nez en métal de Tycho Brahe',
+                 body:'Le plus grand astronome à l\'œil nu de l\'histoire perdit son nez lors d\'un duel à 20 ans pour une dispute mathématique. Il porta une prothèse toute sa vie — et compila le catalogue le plus précis de son époque.',
+                 footer:'Copenhague, Danemark — données utilisées par Kepler' },
+        },
+        {
+            icon:'📡', color:'#00c8ff',
+            en:{ cat:'Anecdote · 1967', title:'Pulsars Were Almost Named "Little Green Men"',
+                 body:'When Jocelyn Bell Burnell first detected the eerily regular pulses of a pulsar, she jokingly labelled the signal "LGM-1" — Little Green Men. The discovery earned a Nobel Prize… awarded to her supervisor, not her.',
+                 footer:'Jocelyn Bell Burnell — Cambridge, UK' },
+            fr:{ cat:'Anecdote · 1967', title:'Les pulsars ont failli s\'appeler "Petits Hommes Verts"',
+                 body:'Quand Jocelyn Bell Burnell détecta les impulsions régulières d\'un pulsar, elle baptisa le signal "LGM-1" — Little Green Men. Le Nobel revint à son directeur, pas à elle.',
+                 footer:'Jocelyn Bell Burnell — Cambridge, Royaume-Uni' },
+        },
+        {
+            icon:'😬', color:'#ff6b6b',
+            en:{ cat:'Anecdote · 1990', title:'Hubble Space Telescope\'s Blurry Eye',
+                 body:'When Hubble launched in 1990, its primary mirror was ground to the wrong shape — off by just 2.2 micrometres. The images were blurry. NASA sent astronauts to fit corrective "glasses" in 1993 — turning disaster into triumph.',
+                 footer:'The rescue mission was called COSTAR' },
+            fr:{ cat:'Anecdote · 1990', title:'L\'œil flou du télescope Hubble',
+                 body:'En 1990, le miroir de Hubble avait été poli avec une erreur de 2,2 micromètres seulement. Les images étaient floues. La NASA envoya des astronautes poser des "lunettes" en 1993.',
+                 footer:'La mission de sauvetage s\'appelait COSTAR' },
+        },
+        {
+            icon:'📏', color:'#6ee7ff',
+            en:{ cat:'Anecdote · 1999', title:'A $327 Million Spacecraft Lost Over Units',
+                 body:'NASA\'s Mars Climate Orbiter burned up in the Martian atmosphere because one team used metric units and another used imperial. The mismatch went undetected for nine months — costing $327 million and years of work.',
+                 footer:'Classic engineering lesson: always check your units' },
+            fr:{ cat:'Anecdote · 1999', title:'Une sonde à 327 M$ perdue à cause d\'unités',
+                 body:'La sonde Mars Climate Orbiter a brûlé dans l\'atmosphère martienne parce qu\'une équipe utilisait le métrique et l\'autre l\'impérial. L\'erreur passa inaperçue pendant neuf mois.',
+                 footer:'Leçon classique : toujours vérifier ses unités' },
+        },
+        {
+            icon:'🪐', color:'#c4a8ff',
+            en:{ cat:'Anecdote · 2006', title:'The Day Pluto Was Demoted',
+                 body:'On August 24, 2006, the IAU voted to reclassify Pluto as a "dwarf planet" after 76 years as the 9th planet. The vote was controversial — only 424 of ~10,000 members voted. Many scientists still dispute the decision.',
+                 footer:'Discovered in 1930 by 24-year-old Clyde Tombaugh' },
+            fr:{ cat:'Anecdote · 2006', title:'Le jour où Pluton fut rétrogradée',
+                 body:'Le 24 août 2006, l\'UAI vota pour classer Pluton en "planète naine" après 76 ans. Seulement 424 des ~10 000 membres votèrent. De nombreux scientifiques contestent encore la décision.',
+                 footer:'Découverte en 1930 par Clyde Tombaugh, 24 ans' },
+        },
+        {
+            icon:'📷', color:'#00c864',
+            en:{ cat:'Anecdote · 1990', title:'The Pale Blue Dot',
+                 body:'On February 14, 1990, Voyager 1 turned its camera back toward Earth from 6 billion km away. Earth appeared as a tiny pale blue dot — 0.12 pixels across. Carl Sagan\'s speech about it became one of the most celebrated passages in science.',
+                 footer:'"Every human being who ever lived, lived out their lives on that mote of dust" — Sagan' },
+            fr:{ cat:'Anecdote · 1990', title:'Le Point Bleu Pâle',
+                 body:'Le 14 février 1990, Voyager 1 pointa sa caméra vers la Terre depuis 6 milliards de km. La Terre apparaissait comme un point bleu pâle de 0,12 pixel. Le discours de Sagan devint légendaire.',
+                 footer:'"Chaque être humain ayant vécu, a vécu sur ce grain de poussière" — Sagan' },
+        },
+        {
+            icon:'💫', color:'#f5c518',
+            en:{ cat:'Weird Fact', title:'A Neutron Star Teaspoon Weighs 10 Million Tonnes',
+                 body:'Neutron stars pack more mass than the Sun into a sphere barely 20 km across. A single teaspoon of neutron star material would weigh roughly 10 million tonnes on Earth — about the mass of all humans alive today.',
+                 footer:'Fastest spin: 716 rotations per second (PSR J1748-2446ad)' },
+            fr:{ cat:'Fait Étrange', title:'Une cuillère d\'étoile à neutrons pèse 10 millions de tonnes',
+                 body:'Les étoiles à neutrons emballent plus de masse que le Soleil dans une sphère de 20 km. Une cuillère à café pèserait ~10 millions de tonnes sur Terre.',
+                 footer:'Rotation la plus rapide : 716 tours/seconde (PSR J1748-2446ad)' },
+        },
+        {
+            icon:'🌍', color:'#00c864',
+            en:{ cat:'Future · In 4.5 Billion Years', title:'The Milky Way Will Collide With Andromeda',
+                 body:'Our galaxy and Andromeda are hurtling toward each other at 110 km/s. In about 4.5 billion years they will merge into a giant elliptical galaxy nicknamed "Milkomeda". Stars are so sparse actual stellar collisions are very unlikely.',
+                 footer:'Andromeda is visible to the naked eye on dark nights' },
+            fr:{ cat:'Futur · Dans 4,5 milliards d\'années', title:'La Voie Lactée va entrer en collision avec Andromède',
+                 body:'Notre galaxie et Andromède foncent l\'une vers l\'autre à 110 km/s. Dans ~4,5 milliards d\'années elles fusionneront en "Milkomeda". Les étoiles sont si éparses que de vraies collisions restent improbables.',
+                 footer:'Andromède est visible à l\'œil nu par nuit sombre' },
+        },
+        {
+            icon:'🎯', color:'#ff9f43',
+            en:{ cat:'Anecdote · 1977', title:'The "Wow!" Signal Has Never Been Explained',
+                 body:'On August 15, 1977, astronomer Jerry Ehman detected a radio signal so remarkable he circled it and wrote "Wow!" in the margin. Lasting 72 seconds and matching the expected profile of an extraterrestrial transmission, it has never been detected again.',
+                 footer:'Big Ear Telescope — Ohio, USA' },
+            fr:{ cat:'Anecdote · 1977', title:'Le signal "Wow!" n\'a jamais été expliqué',
+                 body:'Le 15 août 1977, Jerry Ehman repéra un signal si remarquable qu\'il écrivit "Wow!" en marge. Durant 72 secondes, correspondant au profil d\'une transmission extraterrestre, il n\'a jamais été redetecté.',
+                 footer:'Télescope Big Ear — Ohio, États-Unis' },
+        },
+        {
+            icon:'🌀', color:'#a78bff',
+            en:{ cat:'Weird Fact', title:'Saturn\'s Rings Are Razor-Thin',
+                 body:'Saturn\'s rings span 282,000 km — wide enough to fit the Earth–Moon distance 75 times. Yet their average thickness is only about 10 metres. Scaled to a football field, the rings would be thinner than a sheet of paper.',
+                 footer:'Discovered by Galileo Galilei in 1610' },
+            fr:{ cat:'Fait Étrange', title:'Les anneaux de Saturne sont ultra-fins',
+                 body:'Les anneaux de Saturne s\'étendent sur 282 000 km mais n\'ont qu\'~10 mètres d\'épaisseur moyenne. À l\'échelle d\'un terrain de foot, ils seraient plus fins qu\'une feuille de papier.',
+                 footer:'Découverts par Galilée en 1610' },
+        },
+    ];
+
+    // ── Render functions ─────────────────────────────────────────────────────
+    function knowCard(d, kc, icon, hasFacts, hasFooter) {
+        const facts = hasFacts ? `<div class="kc-facts">${d.facts.map(f=>`<div class="kc-fact">${f}</div>`).join('')}</div>` : '';
+        const foot  = hasFooter ? `<div class="kc-footer"><div class="kc-dot"></div>${d.foot || d.footer || ''}</div>` : '';
+        return `
+        <div class="know-card" style="--kc:${kc}">
+            <div class="kc-top">
+                <div class="kc-icon">${icon}</div>
+                <div class="kc-meta">
+                    <div class="kc-cat">${d.cat}</div>
+                    <div class="kc-title">${d.title}</div>
+                </div>
+            </div>
+            <div class="kc-body">${d.body}</div>
+            ${facts}${foot}
+        </div>`;
+    }
+
+    function renderGeneral(lang) {
+        const grid = document.getElementById('generalGrid');
+        if (!grid) return;
+        grid.innerHTML = GENERAL_DATA.map(item => {
+            const d = item[lang] || item['en'];
+            return knowCard(d, item.color, item.icon, true, false);
+        }).join('');
+    }
+
+    function renderHistory(lang) {
+        const grid = document.getElementById('historyGrid');
+        if (!grid) return;
+        grid.innerHTML = HISTORY_DATA.map(item => {
+            const d = item[lang] || item['en'];
+            return knowCard(d, item.color, item.icon, true, true);
+        }).join('');
+    }
+
+    function renderAnecdotes(lang) {
+        const grid = document.getElementById('anecdotesGrid');
+        if (!grid) return;
+        grid.innerHTML = ANECDOTES_DATA.map(item => {
+            const d = item[lang] || item['en'];
+            return `
+            <div class="know-card" style="--kc:${item.color}">
+                <div class="kc-top">
+                    <div class="kc-icon">${item.icon}</div>
+                    <div class="kc-meta">
+                        <div class="kc-cat">${d.cat}</div>
+                        <div class="kc-title">${d.title}</div>
+                    </div>
+                </div>
+                <div class="kc-body">${d.body}</div>
+                <div class="kc-footer"><div class="kc-dot"></div>${d.footer}</div>
+            </div>`;
+        }).join('');
+    }
+
+    function renderStars(lang, query) {
+        const grid = document.getElementById('starsGrid');
+        const noRes = document.getElementById('starsNoResults');
+        const countEl = document.getElementById('starsCount');
+        if (!grid) return;
+        const q = (query || '').toLowerCase().trim();
+        const filtered = STARS_DATA.filter(s => {
+            if (!q) return true;
+            const d = s[lang] || s['en'];
+            return (d.name+d.tag+d.desc+d.sub+(d.facts||[]).join(' ')).toLowerCase().includes(q);
+        });
+        countEl.textContent = q ? `${filtered.length} result${filtered.length!==1?'s':''}` : '';
+        noRes.style.display = filtered.length === 0 ? 'block' : 'none';
+        grid.innerHTML = filtered.map(s => {
+            const d = s[lang] || s['en'];
+            const facts = `<div class="sc-facts">${(d.facts||[]).map(f=>`<div class="sc-fact">${f}</div>`).join('')}</div>`;
+            const foot  = d.footer ? `<div class="sc-footer">${d.footer}</div>` : '';
+            if (s.featured) return `
+            <div class="star-card featured" style="--sc2:${s.color}">
+                <div class="sc-icon">${s.icon}</div>
+                <div class="featured-body">
+                    <div class="sc-top"><div class="sc-meta"><div class="sc-tag">${d.tag}</div><div class="sc-title">${d.name} <span style="font-weight:400;opacity:0.5;font-size:0.9rem">· ${d.sub}</span></div></div></div>
+                    <div class="sc-desc">${d.desc}</div>
+                    ${facts}${foot}
+                </div>
+            </div>`;
+            return `
+            <div class="star-card" style="--sc2:${s.color}">
+                <div class="sc-top"><div class="sc-icon">${s.icon}</div>
+                    <div class="sc-meta"><div class="sc-tag">${d.tag}</div><div class="sc-title">${d.name}</div></div>
+                </div>
+                <div class="sc-desc">${d.desc}</div>
+                ${facts}${foot}
+            </div>`;
+        }).join('');
+    }
+
+    function renderGuide(lang) {
+        const grid = document.getElementById('guideGrid');
+        if (!grid) return;
+        grid.innerHTML = CONST_DATA.map(c => {
+            const d = c[lang] || c['en'];
+            if (c.featured) return `
+            <div class="const-card featured" style="--cc2:${c.color}">
+                <div class="const-feat-icon">${c.icon}</div>
+                <div class="const-feat-body">
+                    <div class="cc-tag">${d.tag}</div>
+                    <div class="cc-title">${d.name} <span style="font-weight:400;opacity:0.45;font-size:0.88rem">· ${d.sub}</span></div>
+                    <div class="cc-desc">${d.desc}</div>
+                    <div class="cc-detail">${d.detail}</div>
+                </div>
+            </div>`;
+            return `
+            <div class="const-card" style="--cc2:${c.color}">
+                <div class="cc-top">
+                    <div class="cc-icon">${c.icon}</div>
+                    <div class="cc-meta">
+                        <div class="cc-tag">${d.tag}</div>
+                        <div class="cc-title">${d.name}</div>
+                        <div class="cc-sub">${d.sub}</div>
+                    </div>
+                </div>
+                <div class="cc-desc">${d.desc}</div>
+                <div class="cc-detail">${d.detail}</div>
+            </div>`;
+        }).join('');
+    }
+
+    function filterStars(q) {
+        const lang = localStorage.getItem('sg_lang') || 'en';
+        renderStars(lang, q);
+    }
+
+    // ── Boot ─────────────────────────────────────────────────────────────────
+    (function boot() {
+        const lang = localStorage.getItem('sg_lang') || 'en';
+        initLang();
+        renderGeneral(lang);
+        renderHistory(lang);
+        renderAnecdotes(lang);
+        renderStars(lang, '');
+        renderGuide(lang);
+    })();
+
+    // Re-render on lang switch
+    window.addEventListener('load', () => {
+        const _sl = window.setLang;
+        window.setLang = function(lang) {
+            _sl(lang);
+            renderGeneral(lang);
+            renderHistory(lang);
+            renderAnecdotes(lang);
+            renderStars(lang, document.getElementById('starsSearch')?.value || '');
+            renderGuide(lang);
+        };
+    });
+    </script>
+    <script src="/static/spacebg.js"></script>
+</body>
+</html>

@@ -55,6 +55,10 @@ GAMES = [
 def index():
     return render_template('index.html', games=GAMES)
 
+@app.route('/wiki')
+def wiki():
+    return render_template('wiki.html')
+
 @app.route('/game/<game_id>')
 def game(game_id):
     g = next((g for g in GAMES if g['id'] == game_id), None)
