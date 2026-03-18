@@ -34,7 +34,7 @@
             background: linear-gradient(90deg,#c4a8ff,#6ee7ff,#f5c518);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-links { display:flex; gap:28px; align-items:center; }
-        .nav-links a { color:rgba(255,255,255,0.38); text-decoration:none; font-size:0.88rem; letter-spacing:0.04em; transition:color 0.2s; }
+        .nav-links a { color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.88rem; letter-spacing:0.04em; transition:color 0.2s; }
         .nav-links a:hover { color:rgba(255,255,255,0.85); }
         .lang-select { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.82rem; cursor:pointer; outline:none; }
         .lang-select:hover { border-color:rgba(255,255,255,0.28); color:#fff; }
@@ -62,7 +62,7 @@
             background: linear-gradient(135deg,#f5c518 0%,#c4a8ff 50%,#6ee7ff 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .wiki-hero p { color:rgba(255,255,255,0.38); font-size:1rem; max-width:480px; margin:0 auto 36px; line-height:1.7; }
+        .wiki-hero p { color:rgba(255,255,255,0.72); font-size:1rem; max-width:480px; margin:0 auto 36px; line-height:1.7; }
 
         /* Tab navigation */
         .tab-nav {
@@ -74,7 +74,7 @@
         .tab-btn {
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);
             border-radius: 50px; padding: 10px 26px;
-            color: rgba(255,255,255,0.45); font-size: 0.88rem; font-weight: 500;
+            color: rgba(255,255,255,0.75); font-size: 0.88rem; font-weight: 500;
             cursor: pointer; letter-spacing: 0.04em; font-family: inherit;
             transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
         }
@@ -95,7 +95,7 @@
         .sec-header { margin-bottom:36px; }
         .sec-tag  { font-size:0.65rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--sc,#a78bff); margin-bottom:10px; }
         .sec-title { font-size:clamp(1.5rem,3vw,2.2rem); font-weight:900; letter-spacing:-0.02em; line-height:1.15; margin-bottom:12px; }
-        .sec-sub  { font-size:0.92rem; color:rgba(255,255,255,0.35); max-width:540px; line-height:1.65; }
+        .sec-sub  { font-size:0.92rem; color:rgba(255,255,255,0.70); max-width:540px; line-height:1.65; }
 
         /* Knowledge cards (masonry) */
         .know-grid { columns:3; column-gap:18px; }
@@ -118,11 +118,11 @@
         .kc-meta { flex:1; }
         .kc-cat  { font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--kc); opacity:0.85; margin-bottom:5px; }
         .kc-title { font-size:1rem; font-weight:700; color:#fff; line-height:1.3; }
-        .kc-body  { font-size:0.86rem; color:rgba(255,255,255,0.48); line-height:1.65; }
+        .kc-body  { font-size:0.86rem; color:rgba(255,255,255,0.80); line-height:1.65; }
         .kc-facts { display:flex; flex-direction:column; gap:5px; margin-top:12px; }
-        .kc-fact  { font-size:0.79rem; color:rgba(255,255,255,0.28); padding-left:14px; position:relative; line-height:1.5; }
+        .kc-fact  { font-size:0.79rem; color:rgba(255,255,255,0.68); padding-left:14px; position:relative; line-height:1.5; }
         .kc-fact::before { content:'·'; position:absolute; left:0; color:var(--kc); opacity:0.75; font-weight:700; }
-        .kc-footer { margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; gap:8px; font-size:0.72rem; color:rgba(255,255,255,0.25); letter-spacing:0.04em; }
+        .kc-footer { margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; gap:8px; font-size:0.72rem; color:rgba(255,255,255,0.60); letter-spacing:0.04em; }
         .kc-dot { width:4px; height:4px; border-radius:50%; background:var(--kc); opacity:0.6; flex-shrink:0; }
 
         /* Featured wide card */
@@ -151,11 +151,11 @@
         .sc-meta { flex:1; }
         .sc-tag  { font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--sc2);opacity:0.8;margin-bottom:4px; }
         .sc-title { font-size:1.05rem;font-weight:700;color:#fff; }
-        .sc-desc  { font-size:0.84rem;color:rgba(255,255,255,0.38);line-height:1.6; }
+        .sc-desc  { font-size:0.84rem;color:rgba(255,255,255,0.78);line-height:1.6; }
         .sc-facts { display:flex;flex-direction:column;gap:5px; }
-        .sc-fact  { font-size:0.78rem;color:rgba(255,255,255,0.26);padding-left:14px;position:relative;line-height:1.5; }
+        .sc-fact  { font-size:0.78rem;color:rgba(255,255,255,0.65);padding-left:14px;position:relative;line-height:1.5; }
         .sc-fact::before { content:'·';position:absolute;left:0;color:var(--sc2);opacity:0.7;font-weight:700; }
-        .sc-footer { font-size:0.72rem;color:rgba(255,255,255,0.22);letter-spacing:0.04em;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06); }
+        .sc-footer { font-size:0.72rem;color:rgba(255,255,255,0.60);letter-spacing:0.04em;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06); }
 
         .star-card.featured { grid-column:span 2; flex-direction:row; align-items:center; gap:28px; padding:28px 32px; }
         @media(max-width:700px){ .star-card.featured{grid-column:span 1;flex-direction:column;} }
@@ -179,9 +179,13 @@
         .cc-meta { flex:1; }
         .cc-tag  { font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--cc2);opacity:0.8;margin-bottom:3px; }
         .cc-title { font-size:1rem;font-weight:700;color:#fff; }
-        .cc-sub  { font-size:0.76rem;color:rgba(255,255,255,0.3);margin-top:1px; }
-        .cc-desc  { font-size:0.83rem;color:rgba(255,255,255,0.38);line-height:1.6; }
-        .cc-detail { font-size:0.72rem;color:rgba(255,255,255,0.22);padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);letter-spacing:0.03em; }
+        .cc-sub  { font-size:0.76rem;color:rgba(255,255,255,0.65);margin-top:1px; }
+        .cc-desc  { font-size:0.83rem;color:rgba(255,255,255,0.78);line-height:1.6; }
+        .cc-detail { font-size:0.72rem;color:rgba(255,255,255,0.60);padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);letter-spacing:0.03em; }
+
+        /* Constellation SVG star map */
+        .cc-img { width:100%; border-radius:10px; overflow:hidden; margin:8px 0 4px; }
+        .cc-img svg { width:100%; height:auto; display:block; border-radius:10px; }
 
         .const-card.featured { grid-column:span 2; flex-direction:row; align-items:center; gap:24px; padding:26px 30px; }
         @media(max-width:700px){ .const-card.featured{grid-column:span 1;flex-direction:column;} }
@@ -198,16 +202,16 @@
             color:#fff; font-size:0.9rem; outline:none; font-family:inherit;
             transition:border-color 0.2s, background 0.2s;
         }
-        .search-input::placeholder { color:rgba(255,255,255,0.22); }
+        .search-input::placeholder { color:rgba(255,255,255,0.48); }
         .search-input:focus { border-color:rgba(167,139,255,0.4); background:rgba(255,255,255,0.07); }
         .search-icon { position:absolute; left:16px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.25); font-size:1rem; pointer-events:none; }
-        .search-count { position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:0.75rem; color:rgba(255,255,255,0.2); }
+        .search-count { position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:0.75rem; color:rgba(255,255,255,0.50); }
 
         /* "No results" */
-        .no-results { text-align:center; padding:60px 20px; color:rgba(255,255,255,0.22); font-size:0.95rem; display:none; }
+        .no-results { text-align:center; padding:60px 20px; color:rgba(255,255,255,0.58); font-size:0.95rem; display:none; }
 
         /* Footer */
-        footer { position:relative;z-index:10;text-align:center;padding:28px;border-top:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.16);font-size:0.78rem;letter-spacing:0.05em; }
+        footer { position:relative;z-index:10;text-align:center;padding:28px;border-top:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.45);font-size:0.78rem;letter-spacing:0.05em; }
     </style>
 </head>
 <body>
@@ -805,6 +809,690 @@
                  desc:'L\'aigle de Zeus plane dans la Voie Lactée. Altaïr, membre du Triangle d\'Été, est à seulement 16,7 années-lumière.',
                  detail:'Saison : Été · Altaïr : 16,7 années-lumière · Triangle d\'Été' },
         },
+        {
+            icon:'🎵', color:'#6ee7ff',
+            en:{ tag:'Summer · Small', name:'Lyra', sub:'The Harp',
+                 desc:'Though tiny, Lyra boasts Vega — the fifth-brightest star in the sky and one vertex of the Summer Triangle. Vega was Earth\'s pole star 12,000 years ago and will be again in 13,000 years.',
+                 detail:'Season: Summer · Brightest star: Vega (0.03 mag) · Summer Triangle' },
+            fr:{ tag:'Été · Petite', name:'Lyre', sub:'La Harpe',
+                 desc:'Bien que petite, la Lyre possède Véga — 5e étoile la plus brillante et sommet du Triangle d\'Été. Véga était l\'étoile polaire il y a 12 000 ans.',
+                 detail:'Saison : Été · Véga (0,03 mag) · Triangle d\'Été' },
+        },
+        {
+            icon:'🌿', color:'#00c864',
+            en:{ tag:'Spring · North', name:'Boötes', sub:'The Herdsman',
+                 desc:'A kite-shaped constellation anchored by Arcturus — the brightest star in the northern hemisphere and fourth-brightest overall at magnitude −0.05. An orange giant 25 times larger than the Sun.',
+                 detail:'Season: Spring · Brightest star: Arcturus (−0.05 mag) · Kite shape' },
+            fr:{ tag:'Printemps · Nord', name:'Bouvier', sub:'Le Bouvier',
+                 desc:'Une constellation en cerf-volant ancrée par Arcturus — la plus brillante de l\'hémisphère nord. Un géant orange 25 fois plus grand que le Soleil.',
+                 detail:'Saison : Printemps · Arcturus (−0,05 mag) · Forme de cerf-volant' },
+        },
+        {
+            icon:'🦀', color:'#ff9f43',
+            en:{ tag:'Zodiac · Spring', name:'Cancer', sub:'The Crab',
+                 desc:'The faintest of the 12 zodiac constellations, but contains the Beehive Cluster (M44) — one of the nearest open clusters to Earth, visible to the naked eye as a fuzzy patch on clear nights.',
+                 detail:'Season: Spring · Contains: Beehive Cluster (M44) · Faintest zodiac' },
+            fr:{ tag:'Zodiaque · Printemps', name:'Cancer', sub:'Le Crabe',
+                 desc:'La plus faible des 12 constellations du zodiaque, mais contient l\'amas de la Ruche (M44) — l\'un des amas ouverts les plus proches de la Terre.',
+                 detail:'Saison : Printemps · Amas de la Ruche (M44)' },
+        },
+        {
+            icon:'🐐', color:'#c4a8ff',
+            en:{ tag:'Zodiac · Autumn', name:'Capricornus', sub:'The Sea-Goat',
+                 desc:'The smallest zodiac constellation, representing a mythical creature half goat, half fish. One of the oldest constellations, with origins in Babylonian astronomy over 3,000 years ago.',
+                 detail:'Season: Autumn · Smallest zodiac · Babylonian origin 3,000+ years ago' },
+            fr:{ tag:'Zodiaque · Automne', name:'Capricorne', sub:'La Chèvre de Mer',
+                 desc:'La plus petite constellation du zodiaque, représentant un être mi-chèvre, mi-poisson. L\'une des plus anciennes, avec des origines babyloniennes il y a plus de 3 000 ans.',
+                 detail:'Saison : Automne · Plus petit zodiaque · Origine babylonienne' },
+        },
+        {
+            icon:'🏺', color:'#00c8ff',
+            en:{ tag:'Zodiac · Autumn', name:'Aquarius', sub:'The Water-Bearer',
+                 desc:'The water-bearer of the gods, pouring the waters of knowledge. Contains the Helix Nebula — the largest planetary nebula in the sky, nicknamed the "Eye of God".',
+                 detail:'Season: Autumn · Contains: Helix Nebula (Eye of God) · 10th-largest constellation' },
+            fr:{ tag:'Zodiaque · Automne', name:'Verseau', sub:'Le Porteur d\'Eau',
+                 desc:'Contient la Nébuleuse Hélix — la plus grande nébuleuse planétaire du ciel, surnommée "l\'Œil de Dieu".',
+                 detail:'Saison : Automne · Nébuleuse Hélix (Œil de Dieu)' },
+        },
+        {
+            icon:'🐟', color:'#6ee7ff',
+            en:{ tag:'Zodiac · Winter', name:'Pisces', sub:'The Fish',
+                 desc:'Two fish swimming in opposite directions, tied together by a cord. Though faint, it marks the Vernal Equinox point — the celestial crossing where the Sun sits on the first day of spring.',
+                 detail:'Season: Winter · Marks Vernal Equinox · Two fish joined by a cord' },
+            fr:{ tag:'Zodiaque · Hiver', name:'Poissons', sub:'Les Poissons',
+                 desc:'Deux poissons nageant en sens opposé, liés par une corde. Il marque le point Vernal — là où le Soleil se trouve au premier jour du printemps.',
+                 detail:'Saison : Hiver · Marque l\'équinoxe de printemps' },
+        },
+        {
+            icon:'🐏', color:'#ff6eb4',
+            en:{ tag:'Zodiac · Winter', name:'Aries', sub:'The Ram',
+                 desc:'The first sign of the zodiac. The "First Point of Aries" — where the ecliptic crosses the celestial equator — was here 2,000 years ago. Precession has since moved it into Pisces.',
+                 detail:'Season: Winter · First zodiac sign · First Point now precessed into Pisces' },
+            fr:{ tag:'Zodiaque · Hiver', name:'Bélier', sub:'Le Bélier',
+                 desc:'Premier signe du zodiaque. Le "Point Vernal" se trouvait ici il y a 2 000 ans. La précession l\'a depuis déplacé dans les Poissons.',
+                 detail:'Saison : Hiver · Premier signe du zodiaque' },
+        },
+        {
+            icon:'🏹', color:'#ff9f43',
+            en:{ tag:'Zodiac · Summer', name:'Sagittarius', sub:'The Archer',
+                 desc:'Points its arrow at the heart of the Milky Way, where our galaxy\'s supermassive black hole Sagittarius A* lurks. The richest constellation for deep-sky objects, with 15 Messier objects.',
+                 detail:'Season: Summer · Galactic Centre · 15 Messier objects · Teapot asterism' },
+            fr:{ tag:'Zodiaque · Été', name:'Sagittaire', sub:'L\'Archer',
+                 desc:'Pointe sa flèche vers le cœur de la Voie Lactée, où se cache le trou noir Sagittaire A*. La constellation la plus riche en objets du ciel profond avec 15 objets Messier.',
+                 detail:'Saison : Été · Centre galactique · 15 objets Messier' },
+        },
+        {
+            icon:'⚖️', color:'#f5c518',
+            en:{ tag:'Zodiac · Spring', name:'Libra', sub:'The Scales',
+                 desc:'The only zodiac constellation representing an inanimate object. Once considered the scorpion\'s claws — its star names still reflect this: Zubenelgenubi means "southern claw" in Arabic.',
+                 detail:'Season: Spring · Only inanimate zodiac · Stars named after Scorpius claws' },
+            fr:{ tag:'Zodiaque · Printemps', name:'Balance', sub:'La Balance',
+                 desc:'Seule constellation du zodiaque représentant un objet inanimé. Autrefois considérée comme les pinces du Scorpion — Zubenelgenubi signifie "griffe du sud".',
+                 detail:'Saison : Printemps · Seul zodiaque inanimé' },
+        },
+        {
+            icon:'💪', color:'#ff6b6b',
+            en:{ tag:'Summer · Large', name:'Hercules', sub:'The Hero',
+                 desc:'The fifth-largest constellation features the famous Keystone asterism. The great Hercules Globular Cluster (M13) — a ball of 300,000 stars — is visible to the naked eye on dark nights.',
+                 detail:'Season: Summer · Contains: M13 (300,000 stars) · Keystone asterism' },
+            fr:{ tag:'Été · Grand', name:'Hercule', sub:'Le Héros',
+                 desc:'La 5e plus grande constellation abrite l\'amas globulaire M13 — une sphère de 300 000 étoiles visible à l\'œil nu par nuit sombre.',
+                 detail:'Saison : Été · M13 (300 000 étoiles) · Trapèze central' },
+        },
+        {
+            icon:'🐉', color:'#00c864',
+            en:{ tag:'Circumpolar · Year-round', name:'Draco', sub:'The Dragon',
+                 desc:'A long winding dragon that coils around the north celestial pole. Thuban was Earth\'s pole star when the Egyptian pyramids were built (2800 BC). The Cat\'s Eye Nebula (NGC 6543) lies within Draco.',
+                 detail:'Year-round · Former pole star: Thuban (2800 BC) · Cat\'s Eye Nebula' },
+            fr:{ tag:'Circumpolaire · Toute l\'année', name:'Dragon', sub:'Le Dragon',
+                 desc:'Un long dragon sinueux qui s\'enroule autour du pôle nord céleste. Thuban était l\'étoile polaire lors de la construction des pyramides égyptiennes (2800 av. J.-C.).',
+                 detail:'Toute l\'année · Thuban (étoile polaire en 2800 av. J.-C.)' },
+        },
+        {
+            icon:'🐻', color:'#c4a8ff',
+            en:{ tag:'Circumpolar · Year-round', name:'Ursa Minor', sub:'The Little Bear',
+                 desc:'Home to Polaris — the North Star — which sits within 1° of the true celestial north pole. Polaris is a Cepheid variable star that pulses in size and brightness every 3.97 days.',
+                 detail:'Year-round · Contains: Polaris (North Star) · Little Dipper asterism' },
+            fr:{ tag:'Circumpolaire · Toute l\'année', name:'Petite Ourse', sub:'La Petite Ourse',
+                 desc:'Abrite Polaris — l\'Étoile du Nord — à moins de 1° du vrai pôle céleste. Polaris est une variable céphéide qui pulse toutes les 3,97 jours.',
+                 detail:'Toute l\'année · Polaris (Étoile du Nord) · Petite Casserole' },
+        },
+        {
+            icon:'🐴', color:'#6ee7ff',
+            en:{ tag:'Autumn · Large', name:'Pegasus', sub:'The Winged Horse',
+                 desc:'Dominated by the Great Square of Pegasus — four bright stars marking the horse\'s body. One corner is shared with Andromeda, tying the two mythological figures together.',
+                 detail:'Season: Autumn · Great Square asterism · Borders Andromeda · 7th largest' },
+            fr:{ tag:'Automne · Grand', name:'Pégase', sub:'Le Cheval Ailé',
+                 desc:'Dominé par le Grand Carré de Pégase — quatre étoiles brillantes. Un coin est partagé avec Andromède, liant les deux figures mythologiques.',
+                 detail:'Saison : Automne · Grand Carré · 7e plus grande constellation' },
+        },
+        {
+            icon:'🐎', color:'#ff9f43',
+            en:{ tag:'Southern Sky · Bright', name:'Centaurus', sub:'The Centaur',
+                 desc:'Contains Alpha Centauri — the nearest star system to Earth at 4.37 light-years — and Omega Centauri, the largest globular cluster in the Milky Way with 10 million stars.',
+                 detail:'Best from Southern Hemisphere · α Centauri: 4.37 ly · Omega Centauri (10M stars)' },
+            fr:{ tag:'Ciel Austral · Brillant', name:'Centaure', sub:'Le Centaure',
+                 desc:'Contient Alpha Centauri — le système le plus proche à 4,37 années-lumière — et Omega Centauri, l\'amas globulaire le plus massif de la Voie Lactée.',
+                 detail:'Hémisphère Sud · α Centauri · Omega Centauri (10M étoiles)' },
+        },
+        {
+            icon:'💍', color:'#a78bff',
+            en:{ tag:'Summer · Small', name:'Corona Borealis', sub:'The Northern Crown',
+                 desc:'A beautiful semicircle of seven stars forming a perfect crown. Contains a remarkable recurrent nova — T Coronae Borealis — that erupts approximately every 80 years.',
+                 detail:'Season: Summer · Perfect arc shape · T CrB nova expected ~2024–2026' },
+            fr:{ tag:'Été · Petite', name:'Couronne Boréale', sub:'La Couronne du Nord',
+                 desc:'Un beau demi-cercle de sept étoiles formant une couronne parfaite. Contient T Coronae Borealis — une nova récurrente qui explose environ tous les 80 ans.',
+                 detail:'Saison : Été · Arc parfait · Nova T CrB attendue ~2024–2026' },
+        },
+        {
+            icon:'🐍', color:'#00c864',
+            en:{ tag:'Summer · Ecliptic', name:'Ophiuchus', sub:'The Serpent Bearer',
+                 desc:'The 11th constellation of the ecliptic — the "forgotten zodiac" that the Sun passes through each December. Kepler\'s Supernova (1604) blazed here — the last naked-eye supernova in our galaxy.',
+                 detail:'Season: Summer · 11th ecliptic sign · Kepler\'s Supernova (1604)' },
+            fr:{ tag:'Été · Écliptique', name:'Ophiuchus', sub:'Le Porteur de Serpent',
+                 desc:'Le 11e signe de l\'écliptique — le "zodiaque oublié". La Nova de Kepler (1604) a brillé ici — la dernière supernova visible à l\'œil nu dans notre galaxie.',
+                 detail:'Saison : Été · 11e signe · Supernova de Kepler (1604)' },
+        },
+        {
+            icon:'🐕', color:'#f5c518',
+            en:{ tag:'Winter · South', name:'Canis Major', sub:'The Great Dog',
+                 desc:'Contains Sirius — the brightest star in the night sky at magnitude −1.46. The ancient Egyptians used Sirius\'s heliacal rising to predict the annual flooding of the Nile.',
+                 detail:'Season: Winter · Sirius: −1.46 mag (brightest star) · Egyptian calendar star' },
+            fr:{ tag:'Hiver · Sud', name:'Grand Chien', sub:'Le Grand Chien',
+                 desc:'Contient Sirius — la plus brillante étoile du ciel nocturne (magnitude −1,46). Les anciens Égyptiens utilisaient le lever héliaque de Sirius pour prédire les crues du Nil.',
+                 detail:'Saison : Hiver · Sirius (−1,46 mag) · Étoile du calendrier égyptien' },
+        },
+        {
+            icon:'🐩', color:'#ff6eb4',
+            en:{ tag:'Winter · Small', name:'Canis Minor', sub:'The Little Dog',
+                 desc:'A tiny constellation with just two prominent stars — Procyon (8th brightest in the sky) and Gomeisa. Procyon is only 11.4 light-years away, one of our nearest stellar neighbours.',
+                 detail:'Season: Winter · Procyon: 11.4 light-years · 8th brightest star' },
+            fr:{ tag:'Hiver · Petite', name:'Petit Chien', sub:'Le Petit Chien',
+                 desc:'Une petite constellation avec seulement deux étoiles proéminentes — Procyon (8e plus brillante du ciel) et Gomeisa. Procyon n\'est qu\'à 11,4 années-lumière.',
+                 detail:'Saison : Hiver · Procyon : 11,4 années-lumière' },
+        },
+        {
+            icon:'🐰', color:'#c4a8ff',
+            en:{ tag:'Winter · Below Orion', name:'Lepus', sub:'The Hare',
+                 desc:'Found crouching beneath Orion\'s feet, as if fleeing the hunter. Contains Hind\'s Crimson Star (R Leporis) — one of the reddest stars visible in a small telescope, a pulsating carbon star.',
+                 detail:'Season: Winter · Below Orion · R Leporis: one of the reddest stars' },
+            fr:{ tag:'Hiver · Sous Orion', name:'Lièvre', sub:'Le Lièvre',
+                 desc:'Tapi sous les pieds d\'Orion. Contient l\'Étoile Cramoisie de Hind (R Leporis) — l\'une des étoiles les plus rouges visibles dans un petit télescope.',
+                 detail:'Saison : Hiver · Sous Orion · R Leporis : l\'une des plus rouges' },
+        },
+        {
+            icon:'🚗', color:'#00c8ff',
+            en:{ tag:'Winter · North', name:'Auriga', sub:'The Charioteer',
+                 desc:'Home to Capella — the sixth-brightest star, actually a system of four stars. Three rich Messier open clusters (M36, M37, M38) lie within Auriga, making it a rewarding binocular target.',
+                 detail:'Season: Winter · Capella: 6th brightest · M36, M37, M38 open clusters' },
+            fr:{ tag:'Hiver · Nord', name:'Cocher', sub:'Le Cocher',
+                 desc:'Abrite Capella — la 6e étoile la plus brillante, en réalité un système de quatre étoiles. Trois amas ouverts Messier (M36, M37, M38) s\'y trouvent.',
+                 detail:'Saison : Hiver · Capella (6e plus brillante) · M36, M37, M38' },
+        },
+        {
+            icon:'🐍', color:'#ff9f43',
+            en:{ tag:'Spring–Summer · Largest', name:'Hydra', sub:'The Sea Serpent',
+                 desc:'The largest constellation in the sky by area, stretching across 100° of the celestial sphere. Despite its size, it has only one prominent star — Alphard, meaning "the solitary one" in Arabic.',
+                 detail:'Largest constellation by area · Alphard "the solitary one" · Spring–Summer' },
+            fr:{ tag:'Printemps–Été · Plus Grande', name:'Hydre', sub:'Le Serpent de Mer',
+                 desc:'La plus grande constellation du ciel par superficie, s\'étirant sur 100° de la sphère céleste. Malgré sa taille, une seule étoile brillante — Alphard, "le solitaire".',
+                 detail:'Plus grande constellation · Alphard "le solitaire"' },
+        },
+        {
+            icon:'🐦', color:'#a78bff',
+            en:{ tag:'Spring · South', name:'Corvus', sub:'The Crow',
+                 desc:'A small but distinctive quadrilateral of four bright stars, easy to identify. In Greek myth, Apollo sent the crow to fetch water — the crow\'s delay resulted in it being forever denied quenching its thirst.',
+                 detail:'Season: Spring · Compact quadrilateral · Greek myth: Apollo\'s crow' },
+            fr:{ tag:'Printemps · Sud', name:'Corbeau', sub:'Le Corbeau',
+                 desc:'Un petit quadrilatère distinct de quatre étoiles brillantes. Dans le mythe grec, Apollon envoya le corbeau chercher de l\'eau — son retard lui valut d\'être éternellement privé.',
+                 detail:'Saison : Printemps · Quadrilatère compact · Corbeau d\'Apollon' },
+        },
+        {
+            icon:'△', color:'#6ee7ff',
+            en:{ tag:'Autumn · Small', name:'Triangulum', sub:'The Triangle',
+                 desc:'One of the smallest constellations but home to the Triangulum Galaxy (M33) — the third-largest galaxy in the Local Group, and among the most distant objects visible to the naked eye.',
+                 detail:'Season: Autumn · Contains: Triangulum Galaxy M33 · 3rd Local Group galaxy' },
+            fr:{ tag:'Automne · Petite', name:'Triangle', sub:'Le Triangle',
+                 desc:'Une des plus petites constellations, mais abrite la galaxie du Triangle (M33) — la 3e plus grande du Groupe Local après la Voie Lactée et Andromède.',
+                 detail:'Saison : Automne · M33 (3e galaxie du Groupe Local)' },
+        },
+        {
+            icon:'🏠', color:'#ff6b6b',
+            en:{ tag:'Circumpolar · Year-round', name:'Cepheus', sub:'The King',
+                 desc:'A faint house-shaped constellation near the north pole. Home to Mu Cephei (the "Garnet Star") — a red supergiant so vast it would extend beyond Saturn\'s orbit if placed at the Sun.',
+                 detail:'Year-round · Mu Cephei "Garnet Star": radius ~1,000× Sun · Near polar' },
+            fr:{ tag:'Circumpolaire · Toute l\'année', name:'Céphée', sub:'Le Roi',
+                 desc:'Une constellation en forme de maison près du pôle nord. Abrite Mu Cephei ("l\'Étoile Grenat") — une supergéante rouge si grande qu\'elle s\'étendrait au-delà de l\'orbite de Saturne.',
+                 detail:'Toute l\'année · Mu Cephei : rayon ~1 000× le Soleil' },
+        },
+        {
+            icon:'🔬', color:'#6ee7ff',
+            en:{ tag:'Spring · Faint', name:'Antlia', sub:'The Air Pump',
+                 desc:'A faint southern constellation introduced by Nicolas Louis de Lacaille in the 18th century to honor the air pump invented by Robert Boyle. It contains the Antlia Cluster of galaxies and lies near Vela and Hydra.',
+                 detail:'Season: Spring · Contains: Antlia Galaxy Cluster · Lacaille 1751' },
+            fr:{ tag:'Printemps · Faible', name:'Machine Pneumatique', sub:'La Pompe à Air',
+                 desc:'Une faible constellation australe introduite par Lacaille au XVIIIe siècle en hommage à la pompe à air inventée par Robert Boyle. Elle contient l\'amas d\'Antlia.',
+                 detail:'Saison : Printemps · Amas d\'Antlia · Lacaille 1751' },
+        },
+        {
+            icon:'🦜', color:'#00c864',
+            en:{ tag:'Southern · Summer', name:'Apus', sub:'Bird of Paradise',
+                 desc:'A small southern constellation representing the exotic Bird of Paradise from New Guinea. It contains no stars brighter than magnitude 3.8 and was first charted by Dutch navigators Pieter Dirkszoon Keyser and Frederick de Houtman in the 1590s.',
+                 detail:'Season: Southern Summer · No stars brighter than mag 3.8 · Charted 1590s' },
+            fr:{ tag:'Austral · Été', name:'Oiseau de Paradis', sub:'L\'Oiseau de Paradis',
+                 desc:'Une petite constellation australe représentant l\'exotique oiseau de paradis de Nouvelle-Guinée. Elle ne contient aucune étoile plus brillante que la magnitude 3,8.',
+                 detail:'Saison : Été austral · Aucune étoile brillante · Cartographié 1590s' },
+        },
+        {
+            icon:'🔥', color:'#ff6b6b',
+            en:{ tag:'Summer · Southern', name:'Ara', sub:'The Altar',
+                 desc:'An ancient constellation representing the altar on which the gods swore allegiance before the Titanomachy. It contains the starburst galaxy NGC 6352 and lies in a rich region of the Milky Way near Scorpius.',
+                 detail:'Season: Summer · Contains: NGC 6352 · Ancient Ptolemaic constellation' },
+            fr:{ tag:'Été · Austral', name:'Autel', sub:'L\'Autel',
+                 desc:'Une ancienne constellation représentant l\'autel sur lequel les dieux prêtèrent serment avant la Titanomachie. Elle gît dans une riche région de la Voie Lactée.',
+                 detail:'Saison : Été · NGC 6352 · Ancienne constellation ptolémaïque' },
+        },
+        {
+            icon:'🔨', color:'#a78bff',
+            en:{ tag:'Winter · Tiny', name:'Caelum', sub:'The Chisel',
+                 desc:'One of the smallest and faintest constellations in the sky, introduced by Lacaille to represent the engraver\'s chisel. It is the smallest constellation in the southern sky with no deep-sky objects of note.',
+                 detail:'Season: Winter · Smallest southern constellation · Lacaille 1751' },
+            fr:{ tag:'Hiver · Minuscule', name:'Burin', sub:'Le Burin',
+                 desc:'L\'une des plus petites et faibles constellations du ciel, introduite par Lacaille pour représenter le burin du graveur. Aucun objet du ciel profond notable.',
+                 detail:'Saison : Hiver · Plus petite constellation australe · Lacaille 1751' },
+        },
+        {
+            icon:'🦒', color:'#f5c518',
+            en:{ tag:'Circumpolar · Year-round', name:'Camelopardalis', sub:'The Giraffe',
+                 desc:'A large but very faint circumpolar constellation representing a giraffe. Despite covering a vast area of sky, it contains no stars brighter than magnitude 4 and was not introduced until 1612 by Petrus Plancius.',
+                 detail:'Year-round · No stars brighter than mag 4 · Introduced 1612 by Plancius' },
+            fr:{ tag:'Circumpolaire · Toute l\'année', name:'Girafe', sub:'La Girafe',
+                 desc:'Une grande mais très faible constellation circumpolaire représentant une girafe. Malgré sa vaste étendue, elle ne contient aucune étoile plus brillante que la magnitude 4.',
+                 detail:'Toute l\'année · Aucune étoile brillante · Plancius 1612' },
+        },
+        {
+            icon:'🐕', color:'#ff9f43',
+            en:{ tag:'Spring · Galaxies', name:'Canes Venatici', sub:'The Hunting Dogs',
+                 desc:'The hunting dogs of Boötes the Herdsman. Contains the spectacular Whirlpool Galaxy (M51) — the first galaxy in which spiral structure was observed — and the brilliant globular cluster M3.',
+                 detail:'Season: Spring · Contains: M51 Whirlpool Galaxy, M3 globular cluster' },
+            fr:{ tag:'Printemps · Galaxies', name:'Chiens de Chasse', sub:'Les Chiens de Chasse',
+                 desc:'Les chiens de chasse du Bouvier. Contient la spectaculaire Galaxie du Tourbillon (M51) — la première galaxie où une structure spirale fut observée — et l\'amas globulaire M3.',
+                 detail:'Saison : Printemps · M51 Galaxie du Tourbillon · M3 amas globulaire' },
+        },
+        {
+            icon:'⛵', color:'#00c8ff',
+            en:{ tag:'Southern · Winter', name:'Carina', sub:'The Keel',
+                 desc:'Once part of the massive Argo Navis constellation, Carina is the keel of Jason\'s ship. It contains Canopus — the second-brightest star in the sky — and Eta Carinae, one of the most luminous and unstable stars known.',
+                 detail:'Season: Winter · Canopus: 2nd brightest star · Eta Carinae: most luminous star' },
+            fr:{ tag:'Austral · Hiver', name:'Carène', sub:'La Carène',
+                 desc:'Autrefois partie du grand Argo Navis, la Carène est la quille du vaisseau de Jason. Elle contient Canopus — 2e étoile la plus brillante — et Eta Carinae, l\'une des étoiles les plus lumineuses.',
+                 detail:'Saison : Hiver · Canopus : 2e étoile la plus brillante · Eta Carinae' },
+        },
+        {
+            icon:'🐋', color:'#6ee7ff',
+            en:{ tag:'Autumn · Large', name:'Cetus', sub:'The Whale',
+                 desc:'One of the largest constellations, representing the sea monster sent to devour Andromeda. Contains Mira — the first variable star discovered (1596) — and Tau Ceti, the nearest Sun-like star known to have exoplanets.',
+                 detail:'Season: Autumn · Mira: first variable star (1596) · Tau Ceti: nearest Sun-like star' },
+            fr:{ tag:'Automne · Grande', name:'Baleine', sub:'La Baleine',
+                 desc:'L\'une des plus grandes constellations, représentant le monstre marin envoyé dévorer Andromède. Contient Mira — la première étoile variable découverte (1596) — et Tau Ceti.',
+                 detail:'Saison : Automne · Mira : 1re étoile variable (1596) · Tau Ceti' },
+        },
+        {
+            icon:'🦎', color:'#00c864',
+            en:{ tag:'Southern · Faint', name:'Chamaeleon', sub:'The Chameleon',
+                 desc:'A small southern constellation near the south celestial pole, representing the colour-changing lizard. It contains several T Tauri stars — very young stellar objects still in the process of forming — embedded in reflection nebulae.',
+                 detail:'Season: Southern · Contains T Tauri young stars · Near south pole' },
+            fr:{ tag:'Austral · Faible', name:'Caméléon', sub:'Le Caméléon',
+                 desc:'Une petite constellation australe près du pôle sud céleste. Elle contient plusieurs étoiles T Tauri — de très jeunes objets stellaires encore en cours de formation.',
+                 detail:'Saison : Austral · Étoiles T Tauri jeunes · Près du pôle sud' },
+        },
+        {
+            icon:'📐', color:'#c4a8ff',
+            en:{ tag:'Southern · Tiny', name:'Circinus', sub:'The Compass',
+                 desc:'The smallest non-zodiacal southern constellation, introduced by Lacaille. Despite its small size, it contains the Circinus Galaxy — the nearest Seyfert galaxy to the Milky Way at just 13 million light-years.',
+                 detail:'Season: Southern · Circinus Galaxy: nearest Seyfert galaxy · Smallest southern' },
+            fr:{ tag:'Austral · Minuscule', name:'Compas', sub:'Le Compas',
+                 desc:'La plus petite constellation non zodiacale de l\'hémisphère sud, introduite par Lacaille. Elle contient la Galaxie du Compas — la galaxie de Seyfert la plus proche de la Voie Lactée.',
+                 detail:'Saison : Austral · Galaxie du Compas : Seyfert la plus proche · Lacaille' },
+        },
+        {
+            icon:'🕊️', color:'#e8e8ff',
+            en:{ tag:'Winter · Southern', name:'Columba', sub:'The Dove',
+                 desc:'A small southern constellation representing the dove of peace. It may represent the dove released by Noah from the Ark, or the dove that helped the Argonauts navigate safely through the Clashing Rocks.',
+                 detail:'Season: Winter · Represents dove of Noah or the Argonauts · Near Canis Major' },
+            fr:{ tag:'Hiver · Austral', name:'Colombe', sub:'La Colombe',
+                 desc:'Une petite constellation australe représentant la colombe de la paix. Elle pourrait représenter la colombe libérée par Noé de l\'Arche, ou celle qui guida les Argonautes.',
+                 detail:'Saison : Hiver · Colombe de Noé ou des Argonautes · Près du Grand Chien' },
+        },
+        {
+            icon:'👸', color:'#f5c518',
+            en:{ tag:'Spring · Galaxies', name:'Coma Berenices', sub:"Berenice's Hair",
+                 desc:"Named after the Egyptian Queen Berenice II who sacrificed her hair to the gods. Contains the Coma Cluster — one of the densest galaxy clusters known — and marks the location of the North Galactic Pole.",
+                 detail:"Season: Spring · Coma Galaxy Cluster · North Galactic Pole" },
+            fr:{ tag:'Printemps · Galaxies', name:'Chevelure de Bérénice', sub:'La Chevelure de Bérénice',
+                 desc:'Nommée d\'après la reine égyptienne Bérénice II qui sacrifia sa chevelure aux dieux. Contient l\'amas de la Chevelure — l\'un des amas de galaxies les plus denses — et marque le pôle galactique nord.',
+                 detail:'Saison : Printemps · Amas de la Chevelure · Pôle galactique nord' },
+        },
+        {
+            icon:'👑', color:'#ff9f43',
+            en:{ tag:'Summer · Southern', name:'Corona Australis', sub:'The Southern Crown',
+                 desc:'The southern counterpart to Corona Borealis, sharing a similar arc shape. Unlike its northern cousin, it contains no bright stars, but lies in a rich Milky Way region near Sagittarius and contains the Corona Australis Nebula complex.',
+                 detail:'Season: Summer · Southern arc crown · Near Sagittarius · Corona Australis Nebula' },
+            fr:{ tag:'Été · Austral', name:'Couronne Australe', sub:'La Couronne Australe',
+                 desc:'Le pendant austral de la Couronne Boréale, partageant une forme d\'arc similaire. Elle ne contient pas d\'étoiles brillantes, mais gît près du Sagittaire dans la Voie Lactée.',
+                 detail:'Saison : Été · Couronne arc australe · Nébuleuse Corona Australis' },
+        },
+        {
+            icon:'🏺', color:'#c4a8ff',
+            en:{ tag:'Spring · Small', name:'Crater', sub:'The Cup',
+                 desc:'A small compact constellation representing the cup of Apollo, sitting atop Hydra the water snake. In mythology it is the goblet that the god Apollo gave to the raven Corvus to fetch water.',
+                 detail:'Season: Spring · Cup of Apollo · Sits on Hydra · Near Corvus' },
+            fr:{ tag:'Printemps · Petite', name:'Coupe', sub:'La Coupe',
+                 desc:'Une petite constellation compacte représentant la coupe d\'Apollon, posée sur l\'Hydre. Dans la mythologie, c\'est le gobelet qu\'Apollon donna au corbeau Corvus pour chercher de l\'eau.',
+                 detail:'Saison : Printemps · Coupe d\'Apollon · Sur l\'Hydre · Près du Corbeau' },
+        },
+        {
+            icon:'✦', color:'#6ee7ff',
+            en:{ tag:'Southern · Iconic', name:'Crux', sub:'The Southern Cross',
+                 desc:'The smallest constellation by area, yet one of the most recognisable in the southern sky. The Southern Cross is used for celestial navigation and appears on the flags of Australia, New Zealand, Brazil, Papua New Guinea, and Samoa. It also contains the Coalsack — a famous dark nebula.',
+                 detail:'Season: Year-round south · Smallest constellation · Flags of 5 nations · Coalsack Nebula' },
+            fr:{ tag:'Austral · Iconique', name:'Croix du Sud', sub:'La Croix du Sud',
+                 desc:'La plus petite constellation en superficie, mais l\'une des plus reconnaissables dans le ciel austral. La Croix du Sud sert à la navigation céleste et figure sur les drapeaux de 5 nations. Elle contient aussi la Nébuleuse du Charbon.',
+                 detail:'Saison : Austral toute l\'année · Plus petite constellation · Drapeaux de 5 nations · Nébuleuse du Charbon' },
+        },
+        {
+            icon:'🐬', color:'#00c8ff',
+            en:{ tag:'Summer · Tiny', name:'Delphinus', sub:'The Dolphin',
+                 desc:'A tiny but remarkably distinctive constellation whose five main stars form the "Job\'s Coffin" asterism — a neat diamond shape with a tail. Despite being only the 69th-largest constellation, its compact pattern makes it easy to spot.',
+                 detail:"Season: Summer · Job's Coffin asterism · 69th largest · Easy to identify" },
+            fr:{ tag:'Été · Minuscule', name:'Dauphin', sub:'Le Dauphin',
+                 desc:'Une minuscule mais remarquablement distinctive constellation dont les cinq étoiles forment l\'astérisme du "Cercueil de Job" — un losange net avec une queue.',
+                 detail:"Saison : Été · Astérisme Cercueil de Job · 69e plus grande" },
+        },
+        {
+            icon:'🐟', color:'#ff6eb4',
+            en:{ tag:'Southern · LMC', name:'Dorado', sub:'The Goldfish',
+                 desc:'A southern constellation that contains most of the Large Magellanic Cloud — our nearest galactic satellite at 160,000 light-years. The LMC is visible to the naked eye as a detached patch of the Milky Way and hosted the supernova SN 1987A.',
+                 detail:'Season: Southern · Contains Large Magellanic Cloud · SN 1987A supernova' },
+            fr:{ tag:'Austral · GNM', name:'Dorade', sub:'La Dorade',
+                 desc:'Une constellation australe qui contient la majeure partie du Grand Nuage de Magellan — notre satellite galactique le plus proche à 160 000 années-lumière. Il a accueilli la supernova SN 1987A.',
+                 detail:'Saison : Austral · Grand Nuage de Magellan · Supernova SN 1987A' },
+        },
+        {
+            icon:'🐴', color:'#a78bff',
+            en:{ tag:'Summer · Smallest', name:'Equuleus', sub:'The Little Horse',
+                 desc:'The second-smallest constellation in the sky, just west of Delphinus the Dolphin. It represents the head of a foal, sometimes identified as the brother of Pegasus. Despite its tiny size, it has been recognised since antiquity.',
+                 detail:'Season: Summer · 2nd smallest constellation · West of Delphinus · Ancient' },
+            fr:{ tag:'Été · Minuscule', name:'Petit Cheval', sub:'Le Petit Cheval',
+                 desc:'La deuxième plus petite constellation du ciel, juste à l\'ouest du Dauphin. Elle représente la tête d\'un poulain, parfois identifié comme le frère de Pégase.',
+                 detail:'Saison : Été · 2e plus petite constellation · À l\'ouest du Dauphin' },
+        },
+        {
+            icon:'🌊', color:'#6ee7ff',
+            en:{ tag:'Winter · Vast', name:'Eridanus', sub:'The River',
+                 desc:'The second-largest constellation, representing a great celestial river that stretches from near Orion\'s foot all the way to the south celestial pole. It ends at the brilliant Achernar — the ninth-brightest star in the sky.',
+                 detail:'Season: Winter · 2nd largest constellation · Ends at Achernar (9th brightest star)' },
+            fr:{ tag:'Hiver · Vaste', name:'Éridan', sub:'Le Fleuve',
+                 desc:'La deuxième plus grande constellation, représentant un grand fleuve céleste qui s\'étend du pied d\'Orion jusqu\'au pôle sud céleste. Elle se termine à Achernar — la neuvième étoile la plus brillante.',
+                 detail:'Saison : Hiver · 2e plus grande constellation · Se termine à Achernar (9e étoile)' },
+        },
+        {
+            icon:'🔥', color:'#ff9f43',
+            en:{ tag:'Winter · Southern', name:'Fornax', sub:'The Furnace',
+                 desc:'Introduced by Lacaille to honour the laboratory furnace, Fornax contains the Fornax Cluster — the second-richest galaxy cluster in the nearby Universe — and the Fornax Dwarf Galaxy, a satellite of the Milky Way.',
+                 detail:'Season: Winter · Fornax Galaxy Cluster · Fornax Dwarf Galaxy · Lacaille 1751' },
+            fr:{ tag:'Hiver · Austral', name:'Fourneau', sub:'Le Fourneau',
+                 desc:'Introduit par Lacaille pour honorer le fourneau de laboratoire, Fornax contient l\'amas de galaxies du Fourneau — le deuxième plus riche dans l\'Univers proche — et la Galaxie Naine du Fourneau.',
+                 detail:'Saison : Hiver · Amas du Fourneau · Galaxie Naine du Fourneau · Lacaille 1751' },
+        },
+        {
+            icon:'🦩', color:'#ff6eb4',
+            en:{ tag:'Autumn · Southern', name:'Grus', sub:'The Crane',
+                 desc:'One of the "Southern Birds" group of constellations along with Phoenix, Tucana, Pavo, and Indus. Grus contains Alpha Gruis (Al Nair) — a hot blue-white star — and is best seen from the southern hemisphere in autumn.',
+                 detail:'Season: Autumn · Southern Birds group · Alpha Gruis: hot blue star · Southern sky' },
+            fr:{ tag:'Automne · Austral', name:'Grue', sub:'La Grue',
+                 desc:'L\'une des "Oiseaux du Sud" avec le Phénix, le Toucan, le Paon et l\'Indien. La Grue contient Alpha Gruis (Al Nair) — une étoile bleue-blanche chaude.',
+                 detail:'Saison : Automne · Groupe Oiseaux du Sud · Alpha Gruis bleue chaude' },
+        },
+        {
+            icon:'🕐', color:'#c4a8ff',
+            en:{ tag:'Southern · Faint', name:'Horologium', sub:'The Clock',
+                 desc:'A faint southern constellation introduced by Lacaille in honour of the pendulum clock invented by Christiaan Huygens. It contains several RR Lyrae variable stars used as standard candles to measure cosmic distances.',
+                 detail:'Season: Southern · RR Lyrae variable stars · Lacaille 1751 · Honours Huygens clock' },
+            fr:{ tag:'Austral · Faible', name:'Horloge', sub:'L\'Horloge',
+                 desc:'Une faible constellation australe introduite par Lacaille en hommage à l\'horloge à pendule inventée par Huygens. Elle contient plusieurs étoiles variables RR Lyrae.',
+                 detail:'Saison : Austral · Étoiles variables RR Lyrae · Lacaille 1751' },
+        },
+        {
+            icon:'🐍', color:'#00c864',
+            en:{ tag:'Southern · Water Snake', name:'Hydrus', sub:'The Water Snake',
+                 desc:'A small southern constellation near the south celestial pole and the Magellanic Clouds, not to be confused with the much larger Hydra. It contains Pi Hydri — a red giant — and lies in the region of the south ecliptic pole.',
+                 detail:'Season: Southern · Near Magellanic Clouds · South ecliptic pole region' },
+            fr:{ tag:'Austral · Serpent d\'Eau', name:'Hydre Mâle', sub:'Le Serpent d\'Eau',
+                 desc:'Une petite constellation australe près du pôle sud céleste et des Nuages de Magellan, à ne pas confondre avec l\'Hydre femelle bien plus grande. Contient Pi Hydri — un géant rouge.',
+                 detail:'Saison : Austral · Près des Nuages de Magellan · Région du pôle écliptique sud' },
+        },
+        {
+            icon:'🏹', color:'#ff9f43',
+            en:{ tag:'Autumn · Southern', name:'Indus', sub:'The Indian',
+                 desc:'A southern constellation representing a native American or Indian, introduced by Keyser and de Houtman. Part of the "Southern Birds" group in the far southern sky. It contains no particularly bright stars.',
+                 detail:'Season: Autumn · Southern Birds group · Keyser & de Houtman 1590s · Faint stars' },
+            fr:{ tag:'Automne · Austral', name:'Indien', sub:'L\'Indien',
+                 desc:'Une constellation australe représentant un Américain indigène, introduite par Keyser et de Houtman. Fait partie du groupe des Oiseaux du Sud. Elle ne contient pas d\'étoiles brillantes.',
+                 detail:'Saison : Automne · Groupe Oiseaux du Sud · Keyser & de Houtman 1590s' },
+        },
+        {
+            icon:'🦎', color:'#a78bff',
+            en:{ tag:'Autumn · Faint', name:'Lacerta', sub:'The Lizard',
+                 desc:'A small, faint constellation squeezed between the bright Cygnus and Andromeda. Its stars form a zigzag pattern resembling a lizard. Though faint, it lies in the Milky Way and offers a rich star field.',
+                 detail:'Season: Autumn · Between Cygnus and Andromeda · Milky Way star field · Zigzag pattern' },
+            fr:{ tag:'Automne · Faible', name:'Lézard', sub:'Le Lézard',
+                 desc:'Une petite constellation faible coincée entre le brillant Cygne et Andromède. Ses étoiles forment un motif en zigzag. Bien que faible, elle se trouve dans la Voie Lactée.',
+                 detail:'Saison : Automne · Entre Cygne et Andromède · Champ d\'étoiles de la Voie Lactée' },
+        },
+        {
+            icon:'🦁', color:'#ff9f43',
+            en:{ tag:'Spring · Small', name:'Leo Minor', sub:'The Little Lion',
+                 desc:'A small, faint constellation tucked between Leo the Lion and Ursa Major the Great Bear. Introduced by Johannes Hevelius in 1687, it contains no stars brighter than magnitude 3.8 and no significant deep-sky objects.',
+                 detail:'Season: Spring · Between Leo and Ursa Major · Hevelius 1687 · Faint' },
+            fr:{ tag:'Printemps · Petite', name:'Petit Lion', sub:'Le Petit Lion',
+                 desc:'Une petite constellation faible coincée entre le Lion et la Grande Ourse, introduite par Hevelius en 1687. Elle ne contient pas d\'étoiles brillantes ni d\'objets du ciel profond notables.',
+                 detail:'Saison : Printemps · Entre Lion et Grande Ourse · Hevelius 1687' },
+        },
+        {
+            icon:'🐺', color:'#c4a8ff',
+            en:{ tag:'Summer · Southern', name:'Lupus', sub:'The Wolf',
+                 desc:'An ancient constellation associated with a wolf or wild animal placed on the thyrsus of Centaurus. It lies in a rich region of the Milky Way between Centaurus and Scorpius, and was host to the brightest supernova of the Middle Ages in 1006.',
+                 detail:'Season: Summer · Supernova of 1006 (brightest in history) · Rich Milky Way region' },
+            fr:{ tag:'Été · Austral', name:'Loup', sub:'Le Loup',
+                 desc:'Une ancienne constellation associée à un loup ou animal sauvage placé sur le thyrse du Centaure. Elle gît dans une riche région de la Voie Lactée et fut le site de la supernova la plus brillante du Moyen Âge en 1006.',
+                 detail:'Saison : Été · Supernova de 1006 (la plus brillante de l\'histoire) · Voie Lactée' },
+        },
+        {
+            icon:'🐈', color:'#6ee7ff',
+            en:{ tag:'Winter · Faint', name:'Lynx', sub:'The Lynx',
+                 desc:'A large but very faint northern constellation introduced by Johannes Hevelius in 1687. He named it the Lynx because he said you would need the sharp eyes of a lynx to see its dim stars. It fills the gap between Ursa Major and Gemini.',
+                 detail:'Season: Winter · Named for sharp eyes needed to see it · Hevelius 1687 · Very faint' },
+            fr:{ tag:'Hiver · Faible', name:'Lynx', sub:'Le Lynx',
+                 desc:'Une grande mais très faible constellation boréale introduite par Hevelius en 1687. Il la nomma Lynx car il fallait les yeux perçants d\'un lynx pour voir ses étoiles faibles.',
+                 detail:'Saison : Hiver · Nommé pour les yeux du lynx · Hevelius 1687 · Très faible' },
+        },
+        {
+            icon:'🏔️', color:'#d0d8ff',
+            en:{ tag:'Southern · Unique', name:'Mensa', sub:'Table Mountain',
+                 desc:'The only constellation named after a terrestrial geographical feature — Table Mountain in Cape Town, South Africa, where Lacaille set up his observatory. Part of the Large Magellanic Cloud spills over into Mensa from Dorado.',
+                 detail:'Season: Southern · Only constellation named after a landmark · Table Mountain, Cape Town' },
+            fr:{ tag:'Austral · Unique', name:'Table', sub:'La Montagne de la Table',
+                 desc:'La seule constellation nommée d\'après une caractéristique géographique terrestre — la Montagne de la Table au Cap, Afrique du Sud, où Lacaille installa son observatoire.',
+                 detail:'Saison : Austral · Seule constellation nommée d\'après un repère · Montagne de la Table' },
+        },
+        {
+            icon:'🔬', color:'#00c864',
+            en:{ tag:'Autumn · Faint', name:'Microscopium', sub:'The Microscope',
+                 desc:'A faint southern constellation introduced by Lacaille to honour the compound microscope. It contains no stars brighter than magnitude 4.8 and lies between Sagittarius and the Southern Fish.',
+                 detail:'Season: Autumn · No stars brighter than mag 4.8 · Lacaille 1751 · Honours microscope' },
+            fr:{ tag:'Automne · Faible', name:'Microscope', sub:'Le Microscope',
+                 desc:'Une faible constellation australe introduite par Lacaille pour honorer le microscope composé. Elle ne contient aucune étoile plus brillante que la magnitude 4,8.',
+                 detail:'Saison : Automne · Aucune étoile brillante · Lacaille 1751' },
+        },
+        {
+            icon:'🦄', color:'#ff6eb4',
+            en:{ tag:'Winter · Milky Way', name:'Monoceros', sub:'The Unicorn',
+                 desc:'A large but faint constellation lying along the winter Milky Way, between the brilliant stars Sirius, Procyon, and Betelgeuse. It contains the spectacular Rosette Nebula and the Christmas Tree Cluster.',
+                 detail:'Season: Winter · Along Milky Way · Contains Rosette Nebula · Christmas Tree Cluster' },
+            fr:{ tag:'Hiver · Voie Lactée', name:'Licorne', sub:'La Licorne',
+                 desc:'Une grande mais faible constellation le long de la Voie Lactée d\'hiver, entre Sirius, Procyon et Bételgeuse. Elle contient la spectaculaire Nébuleuse de la Rosette.',
+                 detail:'Saison : Hiver · Voie Lactée · Nébuleuse de la Rosette · Amas Arbre de Noël' },
+        },
+        {
+            icon:'🪰', color:'#a78bff',
+            en:{ tag:'Southern · Crux Region', name:'Musca', sub:'The Fly',
+                 desc:'One of the few insects represented in the sky, Musca lies just south of Crux the Southern Cross and is one of the clearest of Lacaille\'s southern constellations. It contains the globular cluster NGC 4372.',
+                 detail:'Season: Southern · Near Crux · NGC 4372 globular cluster · One of few insect constellations' },
+            fr:{ tag:'Austral · Région Crux', name:'Mouche', sub:'La Mouche',
+                 desc:'L\'un des rares insectes représentés dans le ciel, la Mouche se trouve juste au sud de la Croix du Sud et contient l\'amas globulaire NGC 4372.',
+                 detail:'Saison : Austral · Près de la Croix du Sud · NGC 4372 amas globulaire' },
+        },
+        {
+            icon:'📏', color:'#f5c518',
+            en:{ tag:'Winter · Southern', name:'Norma', sub:"The Carpenter's Square",
+                 desc:"Originally part of the ancient Argo Navis, Norma represents the carpenter's set square. It contains the Ant Nebula (Mz 3) — a striking bipolar planetary nebula that resembles an ant — and lies in a rich Milky Way region.",
+                 detail:"Season: Winter · Ant Nebula (Mz 3) · Former part of Argo Navis · Carpenter's square" },
+            fr:{ tag:'Hiver · Austral', name:'Règle', sub:'L\'Équerre',
+                 desc:'Autrefois partie du grand Argo Navis, la Règle représente l\'équerre du charpentier. Elle contient la Nébuleuse de la Fourmi (Mz 3) — une remarquable nébuleuse bipolaire.',
+                 detail:'Saison : Hiver · Nébuleuse de la Fourmi · Ancien Argo Navis' },
+        },
+        {
+            icon:'🧭', color:'#6ee7ff',
+            en:{ tag:'Southern · Pole', name:'Octans', sub:'The Octant',
+                 desc:'The constellation that contains the south celestial pole. Unlike Polaris in the north, the southern pole star Sigma Octantis is barely visible at magnitude 5.4 — making southern navigation by stars more challenging.',
+                 detail:'Season: Year-round · Contains south celestial pole · Sigma Octantis mag 5.4 · Lacaille' },
+            fr:{ tag:'Austral · Pôle', name:'Octant', sub:'L\'Octant',
+                 desc:'La constellation qui contient le pôle sud céleste. Contrairement à Polaris au nord, l\'étoile polaire australe Sigma Octantis est à peine visible à la magnitude 5,4.',
+                 detail:'Saison : Toute l\'année · Pôle sud céleste · Sigma Octantis magnitude 5,4' },
+        },
+        {
+            icon:'🦚', color:'#00c864',
+            en:{ tag:'Southern · Summer', name:'Pavo', sub:'The Peacock',
+                 desc:'One of the "Southern Birds" group, Pavo represents the exotic peacock. Its brightest star, Alpha Pavonis (the Peacock Star), is a hot blue-white giant and was selected as a navigational star for spacecraft guidance systems.',
+                 detail:'Season: Southern Summer · Peacock Star (Alpha Pavonis) · Navigation star · Southern Birds' },
+            fr:{ tag:'Austral · Été', name:'Paon', sub:'Le Paon',
+                 desc:'L\'un des "Oiseaux du Sud", le Paon représente l\'exotique paon. Son étoile la plus brillante, Alpha Pavonis (l\'Étoile Paon), est un géant bleu-blanc sélectionné comme étoile de navigation pour les engins spatiaux.',
+                 detail:'Saison : Été austral · Étoile Paon (Alpha Pavonis) · Étoile de navigation' },
+        },
+        {
+            icon:'🔥', color:'#ff6b6b',
+            en:{ tag:'Autumn · Southern', name:'Phoenix', sub:'The Phoenix',
+                 desc:'Named after the mythical bird that rises from its own ashes, Phoenix is one of the "Southern Birds" group. It lies in the far southern sky near the bright star Achernar and contains no Messier objects.',
+                 detail:'Season: Autumn · Southern Birds group · Near Achernar · No Messier objects' },
+            fr:{ tag:'Automne · Austral', name:'Phénix', sub:'Le Phénix',
+                 desc:'Nommé d\'après l\'oiseau mythique qui renaît de ses cendres, le Phénix fait partie des "Oiseaux du Sud". Il se trouve près de l\'étoile brillante Achernar.',
+                 detail:'Saison : Automne · Groupe Oiseaux du Sud · Près d\'Achernar · Pas d\'objets Messier' },
+        },
+        {
+            icon:'🎨', color:'#ff9f43',
+            en:{ tag:'Southern · Faint', name:'Pictor', sub:"The Painter's Easel",
+                 desc:"Introduced by Lacaille, Pictor contains Kapteyn's Star — a red dwarf with the second-fastest proper motion of any star — and the young star Beta Pictoris, surrounded by a debris disk and directly imaged exoplanets.",
+                 detail:"Season: Southern · Kapteyn's Star: 2nd fastest proper motion · Beta Pictoris exoplanet disk" },
+            fr:{ tag:'Austral · Faible', name:'Peintre', sub:'Le Chevalet du Peintre',
+                 desc:"Introduit par Lacaille, le Peintre contient l'Étoile de Kapteyn — un nain rouge au deuxième mouvement propre le plus rapide — et Beta Pictoris, entourée d'un disque de débris.",
+                 detail:"Saison : Austral · Étoile de Kapteyn · Disque de débris de Beta Pictoris" },
+        },
+        {
+            icon:'🐟', color:'#00c8ff',
+            en:{ tag:'Autumn · Southern Fish', name:'Piscis Austrinus', sub:'The Southern Fish',
+                 desc:'The predecessor of the zodiac constellation Pisces, Piscis Austrinus is best known for its brilliant star Fomalhaut — the 18th-brightest star in the sky. Fomalhaut has a directly imaged exoplanet and a striking debris ring.',
+                 detail:'Season: Autumn · Fomalhaut: 18th brightest star · Directly imaged exoplanet' },
+            fr:{ tag:'Automne · Poisson Austral', name:'Poisson Austral', sub:'Le Poisson Austral',
+                 desc:'Le prédécesseur des Poissons du zodiaque, le Poisson Austral est surtout connu pour sa brillante étoile Fomalhaut — 18e étoile la plus brillante. Fomalhaut possède une exoplanète directement imagée.',
+                 detail:'Saison : Automne · Fomalhaut : 18e étoile · Exoplanète directement imagée' },
+        },
+        {
+            icon:'⚓', color:'#6ee7ff',
+            en:{ tag:'Winter · Argo Navis', name:'Puppis', sub:'The Poop Deck',
+                 desc:'Once part of the giant Argo Navis constellation — Jason\'s ship — Puppis is the stern or poop deck. It contains many rich open clusters in the Milky Way and the Puppis A supernova remnant, source of a pulsar.',
+                 detail:'Season: Winter · Former Argo Navis stern · Rich open clusters · Puppis A pulsar' },
+            fr:{ tag:'Hiver · Argo Navis', name:'Poupe', sub:'La Poupe',
+                 desc:'Autrefois partie du grand Argo Navis, la Poupe est la dunette du vaisseau de Jason. Elle contient de nombreux riches amas ouverts dans la Voie Lactée et le rémanent de supernova Puppis A.',
+                 detail:'Saison : Hiver · Ancienne poupe d\'Argo Navis · Amas ouverts · Pulsar Puppis A' },
+        },
+        {
+            icon:'🧭', color:'#f5c518',
+            en:{ tag:'Winter · Argo Navis', name:'Pyxis', sub:'The Compass Box',
+                 desc:'Another fragment of the ancient Argo Navis, Pyxis represents the ship\'s compass. It contains the recurrent nova T Pyxidis, which explosively brightens every few decades — most recently in 2011 — reaching naked-eye visibility.',
+                 detail:'Season: Winter · Former Argo Navis compass · T Pyxidis recurrent nova · 2011 eruption' },
+            fr:{ tag:'Hiver · Argo Navis', name:'Boussole', sub:'La Boussole',
+                 desc:'Un autre fragment de l\'ancien Argo Navis, la Boussole représente la boussole du navire. Elle contient la nova récurrente T Pyxidis, qui s\'illumine de façon explosive tous les quelques décennies.',
+                 detail:'Saison : Hiver · Ancien Argo Navis · Nova récurrente T Pyxidis · Éruption 2011' },
+        },
+        {
+            icon:'🔭', color:'#a78bff',
+            en:{ tag:'Southern · Tiny', name:'Reticulum', sub:'The Reticle',
+                 desc:'A small southern constellation introduced by Lacaille representing the reticle eyepiece used for measuring star positions. It contains Zeta Reticuli — a pair of Sun-like stars famous in UFO lore as the supposed home system of the alleged Roswell aliens.',
+                 detail:'Season: Southern · Zeta Reticuli: famous in UFO lore · Lacaille 1751' },
+            fr:{ tag:'Austral · Minuscule', name:'Réticule', sub:'Le Réticule',
+                 desc:'Une petite constellation australe introduite par Lacaille représentant le réticule utilisé pour mesurer les positions des étoiles. Contient Zeta Reticuli, célèbre dans le folklore OVNI.',
+                 detail:'Saison : Austral · Zeta Reticuli : célèbre dans le folklore OVNI · Lacaille 1751' },
+        },
+        {
+            icon:'🏹', color:'#f5c518',
+            en:{ tag:'Summer · Tiny', name:'Sagitta', sub:'The Arrow',
+                 desc:'The third-smallest constellation in the sky, Sagitta is a simple but recognisable arrow shape. In mythology it may be the arrow of Apollo, Cupid, or Hercules. The globular cluster M71 lies along its shaft.',
+                 detail:'Season: Summer · 3rd smallest constellation · M71 globular cluster · Simple arrow shape' },
+            fr:{ tag:'Été · Minuscule', name:'Flèche', sub:'La Flèche',
+                 desc:'La troisième plus petite constellation du ciel, la Flèche est une simple flèche reconnaissable. L\'amas globulaire M71 se trouve le long de sa hampe.',
+                 detail:'Saison : Été · 3e plus petite constellation · M71 amas globulaire · Flèche simple' },
+        },
+        {
+            icon:'🗿', color:'#c4a8ff',
+            en:{ tag:'Autumn · Southern', name:'Sculptor', sub:'The Sculptor',
+                 desc:'Introduced by Lacaille, the Sculptor contains the Sculptor Galaxy (NGC 253) — one of the brightest and most studied spiral galaxies in the sky — and also marks the location of the South Galactic Pole.',
+                 detail:'Season: Autumn · NGC 253 Sculptor Galaxy · South Galactic Pole · Lacaille 1751' },
+            fr:{ tag:'Automne · Austral', name:'Sculpteur', sub:'Le Sculpteur',
+                 desc:'Introduit par Lacaille, le Sculpteur contient la Galaxie du Sculpteur (NGC 253) — l\'une des galaxies spirales les plus brillantes — et marque le pôle galactique sud.',
+                 detail:'Saison : Automne · NGC 253 Galaxie du Sculpteur · Pôle galactique sud · Lacaille' },
+        },
+        {
+            icon:'🛡️', color:'#ff9f43',
+            en:{ tag:'Summer · Milky Way', name:'Scutum', sub:'The Shield',
+                 desc:'A small but rich constellation in the Milky Way, introduced by Hevelius to honour the shield of Polish King John III Sobieski. It contains the Wild Duck Cluster (M11) — considered the richest and most impressive open cluster in the sky.',
+                 detail:'Season: Summer · M11 Wild Duck Cluster: richest open cluster · Hevelius 1684' },
+            fr:{ tag:'Été · Voie Lactée', name:'Écu de Sobieski', sub:'Le Bouclier',
+                 desc:'Une petite mais riche constellation dans la Voie Lactée, introduite par Hevelius pour honorer le bouclier du roi polonais Jean III Sobieski. Elle contient l\'amas du Canard Sauvage (M11).',
+                 detail:'Saison : Été · M11 Amas du Canard Sauvage : plus riche amas ouvert · Hevelius 1684' },
+        },
+        {
+            icon:'🐍', color:'#00c864',
+            en:{ tag:'Summer · Unique', name:'Serpens', sub:'The Serpent',
+                 desc:'The only constellation split into two separate, non-contiguous parts: Serpens Caput (the Head) and Serpens Cauda (the Tail), divided by Ophiuchus. Contains the Eagle Nebula (M16) with the famous "Pillars of Creation".',
+                 detail:'Season: Summer · Only split constellation · M16 Eagle Nebula · Pillars of Creation' },
+            fr:{ tag:'Été · Unique', name:'Serpent', sub:'Le Serpent',
+                 desc:'La seule constellation divisée en deux parties séparées et non contiguës : le Serpent Caput (la Tête) et le Serpent Cauda (la Queue), séparés par Ophiuchus. Contient la Nébuleuse de l\'Aigle (M16).',
+                 detail:'Saison : Été · Seule constellation divisée · M16 Nébuleuse de l\'Aigle · Piliers de la Création' },
+        },
+        {
+            icon:'📐', color:'#6ee7ff',
+            en:{ tag:'Spring · Faint', name:'Sextans', sub:'The Sextant',
+                 desc:'Introduced by Hevelius in 1687 to commemorate his sextant, which was destroyed by fire. It is a faint constellation lying on the celestial equator between Leo and Hydra, containing no objects visible to the naked eye.',
+                 detail:'Season: Spring · Commemorates Hevelius sextant destroyed by fire · On celestial equator' },
+            fr:{ tag:'Printemps · Faible', name:'Sextant', sub:'Le Sextant',
+                 desc:'Introduit par Hevelius en 1687 pour commémorer son sextant, détruit par le feu. C\'est une faible constellation sur l\'équateur céleste entre le Lion et l\'Hydre.',
+                 detail:'Saison : Printemps · Hevelius sextant détruit par le feu · Sur l\'équateur céleste' },
+        },
+        {
+            icon:'🔭', color:'#6ee7ff',
+            en:{ tag:'Southern · Faint', name:'Telescopium', sub:'The Telescope',
+                 desc:'Introduced by Lacaille to honour the optical telescope, Telescopium is a faint southern constellation just south of Corona Australis. It contains no prominent deep-sky objects but lies near the rich star fields of Sagittarius.',
+                 detail:'Season: Southern · Lacaille 1751 · South of Corona Australis · Faint stars' },
+            fr:{ tag:'Austral · Faible', name:'Télescope', sub:'Le Télescope',
+                 desc:'Introduit par Lacaille pour honorer le télescope optique, le Télescope est une faible constellation juste au sud de la Couronne Australe. Elle ne contient pas d\'objets du ciel profond prominents.',
+                 detail:'Saison : Austral · Lacaille 1751 · Au sud de la Couronne Australe' },
+        },
+        {
+            icon:'△', color:'#ff6b6b',
+            en:{ tag:'Southern · Triangle', name:'Triangulum Australe', sub:'The Southern Triangle',
+                 desc:'A compact southern constellation whose three bright stars form an unmistakable triangle. It is considerably brighter than its northern counterpart Triangulum and was first charted by Keyser and de Houtman in the 1590s.',
+                 detail:'Season: Southern · 3 bright stars · Brighter than northern Triangulum · Keyser 1590s' },
+            fr:{ tag:'Austral · Triangle', name:'Triangle Austral', sub:'Le Triangle Austral',
+                 desc:'Une compacte constellation australe dont les trois étoiles brillantes forment un triangle inconfondable. Il est considérablement plus brillant que son homologue boréal le Triangle.',
+                 detail:'Saison : Austral · 3 étoiles brillantes · Plus brillant que le Triangle boréal' },
+        },
+        {
+            icon:'🦜', color:'#ff9f43',
+            en:{ tag:'Southern · SMC', name:'Tucana', sub:'The Toucan',
+                 desc:'One of the "Southern Birds" group, Tucana contains most of the Small Magellanic Cloud — a satellite galaxy of the Milky Way visible to the naked eye. It also contains 47 Tucanae, one of the brightest and most massive globular clusters known.',
+                 detail:'Season: Southern · Small Magellanic Cloud · 47 Tucanae globular cluster · Southern Birds' },
+            fr:{ tag:'Austral · PNM', name:'Toucan', sub:'Le Toucan',
+                 desc:'L\'un des "Oiseaux du Sud", le Toucan contient la majeure partie du Petit Nuage de Magellan — une galaxie satellite visible à l\'œil nu — et 47 Tucanae, l\'un des amas globulaires les plus brillants.',
+                 detail:'Saison : Austral · Petit Nuage de Magellan · 47 Tucanae amas globulaire' },
+        },
+        {
+            icon:'⛵', color:'#00c8ff',
+            en:{ tag:'Winter · Argo Navis', name:'Vela', sub:'The Sails',
+                 desc:'The sails of the ancient ship Argo Navis, carrying Jason and the Argonauts. Vela contains the Vela Pulsar — a rapidly spinning neutron star remnant of a supernova — and lies in one of the richest regions of the southern Milky Way.',
+                 detail:'Season: Winter · Former Argo Navis sails · Vela Pulsar · Rich Milky Way region' },
+            fr:{ tag:'Hiver · Argo Navis', name:'Voiles', sub:'Les Voiles',
+                 desc:'Les voiles de l\'ancien vaisseau Argo Navis, transportant Jason et les Argonautes. Les Voiles contiennent le Pulsar Vela — un reste de supernova en rotation rapide.',
+                 detail:'Saison : Hiver · Ancien Argo Navis voiles · Pulsar Vela · Voie Lactée australe' },
+        },
+        {
+            icon:'🐟', color:'#a78bff',
+            en:{ tag:'Southern · Tiny', name:'Volans', sub:'The Flying Fish',
+                 desc:'A tiny southern constellation near Carina representing a flying fish, first charted by Keyser and de Houtman. It lies between the brilliant Canopus and the Large Magellanic Cloud and contains the galaxy NGC 2442.',
+                 detail:'Season: Southern · Near Carina · NGC 2442 galaxy · Keyser & de Houtman 1590s' },
+            fr:{ tag:'Austral · Minuscule', name:'Poisson Volant', sub:'Le Poisson Volant',
+                 desc:'Une minuscule constellation australe près de la Carène représentant un poisson volant. Elle se trouve entre le brillant Canopus et le Grand Nuage de Magellan.',
+                 detail:'Saison : Austral · Près de Carène · NGC 2442 galaxie · Keyser & de Houtman' },
+        },
+        {
+            icon:'🦊', color:'#ff9f43',
+            en:{ tag:'Summer · Nebula', name:'Vulpecula', sub:'The Fox',
+                 desc:'A small northern constellation in the Summer Milky Way between Cygnus and Aquila. Contains the Dumbbell Nebula (M27) — the first planetary nebula ever discovered, found by Charles Messier in 1764 — a glowing shell of gas expelled by a dying star.',
+                 detail:'Season: Summer · M27 Dumbbell Nebula: first planetary nebula · Messier 1764' },
+            fr:{ tag:'Été · Nébuleuse', name:'Renard', sub:'Le Renard',
+                 desc:'Une petite constellation boréale dans la Voie Lactée d\'été entre le Cygne et l\'Aigle. Contient la Nébuleuse de l\'Haltère (M27) — la première nébuleuse planétaire jamais découverte, par Messier en 1764.',
+                 detail:'Saison : Été · M27 Nébuleuse de l\'Haltère : 1re nébuleuse planétaire · Messier 1764' },
+        },
     ];
 
     // ── Anecdotes ────────────────────────────────────────────────────────────
@@ -1003,11 +1691,1460 @@
         }).join('');
     }
 
+    // ── Constellation SVG star maps ──────────────────────────────────────────
+    function getConstellationSVG(name) {
+        const maps = {
+            'Orion': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="114" cy="126" rx="13" ry="8" fill="rgba(100,160,255,0.10)" opacity="0.8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="70" y1="62" x2="165" y2="55"/><line x1="70" y1="62" x2="92" y2="98"/>
+<line x1="165" y1="55" x2="138" y2="105"/><line x1="92" y1="98" x2="114" y2="101"/>
+<line x1="114" y1="101" x2="138" y2="105"/><line x1="92" y1="98" x2="84" y2="148"/>
+<line x1="138" y1="105" x2="158" y2="148"/><line x1="70" y1="62" x2="114" y2="24"/>
+<line x1="165" y1="55" x2="114" y2="24"/></g>
+<circle cx="158" cy="148" r="11" fill="rgba(120,180,255,0.10)"/>
+<circle cx="158" cy="148" r="7" fill="rgba(140,190,255,0.14)"/>
+<circle cx="70" cy="62" r="10" fill="rgba(255,130,80,0.10)"/>
+<circle cx="70" cy="62" r="6" fill="rgba(255,140,90,0.15)"/>
+<circle cx="158" cy="148" r="3.8" fill="#c0d8ff" opacity="0.96"/>
+<circle cx="70" cy="62" r="3.4" fill="#ffb090" opacity="0.96"/>
+<circle cx="165" cy="55" r="2.4" fill="white" opacity="0.88"/>
+<circle cx="92" cy="98" r="2.2" fill="white" opacity="0.85"/>
+<circle cx="114" cy="101" r="2.5" fill="white" opacity="0.88"/>
+<circle cx="138" cy="105" r="2.2" fill="white" opacity="0.85"/>
+<circle cx="84" cy="148" r="2.4" fill="white" opacity="0.85"/>
+<circle cx="114" cy="24" r="2.0" fill="white" opacity="0.75"/>
+<text x="114" y="118" fill="rgba(255,255,255,0.28)" font-size="7.5" text-anchor="middle" font-family="sans-serif" letter-spacing="0.5">Nebula</text>
+</svg>`,
+
+            'Ursa Major': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="188" y1="58" x2="172" y2="82"/><line x1="172" y1="82" x2="148" y2="95"/>
+<line x1="148" y1="95" x2="132" y2="72"/><line x1="132" y1="72" x2="188" y2="58"/>
+<line x1="132" y1="72" x2="108" y2="68"/><line x1="108" y1="68" x2="75" y2="76"/>
+<line x1="75" y1="76" x2="44" y2="90"/></g>
+<circle cx="188" cy="58" r="3.2" fill="white" opacity="0.95"/>
+<circle cx="172" cy="82" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="148" cy="95" r="2.5" fill="white" opacity="0.88"/>
+<circle cx="132" cy="72" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="108" cy="68" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="75" cy="76" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="44" cy="90" r="2.8" fill="white" opacity="0.90"/>
+<text x="160" y="46" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Dubhe</text>
+<text x="52" y="104" fill="rgba(255,255,255,0.28)" font-size="7" font-family="sans-serif">Alkaid</text>
+</svg>`,
+
+            'Cassiopeia': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<rect x="0" y="0" width="240" height="175" rx="8" fill="rgba(80,100,220,0.04)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="28" y1="70" x2="78" y2="45"/><line x1="78" y1="45" x2="120" y2="72"/>
+<line x1="120" y1="72" x2="162" y2="46"/><line x1="162" y1="46" x2="208" y2="62"/></g>
+<circle cx="28" cy="70" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="78" cy="45" r="2.5" fill="white" opacity="0.88"/>
+<circle cx="120" cy="72" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="162" cy="46" r="3.2" fill="#fff5e0" opacity="0.96"/>
+<circle cx="208" cy="62" r="2.8" fill="white" opacity="0.90"/>
+<text x="120" y="90" fill="rgba(255,255,255,0.30)" font-size="8" text-anchor="middle" font-family="sans-serif" letter-spacing="1">W</text>
+</svg>`,
+
+            'Leo': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="88" y1="148" x2="84" y2="118"/><line x1="84" y1="118" x2="84" y2="94"/>
+<line x1="84" y1="94" x2="100" y2="72"/><line x1="100" y1="72" x2="120" y2="58"/>
+<line x1="120" y1="58" x2="148" y2="50"/><line x1="148" y1="50" x2="162" y2="64"/>
+<line x1="162" y1="64" x2="148" y2="80"/><line x1="148" y1="80" x2="84" y2="94"/>
+<line x1="162" y1="64" x2="170" y2="96"/><line x1="170" y1="96" x2="165" y2="114"/>
+<line x1="165" y1="114" x2="192" y2="132"/></g>
+<circle cx="88" cy="148" r="9" fill="rgba(200,220,255,0.10)"/>
+<circle cx="88" cy="148" r="3.8" fill="#d8e8ff" opacity="0.96"/>
+<circle cx="84" cy="118" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="84" cy="94" r="2.2" fill="white" opacity="0.84"/>
+<circle cx="100" cy="72" r="2.0" fill="white" opacity="0.80"/>
+<circle cx="120" cy="58" r="2.0" fill="white" opacity="0.80"/>
+<circle cx="148" cy="50" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="162" cy="64" r="2.0" fill="white" opacity="0.80"/>
+<circle cx="148" cy="80" r="1.8" fill="white" opacity="0.76"/>
+<circle cx="170" cy="96" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="165" cy="114" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="192" cy="132" r="3.0" fill="white" opacity="0.92"/>
+<text x="95" y="163" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Regulus</text>
+<text x="192" y="146" fill="rgba(255,255,255,0.28)" font-size="7" font-family="sans-serif">Denebola</text>
+</svg>`,
+
+            'Scorpius': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="36" x2="108" y2="42"/><line x1="108" y1="42" x2="115" y2="56"/>
+<line x1="108" y1="42" x2="132" y2="56"/><line x1="115" y1="56" x2="145" y2="80"/>
+<line x1="145" y1="80" x2="158" y2="98"/><line x1="158" y1="98" x2="162" y2="118"/>
+<line x1="162" y1="118" x2="154" y2="136"/><line x1="154" y1="136" x2="140" y2="152"/>
+<line x1="140" y1="152" x2="118" y2="160"/><line x1="118" y1="160" x2="94" y2="162"/>
+<line x1="94" y1="162" x2="70" y2="155"/><line x1="70" y1="155" x2="53" y2="142"/></g>
+<circle cx="115" cy="56" r="10" fill="rgba(255,90,50,0.12)"/>
+<circle cx="115" cy="56" r="6" fill="rgba(255,100,60,0.14)"/>
+<circle cx="80" cy="36" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="108" cy="42" r="2.5" fill="white" opacity="0.88"/>
+<circle cx="115" cy="56" r="4.0" fill="#ffb080" opacity="0.97"/>
+<circle cx="132" cy="56" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="145" cy="80" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="158" cy="98" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="162" cy="118" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="154" cy="136" r="2.0" fill="white" opacity="0.80"/>
+<circle cx="140" cy="152" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="118" cy="160" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="94" cy="162" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="70" cy="155" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="53" cy="142" r="3.2" fill="white" opacity="0.92"/>
+<text x="122" y="48" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Antares</text>
+<text x="28" y="140" fill="rgba(255,255,255,0.28)" font-size="7" font-family="sans-serif">Shaula</text>
+</svg>`,
+
+            'Gemini': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="142" y1="28" x2="158" y2="38"/>
+<line x1="158" y1="38" x2="165" y2="78"/><line x1="165" y1="78" x2="155" y2="108"/>
+<line x1="155" y1="108" x2="145" y2="140"/>
+<line x1="142" y1="28" x2="132" y2="62"/><line x1="132" y1="62" x2="120" y2="88"/>
+<line x1="120" y1="88" x2="108" y2="118"/>
+<line x1="132" y1="62" x2="148" y2="72"/><line x1="120" y1="88" x2="135" y2="96"/></g>
+<circle cx="158" cy="38" r="9" fill="rgba(255,180,80,0.10)"/>
+<circle cx="158" cy="38" r="3.8" fill="#ffe0a0" opacity="0.97"/>
+<circle cx="142" cy="28" r="3.2" fill="#e8eaff" opacity="0.95"/>
+<circle cx="165" cy="78" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="132" cy="62" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="148" cy="72" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="155" cy="108" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="88" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="135" cy="96" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="145" cy="140" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="108" cy="118" r="2.5" fill="white" opacity="0.85"/>
+<text x="168" y="28" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Pollux</text>
+<text x="118" y="22" fill="rgba(255,255,255,0.28)" font-size="7" font-family="sans-serif">Castor</text>
+</svg>`,
+
+            'Taurus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="52" cy="48" rx="18" ry="13" fill="rgba(100,150,255,0.10)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="125" y1="96" x2="145" y2="74"/><line x1="145" y1="74" x2="178" y2="48"/>
+<line x1="125" y1="96" x2="108" y2="70"/><line x1="108" y1="70" x2="178" y2="48"/>
+<line x1="108" y1="70" x2="98" y2="115"/></g>
+<circle cx="48" cy="52" r="1.6" fill="white" opacity="0.80"/>
+<circle cx="55" cy="44" r="2.0" fill="white" opacity="0.85"/>
+<circle cx="42" cy="46" r="1.6" fill="white" opacity="0.78"/>
+<circle cx="44" cy="57" r="1.5" fill="white" opacity="0.74"/>
+<circle cx="58" cy="52" r="1.5" fill="white" opacity="0.76"/>
+<circle cx="50" cy="40" r="1.4" fill="white" opacity="0.72"/>
+<circle cx="125" cy="96" r="10" fill="rgba(255,140,60,0.12)"/>
+<circle cx="125" cy="96" r="3.8" fill="#ffb878" opacity="0.97"/>
+<circle cx="145" cy="74" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="108" cy="70" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="178" cy="48" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="98" cy="115" r="2.0" fill="white" opacity="0.78"/>
+<text x="26" y="38" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Pleiades</text>
+<text x="132" y="112" fill="rgba(255,255,255,0.30)" font-size="7" font-family="sans-serif">Aldebaran</text>
+</svg>`,
+
+            'Cygnus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<rect x="102" y="0" width="36" height="175" rx="0" fill="rgba(120,140,255,0.04)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="22" x2="120" y2="82"/><line x1="120" y1="82" x2="120" y2="162"/>
+<line x1="65" y1="82" x2="120" y2="82"/><line x1="120" y1="82" x2="176" y2="82"/></g>
+<circle cx="120" cy="22" r="9" fill="rgba(220,240,255,0.12)"/>
+<circle cx="120" cy="22" r="3.5" fill="#e8f0ff" opacity="0.96"/>
+<circle cx="120" cy="82" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="65" cy="82" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="176" cy="82" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="120" cy="162" r="2.8" fill="#ffe090" opacity="0.90"/>
+<text x="127" y="18" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Deneb</text>
+<text x="127" y="168" fill="rgba(255,255,255,0.28)" font-size="7" font-family="sans-serif">Albireo</text>
+</svg>`,
+
+            'Perseus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="130" y1="65" x2="158" y2="48"/><line x1="130" y1="65" x2="175" y2="66"/>
+<line x1="130" y1="65" x2="148" y2="82"/><line x1="130" y1="65" x2="98" y2="90"/>
+<line x1="98" y1="90" x2="112" y2="94"/><line x1="98" y1="90" x2="78" y2="62"/>
+<line x1="98" y1="90" x2="88" y2="118"/></g>
+<circle cx="130" cy="65" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="98" cy="90" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="158" cy="48" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="175" cy="66" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="148" cy="82" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="112" cy="94" r="2.0" fill="white" opacity="0.80"/>
+<circle cx="78" cy="62" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="88" cy="118" r="2.0" fill="white" opacity="0.78"/>
+<text x="104" y="58" fill="rgba(255,255,255,0.30)" font-size="7" font-family="sans-serif">Mirfak</text>
+<text x="72" y="100" fill="rgba(255,200,200,0.40)" font-size="7" font-family="sans-serif">Algol ♦</text>
+</svg>`,
+
+            'Virgo': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="155" x2="98" y2="118"/><line x1="98" y1="118" x2="70" y2="95"/>
+<line x1="98" y1="118" x2="130" y2="100"/><line x1="130" y1="100" x2="152" y2="82"/>
+<line x1="130" y1="100" x2="145" y2="118"/>
+<line x1="152" y1="82" x2="170" y2="60"/></g>
+<circle cx="120" cy="155" r="9" fill="rgba(160,210,255,0.12)"/>
+<circle cx="120" cy="155" r="3.8" fill="#c0e0ff" opacity="0.97"/>
+<circle cx="98" cy="118" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="70" cy="95" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="130" cy="100" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="152" cy="82" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="145" cy="118" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="170" cy="60" r="2.0" fill="white" opacity="0.78"/>
+<text x="126" y="168" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Spica</text>
+</svg>`,
+
+            'Andromeda': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="170" cy="54" rx="20" ry="11" fill="rgba(180,200,255,0.14)" transform="rotate(-25 170 54)"/>
+<ellipse cx="170" cy="54" rx="12" ry="7" fill="rgba(200,215,255,0.12)" transform="rotate(-25 170 54)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="52" y1="95" x2="122" y2="93"/><line x1="122" y1="93" x2="192" y2="78"/>
+<line x1="122" y1="93" x2="108" y2="62"/><line x1="172" y1="85" x2="170" y2="58"/></g>
+<circle cx="52" cy="95" r="3.2" fill="white" opacity="0.95"/>
+<circle cx="122" cy="93" r="3.0" fill="#ffddcc" opacity="0.92"/>
+<circle cx="192" cy="78" r="2.8" fill="#ffe8b0" opacity="0.90"/>
+<circle cx="108" cy="62" r="2.0" fill="white" opacity="0.80"/>
+<circle cx="172" cy="85" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="170" cy="54" r="2.5" fill="rgba(200,218,255,0.70)" opacity="0.75"/>
+<text x="22" y="90" fill="rgba(255,255,255,0.30)" font-size="7" font-family="sans-serif">Alpheratz</text>
+<text x="150" y="46" fill="rgba(180,200,255,0.40)" font-size="7" font-family="sans-serif">M31 ◎</text>
+</svg>`,
+
+            'Aquila': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="108" y1="72" x2="122" y2="90"/><line x1="122" y1="90" x2="136" y2="108"/>
+<line x1="122" y1="90" x2="138" y2="76"/>
+<line x1="85" y1="58" x2="108" y2="72"/><line x1="108" y1="72" x2="142" y2="65"/>
+<line x1="142" y1="65" x2="165" y2="54"/>
+<line x1="136" y1="108" x2="130" y2="132"/><line x1="130" y1="132" x2="122" y2="150"/></g>
+<circle cx="122" cy="90" r="10" fill="rgba(220,240,255,0.10)"/>
+<circle cx="122" cy="90" r="4.0" fill="#d8efff" opacity="0.97"/>
+<circle cx="108" cy="72" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="136" cy="108" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="85" cy="58" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="142" cy="65" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="165" cy="54" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="138" cy="76" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="130" cy="132" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="122" cy="150" r="2.0" fill="white" opacity="0.78"/>
+<text x="128" y="86" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Altair</text>
+</svg>`,
+
+            'Lyra': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="30" x2="94" y2="80"/><line x1="120" y1="30" x2="146" y2="80"/>
+<line x1="94" y1="80" x2="146" y2="80"/>
+<line x1="94" y1="80" x2="100" y2="120"/><line x1="146" y1="80" x2="140" y2="120"/>
+<line x1="100" y1="120" x2="140" y2="120"/></g>
+<circle cx="120" cy="30" r="12" fill="rgba(180,220,255,0.12)"/>
+<circle cx="120" cy="30" r="7" fill="rgba(200,230,255,0.14)"/>
+<circle cx="120" cy="30" r="4.2" fill="#c8e8ff" opacity="0.98"/>
+<circle cx="94" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="146" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="100" cy="120" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="140" cy="120" r="2.2" fill="white" opacity="0.82"/>
+<text x="127" y="26" fill="rgba(255,255,255,0.34)" font-size="7" font-family="sans-serif">Vega</text>
+</svg>`,
+
+            'Boötes': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="148" x2="88" y2="110"/><line x1="120" y1="148" x2="152" y2="110"/>
+<line x1="88" y1="110" x2="80" y2="72"/><line x1="152" y1="110" x2="160" y2="72"/>
+<line x1="80" y1="72" x2="120" y2="40"/><line x1="160" y1="72" x2="120" y2="40"/>
+<line x1="88" y1="110" x2="152" y2="110"/></g>
+<circle cx="120" cy="148" r="12" fill="rgba(255,160,60,0.12)"/>
+<circle cx="120" cy="148" r="7" fill="rgba(255,170,70,0.14)"/>
+<circle cx="120" cy="148" r="4.2" fill="#ffb864" opacity="0.98"/>
+<circle cx="88" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="152" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="80" cy="72" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="160" cy="72" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="120" cy="40" r="2.2" fill="white" opacity="0.82"/>
+<text x="126" y="163" fill="rgba(255,255,255,0.34)" font-size="7" font-family="sans-serif">Arcturus</text>
+</svg>`,
+
+            'Cancer': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="120" cy="88" rx="22" ry="14" fill="rgba(180,200,255,0.10)"/>
+<g stroke="rgba(255,255,255,0.22)" stroke-width="1.2" stroke-linecap="round">
+<line x1="80" y1="70" x2="120" y2="90"/><line x1="160" y1="70" x2="120" y2="90"/>
+<line x1="120" y1="90" x2="96" y2="118"/><line x1="120" y1="90" x2="144" y2="118"/></g>
+<circle cx="80" cy="70" r="2.5" fill="white" opacity="0.80"/>
+<circle cx="160" cy="70" r="2.5" fill="white" opacity="0.80"/>
+<circle cx="120" cy="90" r="2.2" fill="white" opacity="0.78"/>
+<circle cx="96" cy="118" r="2.2" fill="white" opacity="0.78"/>
+<circle cx="144" cy="118" r="2.2" fill="white" opacity="0.78"/>
+<text x="98" y="82" fill="rgba(180,200,255,0.38)" font-size="7" font-family="sans-serif">Beehive ◦◦◦</text>
+</svg>`,
+
+            'Capricornus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="58" y1="58" x2="78" y2="55"/><line x1="78" y1="55" x2="120" y2="50"/>
+<line x1="120" y1="50" x2="165" y2="60"/><line x1="165" y1="60" x2="185" y2="80"/>
+<line x1="185" y1="80" x2="155" y2="125"/><line x1="155" y1="125" x2="105" y2="135"/>
+<line x1="105" y1="135" x2="58" y2="120"/><line x1="58" y1="120" x2="58" y2="58"/>
+<line x1="58" y1="58" x2="80" y2="80"/></g>
+<circle cx="58" cy="58" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="120" cy="50" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="165" cy="60" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="185" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="155" cy="125" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="105" cy="135" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="58" cy="120" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="78" cy="55" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="80" cy="80" r="2.0" fill="white" opacity="0.78"/>
+</svg>`,
+
+            'Aquarius': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="52" x2="110" y2="60"/><line x1="110" y1="60" x2="130" y2="52"/>
+<line x1="130" y1="52" x2="155" y2="65"/>
+<line x1="110" y1="60" x2="100" y2="90"/><line x1="100" y1="90" x2="75" y2="110"/>
+<line x1="100" y1="90" x2="125" y2="105"/><line x1="125" y1="105" x2="150" y2="92"/>
+<line x1="150" y1="92" x2="170" y2="112"/>
+<line x1="125" y1="105" x2="115" y2="135"/><line x1="115" y1="135" x2="140" y2="148"/></g>
+<circle cx="80" cy="52" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="110" cy="60" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="130" cy="52" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="155" cy="65" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="100" cy="90" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="75" cy="110" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="125" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="150" cy="92" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="170" cy="112" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="115" cy="135" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="140" cy="148" r="2.0" fill="white" opacity="0.78"/>
+</svg>`,
+
+            'Pisces': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.24)" stroke-width="1.2" stroke-linecap="round">
+<line x1="55" y1="50" x2="70" y2="38"/><line x1="70" y1="38" x2="88" y2="42"/>
+<line x1="88" y1="42" x2="94" y2="58"/><line x1="94" y1="58" x2="82" y2="70"/>
+<line x1="82" y1="70" x2="62" y2="66"/><line x1="62" y1="66" x2="55" y2="50"/>
+<line x1="94" y1="58" x2="120" y2="95"/>
+<line x1="120" y1="95" x2="148" y2="100"/>
+<line x1="148" y1="100" x2="162" y2="90"/><line x1="162" y1="90" x2="178" y2="98"/>
+<line x1="178" y1="98" x2="185" y2="115"/><line x1="185" y1="115" x2="174" y2="130"/>
+<line x1="174" y1="130" x2="155" y2="128"/><line x1="155" y1="128" x2="148" y2="115"/>
+<line x1="148" y1="115" x2="148" y2="100"/></g>
+<circle cx="55" cy="50" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="70" cy="38" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="88" cy="42" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="94" cy="58" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="82" cy="70" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="62" cy="66" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="120" cy="95" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="162" cy="90" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="178" cy="98" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="185" cy="115" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="174" cy="130" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="155" cy="128" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="148" cy="115" r="2.2" fill="white" opacity="0.82"/>
+</svg>`,
+
+            'Aries': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="68" y1="88" x2="115" y2="82"/><line x1="115" y1="82" x2="148" y2="90"/>
+<line x1="148" y1="90" x2="172" y2="82"/></g>
+<circle cx="68" cy="88" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="115" cy="82" r="4.0" fill="#ffe8d0" opacity="0.97"/>
+<circle cx="148" cy="90" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="172" cy="82" r="2.5" fill="white" opacity="0.85"/>
+<text x="116" y="70" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Hamal</text>
+</svg>`,
+
+            'Sagittarius': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="148" cy="88" rx="28" ry="20" fill="rgba(255,200,100,0.07)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="110" x2="110" y2="110"/><line x1="110" y1="110" x2="140" y2="95"/>
+<line x1="140" y1="95" x2="170" y2="110"/><line x1="80" y1="110" x2="80" y2="80"/>
+<line x1="80" y1="80" x2="110" y2="70"/><line x1="110" y1="70" x2="140" y2="75"/>
+<line x1="140" y1="75" x2="140" y2="95"/>
+<line x1="110" y1="70" x2="90" y2="48"/></g>
+<circle cx="80" cy="110" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="110" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="140" cy="95" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="170" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="80" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="110" cy="70" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="140" cy="75" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="90" cy="48" r="2.2" fill="white" opacity="0.82"/>
+<text x="150" y="78" fill="rgba(255,200,100,0.42)" font-size="7" font-family="sans-serif">Galactic Core</text>
+</svg>`,
+
+            'Libra': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="70" y1="88" x2="170" y2="88"/>
+<line x1="90" y1="88" x2="120" y2="55"/><line x1="150" y1="88" x2="120" y2="55"/>
+<line x1="70" y1="88" x2="70" y2="120"/><line x1="170" y1="88" x2="170" y2="120"/>
+<line x1="70" y1="120" x2="90" y2="140"/><line x1="170" y1="120" x2="150" y2="140"/>
+<line x1="90" y1="140" x2="150" y2="140"/></g>
+<circle cx="120" cy="55" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="70" cy="88" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="170" cy="88" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="90" cy="88" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="150" cy="88" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="70" cy="120" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="170" cy="120" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="90" cy="140" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="150" cy="140" r="2.0" fill="white" opacity="0.78"/>
+</svg>`,
+
+            'Hercules': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<circle cx="158" cy="68" r="10" fill="rgba(180,210,255,0.12)"/>
+<circle cx="158" cy="68" r="6" fill="rgba(180,210,255,0.10)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="95" y1="72" x2="145" y2="65"/><line x1="145" y1="65" x2="145" y2="105"/>
+<line x1="145" y1="105" x2="95" y2="112"/><line x1="95" y1="112" x2="95" y2="72"/>
+<line x1="95" y1="72" x2="70" y2="48"/><line x1="145" y1="65" x2="168" y2="42"/>
+<line x1="95" y1="112" x2="75" y2="142"/><line x1="145" y1="105" x2="162" y2="138"/></g>
+<circle cx="95" cy="72" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="145" cy="65" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="145" cy="105" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="95" cy="112" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="70" cy="48" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="168" cy="42" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="75" cy="142" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="162" cy="138" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="158" cy="68" r="2.5" fill="rgba(200,220,255,0.80)" opacity="0.75"/>
+<text x="163" y="62" fill="rgba(180,210,255,0.40)" font-size="7" font-family="sans-serif">M13 ◎</text>
+</svg>`,
+
+            'Draco': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="185" y1="42" x2="172" y2="52"/><line x1="172" y1="52" x2="160" y2="44"/>
+<line x1="172" y1="52" x2="175" y2="65"/><line x1="175" y1="65" x2="160" y2="80"/>
+<line x1="160" y1="80" x2="138" y2="88"/><line x1="138" y1="88" x2="115" y2="82"/>
+<line x1="115" y1="82" x2="95" y2="90"/><line x1="95" y1="90" x2="78" y2="108"/>
+<line x1="78" y1="108" x2="72" y2="130"/><line x1="72" y1="130" x2="85" y2="148"/>
+<line x1="72" y1="130" x2="55" y2="140"/></g>
+<circle cx="185" cy="42" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="172" cy="52" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="160" cy="44" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="175" cy="65" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="160" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="138" cy="88" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="115" cy="82" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="95" cy="90" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="78" cy="108" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="72" cy="130" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="85" cy="148" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="55" cy="140" r="2.0" fill="white" opacity="0.78"/>
+<text x="152" y="38" fill="rgba(255,255,255,0.28)" font-size="7" font-family="sans-serif">Eltanin</text>
+</svg>`,
+
+            'Ursa Minor': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<circle cx="120" cy="35" r="14" fill="rgba(255,220,100,0.10)"/>
+<circle cx="120" cy="35" r="8" fill="rgba(255,230,120,0.12)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="35" x2="135" y2="60"/><line x1="135" y1="60" x2="148" y2="78"/>
+<line x1="148" y1="78" x2="168" y2="85"/><line x1="168" y1="85" x2="182" y2="100"/>
+<line x1="168" y1="85" x2="155" y2="105"/><line x1="155" y1="105" x2="168" y2="125"/>
+<line x1="168" y1="125" x2="182" y2="100"/>
+<line x1="155" y1="105" x2="135" y2="110"/></g>
+<circle cx="120" cy="35" r="4.2" fill="#ffe880" opacity="0.98"/>
+<circle cx="135" cy="60" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="148" cy="78" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="168" cy="85" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="182" cy="100" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="155" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="168" cy="125" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="135" cy="110" r="2.2" fill="white" opacity="0.82"/>
+<text x="86" y="32" fill="rgba(255,230,100,0.40)" font-size="7" font-family="sans-serif">Polaris ★</text>
+</svg>`,
+
+            'Pegasus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="62" y1="62" x2="178" y2="62"/><line x1="178" y1="62" x2="178" y2="128"/>
+<line x1="178" y1="128" x2="62" y2="128"/><line x1="62" y1="128" x2="62" y2="62"/>
+<line x1="62" y1="62" x2="40" y2="40"/><line x1="178" y1="62" x2="210" y2="42"/>
+<line x1="62" y1="128" x2="42" y2="148"/></g>
+<circle cx="62" cy="62" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="178" cy="62" r="3.5" fill="white" opacity="0.95"/>
+<circle cx="178" cy="128" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="62" cy="128" r="3.0" fill="#ffe8d0" opacity="0.95"/>
+<circle cx="40" cy="40" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="210" cy="42" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="42" cy="148" r="2.2" fill="white" opacity="0.82"/>
+<text x="98" y="103" fill="rgba(255,255,255,0.25)" font-size="8" font-family="sans-serif" letter-spacing="1">Great Square</text>
+</svg>`,
+
+            'Centaurus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="68" y1="105" x2="95" y2="88"/><line x1="95" y2="88" x2="125" y2="80"/>
+<line x1="125" y1="80" x2="155" y2="88"/><line x1="155" y1="88" x2="172" y2="105"/>
+<line x1="125" y1="80" x2="120" y2="55"/><line x1="120" y1="55" x2="108" y2="38"/>
+<line x1="120" y1="55" x2="132" y2="38"/>
+<line x1="68" y1="105" x2="58" y2="130"/><line x1="172" y1="105" x2="182" y2="130"/>
+<line x1="95" y1="88" x2="82" y2="118"/><line x1="155" y1="88" x2="168" y2="118"/></g>
+<circle cx="68" cy="105" r="9" fill="rgba(180,230,255,0.12)"/>
+<circle cx="68" cy="105" r="4.5" fill="#c8eaff" opacity="0.98"/>
+<circle cx="95" cy="88" r="3.5" fill="#e8f8ff" opacity="0.96"/>
+<circle cx="125" cy="80" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="155" cy="88" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="172" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="55" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="108" cy="38" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="132" cy="38" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="58" cy="130" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="182" cy="130" r="2.2" fill="white" opacity="0.82"/>
+<text x="28" y="102" fill="rgba(180,230,255,0.42)" font-size="7" font-family="sans-serif">α Cen</text>
+</svg>`,
+
+            'Corona Borealis': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="65" y1="112" x2="88" y2="78"/><line x1="88" y1="78" x2="110" y2="65"/>
+<line x1="110" y1="65" x2="120" y2="60"/><line x1="120" y1="60" x2="130" y2="65"/>
+<line x1="130" y1="65" x2="152" y2="78"/><line x1="152" y1="78" x2="175" y2="112"/></g>
+<circle cx="65" cy="112" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="88" cy="78" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="110" cy="65" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="60" r="4.0" fill="#ffe8a0" opacity="0.97"/>
+<circle cx="130" cy="65" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="152" cy="78" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="175" cy="112" r="2.5" fill="white" opacity="0.85"/>
+<text x="113" y="48" fill="rgba(255,255,255,0.32)" font-size="7" font-family="sans-serif">Alphecca</text>
+</svg>`,
+
+            'Ophiuchus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="28" x2="155" y2="55"/><line x1="155" y1="55" x2="175" y2="90"/>
+<line x1="175" y1="90" x2="160" y2="130"/><line x1="160" y1="130" x2="120" y2="148"/>
+<line x1="120" y1="148" x2="80" y2="130"/><line x1="80" y1="130" x2="65" y2="90"/>
+<line x1="65" y1="90" x2="85" y2="55"/><line x1="85" y1="55" x2="120" y2="28"/>
+<line x1="85" y1="55" x2="120" y2="68"/><line x1="155" y1="55" x2="120" y2="68"/></g>
+<circle cx="120" cy="28" r="3.5" fill="white" opacity="0.95"/>
+<circle cx="155" cy="55" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="175" cy="90" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="160" cy="130" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="148" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="80" cy="130" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="65" cy="90" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="85" cy="55" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="120" cy="68" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Canis Major': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="38" x2="105" y2="65"/><line x1="105" y1="65" x2="85" y2="85"/>
+<line x1="105" y1="65" x2="135" y2="80"/><line x1="135" y1="80" x2="155" y2="100"/>
+<line x1="155" y1="100" x2="148" y2="130"/><line x1="148" y1="130" x2="125" y2="148"/>
+<line x1="125" y1="148" x2="100" y2="138"/><line x1="100" y1="138" x2="88" y2="118"/>
+<line x1="88" y1="118" x2="85" y2="85"/><line x1="88" y1="118" x2="68" y2="130"/></g>
+<circle cx="120" cy="38" r="14" fill="rgba(220,240,255,0.14)"/>
+<circle cx="120" cy="38" r="8" fill="rgba(230,245,255,0.16)"/>
+<circle cx="120" cy="38" r="5.0" fill="#e8f4ff" opacity="0.99"/>
+<circle cx="105" cy="65" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="85" cy="85" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="135" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="155" cy="100" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="148" cy="130" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="125" cy="148" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="100" cy="138" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="88" cy="118" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="68" cy="130" r="2.0" fill="white" opacity="0.78"/>
+<text x="126" y="34" fill="rgba(230,245,255,0.40)" font-size="7" font-family="sans-serif">Sirius</text>
+</svg>`,
+
+            'Canis Minor': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="90" y1="88" x2="150" y2="88"/></g>
+<circle cx="150" cy="88" r="11" fill="rgba(255,220,180,0.12)"/>
+<circle cx="150" cy="88" r="6" fill="rgba(255,225,185,0.14)"/>
+<circle cx="150" cy="88" r="4.2" fill="#ffddb0" opacity="0.98"/>
+<circle cx="90" cy="88" r="2.8" fill="white" opacity="0.88"/>
+<text x="155" y="84" fill="rgba(255,220,180,0.40)" font-size="7" font-family="sans-serif">Procyon</text>
+<text x="54" y="84" fill="rgba(255,255,255,0.28)" font-size="7" font-family="sans-serif">Gomeisa</text>
+</svg>`,
+
+            'Lepus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="82" y1="72" x2="122" y2="68"/><line x1="122" y1="68" x2="158" y2="78"/>
+<line x1="158" y1="78" x2="162" y2="110"/><line x1="162" y1="110" x2="130" y2="125"/>
+<line x1="130" y1="125" x2="90" y2="118"/><line x1="90" y1="118" x2="82" y2="72"/>
+<line x1="82" y1="72" x2="68" y2="88"/><line x1="122" y1="68" x2="115" y2="50"/></g>
+<circle cx="82" cy="72" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="122" cy="68" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="158" cy="78" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="162" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="130" cy="125" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="90" cy="118" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="68" cy="88" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="115" cy="50" r="2.0" fill="white" opacity="0.78"/>
+</svg>`,
+
+            'Auriga': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="75" cy="55" rx="12" ry="8" fill="rgba(180,230,180,0.10)"/>
+<ellipse cx="108" cy="70" rx="10" ry="7" fill="rgba(180,230,180,0.08)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="30" x2="175" y2="68"/><line x1="175" y1="68" x2="168" y2="125"/>
+<line x1="168" y1="125" x2="98" y2="140"/><line x1="98" y1="140" x2="52" y2="108"/>
+<line x1="52" y1="108" x2="120" y2="30"/>
+<line x1="52" y1="108" x2="78" y2="88"/><line x1="78" y1="88" x2="120" y2="30"/></g>
+<circle cx="120" cy="30" r="12" fill="rgba(255,220,150,0.12)"/>
+<circle cx="120" cy="30" r="7" fill="rgba(255,225,160,0.14)"/>
+<circle cx="120" cy="30" r="4.5" fill="#ffe090" opacity="0.98"/>
+<circle cx="175" cy="68" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="168" cy="125" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="98" cy="140" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="52" cy="108" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="78" cy="88" r="2.2" fill="white" opacity="0.82"/>
+<text x="75" y="57" fill="rgba(180,230,180,0.40)" font-size="6.5" font-family="sans-serif">M36·M37·M38</text>
+<text x="126" y="26" fill="rgba(255,220,150,0.38)" font-size="7" font-family="sans-serif">Capella</text>
+</svg>`,
+
+            'Hydra': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="20" y1="70" x2="42" y2="62"/><line x1="42" y1="62" x2="55" y2="68"/>
+<line x1="42" y1="62" x2="48" y2="50"/>
+<line x1="55" y1="68" x2="78" y2="78"/><line x1="78" y1="78" x2="105" y2="88"/>
+<line x1="105" y1="88" x2="130" y2="95"/><line x1="130" y1="95" x2="158" y2="100"/>
+<line x1="158" y1="100" x2="185" y2="108"/><line x1="185" y1="108" x2="210" y2="118"/>
+<line x1="105" y1="88" x2="112" y2="72"/></g>
+<circle cx="20" cy="70" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="42" cy="62" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="48" cy="50" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="55" cy="68" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="78" cy="78" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="105" cy="88" r="3.5" fill="#ffb880" opacity="0.97"/>
+<circle cx="130" cy="95" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="158" cy="100" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="185" cy="108" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="210" cy="118" r="2.0" fill="white" opacity="0.78"/>
+<circle cx="112" cy="72" r="2.0" fill="white" opacity="0.78"/>
+<text x="100" y="106" fill="rgba(255,180,120,0.40)" font-size="7" font-family="sans-serif">Alphard</text>
+</svg>`,
+
+            'Corvus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="82" y1="65" x2="158" y2="68"/><line x1="158" y1="68" x2="162" y2="120"/>
+<line x1="162" y1="120" x2="82" y2="125"/><line x1="82" y1="125" x2="82" y2="65"/>
+<line x1="82" y1="65" x2="162" y2="120"/>
+<line x1="158" y1="68" x2="82" y2="125"/></g>
+<circle cx="82" cy="65" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="158" cy="68" r="3.5" fill="white" opacity="0.95"/>
+<circle cx="162" cy="120" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="82" cy="125" r="3.2" fill="white" opacity="0.94"/>
+</svg>`,
+
+            'Triangulum': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="148" cy="82" rx="18" ry="12" fill="rgba(160,185,255,0.12)"/>
+<ellipse cx="148" cy="82" rx="10" ry="7" fill="rgba(170,190,255,0.10)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="75" y1="88" x2="165" y2="62"/><line x1="165" y1="62" x2="155" y2="115"/>
+<line x1="155" y1="115" x2="75" y2="88"/></g>
+<circle cx="75" cy="88" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="165" cy="62" r="3.5" fill="white" opacity="0.95"/>
+<circle cx="155" cy="115" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="148" cy="82" r="2.5" fill="rgba(180,200,255,0.80)" opacity="0.70"/>
+<text x="148" y="75" fill="rgba(160,185,255,0.40)" font-size="7" font-family="sans-serif">M33 ◎</text>
+</svg>`,
+
+            'Cepheus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="28" x2="170" y2="70"/><line x1="170" y1="70" x2="155" y2="128"/>
+<line x1="155" y1="128" x2="85" y2="128"/><line x1="85" y1="128" x2="70" y2="70"/>
+<line x1="70" y1="70" x2="120" y2="28"/>
+<line x1="70" y1="70" x2="170" y2="70"/></g>
+<circle cx="120" cy="28" r="3.5" fill="white" opacity="0.95"/>
+<circle cx="170" cy="70" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="155" cy="128" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="85" cy="128" r="3.2" fill="white" opacity="0.94"/>
+<circle cx="70" cy="70" r="4.0" fill="#ff9060" opacity="0.97"/>
+<text x="28" y="68" fill="rgba(255,140,80,0.42)" font-size="7" font-family="sans-serif">Garnet ★</text>
+</svg>`,
+
+            'Antlia': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="100" y1="60" x2="130" y2="85"/><line x1="130" y1="85" x2="155" y2="110"/>
+<line x1="130" y1="85" x2="160" y2="75"/></g>
+<circle cx="100" cy="60" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="130" cy="85" r="3.0" fill="#6ee7ff" opacity="0.90"/>
+<circle cx="155" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="160" cy="75" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Apus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="105" y1="65" x2="120" y2="90"/><line x1="120" y1="90" x2="135" y2="115"/>
+<line x1="120" y1="90" x2="145" y2="85"/></g>
+<circle cx="105" cy="65" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="90" r="2.8" fill="#00c864" opacity="0.88"/>
+<circle cx="135" cy="115" r="2.5" fill="white" opacity="0.82"/>
+<circle cx="145" cy="85" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Ara': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="85" y1="55" x2="155" y2="55"/><line x1="85" y1="55" x2="80" y2="100"/>
+<line x1="155" y1="55" x2="160" y2="100"/><line x1="80" y1="100" x2="120" y2="125"/>
+<line x1="160" y1="100" x2="120" y2="125"/><line x1="100" y1="55" x2="100" y2="35"/>
+<line x1="140" y1="55" x2="140" y2="35"/></g>
+<circle cx="85" cy="55" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="155" cy="55" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="80" cy="100" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="160" cy="100" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="125" r="3.0" fill="#ff6b6b" opacity="0.92"/>
+<circle cx="100" cy="35" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="140" cy="35" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Caelum': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="110" y1="65" x2="125" y2="90"/><line x1="125" y1="90" x2="140" y2="115"/>
+<line x1="110" y1="65" x2="130" y2="60"/></g>
+<circle cx="110" cy="65" r="2.8" fill="#a78bff" opacity="0.88"/>
+<circle cx="125" cy="90" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="140" cy="115" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="130" cy="60" r="2.0" fill="white" opacity="0.78"/>
+</svg>`,
+
+            'Camelopardalis': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="75" y1="45" x2="105" y2="70"/><line x1="105" y1="70" x2="150" y2="65"/>
+<line x1="150" y1="65" x2="170" y2="90"/><line x1="105" y1="70" x2="95" y2="110"/>
+<line x1="95" y1="110" x2="120" y2="140"/><line x1="150" y1="65" x2="145" y2="115"/>
+<line x1="145" y1="115" x2="120" y2="140"/></g>
+<circle cx="75" cy="45" r="3.0" fill="#f5c518" opacity="0.92"/>
+<circle cx="105" cy="70" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="150" cy="65" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="170" cy="90" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="95" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="145" cy="115" r="2.2" fill="white" opacity="0.82"/>
+<circle cx="120" cy="140" r="2.2" fill="white" opacity="0.82"/>
+</svg>`,
+
+            'Canes Venatici': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="155" cy="55" rx="18" ry="11" fill="rgba(180,195,255,0.13)" transform="rotate(-20 155 55)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="90" y1="95" x2="140" y2="70"/></g>
+<circle cx="90" cy="95" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="140" cy="70" r="3.5" fill="#ff9f43" opacity="0.96"/>
+<circle cx="155" cy="52" r="2.0" fill="rgba(200,215,255,0.60)" opacity="0.70"/>
+<text x="146" y="67" fill="rgba(255,255,255,0.30)" font-size="7" font-family="sans-serif">Cor Caroli</text>
+<text x="138" y="47" fill="rgba(180,200,255,0.35)" font-size="7" font-family="sans-serif">M51 ◎</text>
+</svg>`,
+
+            'Carina': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="82" cy="70" rx="16" ry="10" fill="rgba(255,180,60,0.12)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="42" y1="105" x2="82" y2="70"/><line x1="82" y1="70" x2="132" y2="60"/>
+<line x1="132" y1="60" x2="175" y2="75"/><line x1="175" y1="75" x2="198" y2="100"/>
+<line x1="42" y1="105" x2="70" y2="130"/><line x1="70" y1="130" x2="130" y2="135"/>
+<line x1="130" y1="135" x2="175" y2="75"/></g>
+<circle cx="132" cy="60" r="12" fill="rgba(180,220,255,0.10)"/>
+<circle cx="132" cy="60" r="5.5" fill="#c8e8ff" opacity="0.99"/>
+<circle cx="82" cy="70" r="3.5" fill="#ffb040" opacity="0.88"/>
+<circle cx="42" cy="105" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="175" cy="75" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="198" cy="100" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="70" cy="130" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="130" cy="135" r="2.2" fill="white" opacity="0.82"/>
+<text x="138" y="56" fill="rgba(200,230,255,0.34)" font-size="7" font-family="sans-serif">Canopus</text>
+<text x="62" y="66" fill="rgba(255,175,50,0.38)" font-size="7" font-family="sans-serif">η Car ★</text>
+</svg>`,
+
+            'Cetus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="50" y1="55" x2="78" y2="45"/><line x1="78" y1="45" x2="105" y2="55"/>
+<line x1="78" y1="45" x2="85" y2="68"/><line x1="105" y1="55" x2="125" y2="70"/>
+<line x1="125" y1="70" x2="145" y2="90"/><line x1="145" y1="90" x2="165" y2="80"/>
+<line x1="165" y1="80" x2="190" y2="90"/><line x1="190" y1="90" x2="195" y2="115"/>
+<line x1="145" y1="90" x2="150" y2="120"/><line x1="150" y1="120" x2="165" y2="140"/>
+<line x1="50" y1="55" x2="45" y2="80"/><line x1="45" y2="80" x2="60" y1="80" y2="100"/></g>
+<circle cx="50" cy="55" r="3.2" fill="#6ee7ff" opacity="0.93"/>
+<circle cx="78" cy="45" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="105" cy="55" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="85" cy="68" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="125" cy="70" r="3.0" fill="#ffddcc" opacity="0.90"/>
+<circle cx="145" cy="90" r="3.5" fill="#ff9f60" opacity="0.95"/>
+<circle cx="165" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="190" cy="90" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="195" cy="115" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="150" cy="120" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="165" cy="140" r="2.5" fill="white" opacity="0.85"/>
+<text x="148" y="87" fill="rgba(255,255,255,0.30)" font-size="7" font-family="sans-serif">Mira ✦</text>
+</svg>`,
+
+            'Chamaeleon': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="80" x2="120" y2="70"/><line x1="120" y1="70" x2="160" y2="80"/>
+<line x1="80" y1="80" x2="90" y2="110"/><line x1="160" y1="80" x2="150" y2="110"/>
+<line x1="90" y1="110" x2="120" y2="118"/><line x1="150" y1="110" x2="120" y2="118"/>
+</g>
+<circle cx="80" cy="80" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="120" cy="70" r="3.0" fill="#00c864" opacity="0.90"/>
+<circle cx="160" cy="80" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="90" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="150" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="118" r="2.2" fill="white" opacity="0.82"/>
+</svg>`,
+
+            'Circinus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="55" x2="100" y2="110"/><line x1="120" y1="55" x2="145" y2="105"/>
+<line x1="100" y1="110" x2="145" y2="105"/></g>
+<circle cx="120" cy="55" r="3.5" fill="#c4a8ff" opacity="0.95"/>
+<circle cx="100" cy="110" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="145" cy="105" r="2.8" fill="white" opacity="0.88"/>
+</svg>`,
+
+            'Columba': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="85" y1="80" x2="120" y2="85"/><line x1="120" y1="85" x2="155" y2="70"/>
+<line x1="120" y1="85" x2="130" y2="115"/><line x1="130" y1="115" x2="155" y2="130"/>
+<line x1="85" y1="80" x2="65" y2="70"/></g>
+<circle cx="85" cy="80" r="3.2" fill="#e8e8ff" opacity="0.94"/>
+<circle cx="120" cy="85" r="3.5" fill="white" opacity="0.96"/>
+<circle cx="155" cy="70" r="2.8" fill="white" opacity="0.90"/>
+<circle cx="130" cy="115" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="155" cy="130" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="65" cy="70" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Coma Berenices': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="155" cy="90" rx="35" ry="28" fill="rgba(200,210,255,0.08)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="65" x2="115" y2="80"/><line x1="115" y1="80" x2="135" y2="110"/>
+<line x1="115" y1="80" x2="145" y2="70"/></g>
+<circle cx="80" cy="65" r="3.0" fill="#f5c518" opacity="0.92"/>
+<circle cx="115" cy="80" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="135" cy="110" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="145" cy="70" r="2.5" fill="white" opacity="0.85"/>
+<text x="158" y="86" fill="rgba(200,215,255,0.30)" font-size="7" font-family="sans-serif">Coma Cluster</text>
+</svg>`,
+
+            'Corona Australis': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="72" y1="110" x2="90" y2="85"/><line x1="90" y1="85" x2="112" y2="72"/>
+<line x1="112" y1="72" x2="135" y2="75"/><line x1="135" y1="75" x2="155" y2="90"/>
+<line x1="155" y1="90" x2="168" y2="115"/></g>
+<circle cx="72" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="90" cy="85" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="112" cy="72" r="3.0" fill="#ff9f43" opacity="0.92"/>
+<circle cx="135" cy="75" r="3.0" fill="#ff9f43" opacity="0.92"/>
+<circle cx="155" cy="90" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="168" cy="115" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Crater': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="95" y1="60" x2="145" y2="60"/><line x1="95" y1="60" x2="80" y2="95"/>
+<line x1="145" y1="60" x2="160" y2="95"/><line x1="80" y1="95" x2="120" y2="120"/>
+<line x1="160" y1="95" x2="120" y2="120"/><line x1="110" y1="60" x2="120" y2="40"/>
+<line x1="130" y1="60" x2="120" y2="40"/></g>
+<circle cx="95" cy="60" r="2.8" fill="#c4a8ff" opacity="0.90"/>
+<circle cx="145" cy="60" r="2.8" fill="#c4a8ff" opacity="0.90"/>
+<circle cx="80" cy="95" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="160" cy="95" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="120" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="120" cy="40" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Crux': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="165" cy="110" rx="22" ry="18" fill="rgba(10,10,20,0.65)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="40" x2="120" y2="145"/><line x1="75" y1="92" x2="165" y2="92"/></g>
+<circle cx="120" cy="40" r="4.2" fill="#c8e8ff" opacity="0.98"/>
+<circle cx="120" cy="145" r="3.5" fill="#d8eeff" opacity="0.96"/>
+<circle cx="75" cy="92" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="165" cy="92" r="3.5" fill="#c8e8ff" opacity="0.97"/>
+<text x="170" y="108" fill="rgba(180,200,255,0.32)" font-size="7" font-family="sans-serif">Coalsack</text>
+</svg>`,
+
+            'Delphinus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="55" x2="148" y2="88"/><line x1="148" y1="88" x2="120" y2="115"/>
+<line x1="120" y1="115" x2="92" y2="88"/><line x1="92" y1="88" x2="120" y2="55"/>
+<line x1="120" y1="115" x2="115" y2="145"/></g>
+<circle cx="120" cy="55" r="3.2" fill="#00c8ff" opacity="0.94"/>
+<circle cx="148" cy="88" r="3.0" fill="#00c8ff" opacity="0.92"/>
+<circle cx="120" cy="115" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="92" cy="88" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="115" cy="145" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Dorado': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="155" cy="105" rx="45" ry="32" fill="rgba(200,215,255,0.12)"/>
+<ellipse cx="155" cy="105" rx="28" ry="20" fill="rgba(200,215,255,0.10)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="75" y1="55" x2="105" y2="75"/><line x1="105" y1="75" x2="125" y2="110"/>
+<line x1="125" y1="110" x2="140" y2="140"/><line x1="105" y1="75" x2="135" y2="65"/></g>
+<circle cx="75" cy="55" r="3.5" fill="#ff6eb4" opacity="0.95"/>
+<circle cx="105" cy="75" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="125" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="140" cy="140" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="135" cy="65" r="2.5" fill="white" opacity="0.85"/>
+<text x="158" y="101" fill="rgba(200,215,255,0.38)" font-size="7" font-family="sans-serif">LMC ◎</text>
+</svg>`,
+
+            'Equuleus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="105" y1="75" x2="135" y2="80"/><line x1="135" y1="80" x2="140" y2="105"/>
+<line x1="105" y1="75" x2="110" y2="105"/><line x1="110" y1="105" x2="140" y2="105"/></g>
+<circle cx="105" cy="75" r="3.0" fill="#a78bff" opacity="0.93"/>
+<circle cx="135" cy="80" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="140" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="110" cy="105" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Eridanus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="175" y1="28" x2="155" y2="50"/><line x1="155" y1="50" x2="165" y2="72"/>
+<line x1="165" y1="72" x2="145" y2="85"/><line x1="145" y1="85" x2="120" y2="80"/>
+<line x1="120" y1="80" x2="95" y2="90"/><line x1="95" y1="90" x2="75" y2="105"/>
+<line x1="75" y1="105" x2="80" y2="125"/><line x1="80" y1="125" x2="100" y2="135"/>
+<line x1="100" y1="135" x2="118" y2="155"/></g>
+<circle cx="175" cy="28" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="155" cy="50" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="165" cy="72" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="145" cy="85" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="120" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="95" cy="90" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="75" cy="105" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="80" cy="125" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="100" cy="135" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="118" cy="155" r="5.0" fill="#c0d8ff" opacity="0.99"/>
+<text x="122" y="151" fill="rgba(190,220,255,0.36)" font-size="7" font-family="sans-serif">Achernar</text>
+</svg>`,
+
+            'Fornax': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="150" cy="90" rx="30" ry="22" fill="rgba(200,210,255,0.09)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="85" y1="60" x2="120" y2="80"/><line x1="120" y1="80" x2="155" y2="70"/>
+<line x1="155" y1="70" x2="165" y2="105"/><line x1="120" y1="80" x2="115" y2="115"/>
+<line x1="115" y1="115" x2="155" y2="120"/></g>
+<circle cx="85" cy="60" r="3.0" fill="#ff9f43" opacity="0.92"/>
+<circle cx="120" cy="80" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="155" cy="70" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="165" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="115" cy="115" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="155" cy="120" r="2.2" fill="white" opacity="0.80"/>
+<text x="152" y="86" fill="rgba(200,215,255,0.30)" font-size="7" font-family="sans-serif">Fornax Cl.</text>
+</svg>`,
+
+            'Grus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="115" y1="40" x2="120" y2="75"/><line x1="120" y1="75" x2="105" y2="105"/>
+<line x1="105" y1="105" x2="95" y2="135"/><line x1="120" y1="75" x2="145" y2="85"/>
+<line x1="145" y1="85" x2="162" y2="112"/><line x1="145" y1="85" x2="158" y2="70"/></g>
+<circle cx="115" cy="40" r="4.0" fill="#b8d8ff" opacity="0.97"/>
+<circle cx="120" cy="75" r="3.5" fill="white" opacity="0.95"/>
+<circle cx="105" cy="105" r="3.0" fill="#ff6eb4" opacity="0.92"/>
+<circle cx="95" cy="135" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="145" cy="85" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="162" cy="112" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="158" cy="70" r="2.2" fill="white" opacity="0.80"/>
+<text x="90" y="36" fill="rgba(185,215,255,0.36)" font-size="7" font-family="sans-serif">Al Nair</text>
+</svg>`,
+
+            'Horologium': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="40" x2="125" y2="80"/><line x1="125" y1="80" x2="130" y2="120"/>
+<line x1="130" y1="120" x2="120" y2="155"/><line x1="125" y1="80" x2="105" y2="90"/></g>
+<circle cx="120" cy="40" r="3.0" fill="#c4a8ff" opacity="0.92"/>
+<circle cx="125" cy="80" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="130" cy="120" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="155" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="105" cy="90" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Hydrus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="45" x2="120" y2="90"/><line x1="120" y1="90" x2="155" y2="130"/>
+<line x1="80" y1="45" x2="100" y2="80"/><line x1="100" y1="80" x2="120" y2="90"/>
+<line x1="120" y1="90" x2="130" y2="60"/></g>
+<circle cx="80" cy="45" r="3.5" fill="#00c864" opacity="0.95"/>
+<circle cx="120" cy="90" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="155" cy="130" r="3.5" fill="#00c864" opacity="0.95"/>
+<circle cx="100" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="130" cy="60" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Indus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="95" y1="55" x2="145" y2="65"/><line x1="145" y1="65" x2="155" y2="100"/>
+<line x1="95" y1="55" x2="100" y2="100"/><line x1="100" y1="100" x2="130" y2="130"/>
+<line x1="155" y1="100" x2="130" y2="130"/></g>
+<circle cx="95" cy="55" r="3.0" fill="#ff9f43" opacity="0.92"/>
+<circle cx="145" cy="65" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="155" cy="100" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="100" cy="100" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="130" cy="130" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Lacerta': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="55" x2="100" y2="75"/><line x1="100" y1="75" x2="85" y2="95"/>
+<line x1="85" y1="95" x2="110" y2="110"/><line x1="110" y1="110" x2="130" y2="95"/>
+<line x1="130" y1="95" x2="155" y2="110"/><line x1="155" y1="110" x2="165" y2="130"/></g>
+<circle cx="80" cy="55" r="2.8" fill="#a78bff" opacity="0.90"/>
+<circle cx="100" cy="75" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="85" cy="95" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="110" cy="110" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="130" cy="95" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="155" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="165" cy="130" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Leo Minor': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="75" y1="85" x2="118" y2="75"/><line x1="118" y1="75" x2="155" y2="80"/>
+<line x1="155" y1="80" x2="170" y2="95"/><line x1="118" y1="75" x2="122" y2="100"/>
+<line x1="122" y1="100" x2="75" y2="85"/></g>
+<circle cx="75" cy="85" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="118" cy="75" r="3.5" fill="#ff9f43" opacity="0.95"/>
+<circle cx="155" cy="80" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="170" cy="95" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="122" cy="100" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Lupus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="85" y1="55" x2="115" y2="70"/><line x1="115" y1="70" x2="150" y2="60"/>
+<line x1="150" y1="60" x2="170" y2="80"/><line x1="115" y1="70" x2="110" y2="105"/>
+<line x1="110" y1="105" x2="90" y2="130"/><line x1="110" y1="105" x2="140" y2="120"/>
+<line x1="140" y1="120" x2="170" y2="80"/></g>
+<circle cx="85" cy="55" r="3.2" fill="#c4a8ff" opacity="0.93"/>
+<circle cx="115" cy="70" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="150" cy="60" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="170" cy="80" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="110" cy="105" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="90" cy="130" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="140" cy="120" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Lynx': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="55" y1="80" x2="85" y2="65"/><line x1="85" y1="65" x2="110" y2="55"/>
+<line x1="110" y1="55" x2="140" y2="65"/><line x1="140" y1="65" x2="165" y2="80"/>
+<line x1="165" y1="80" x2="185" y2="70"/></g>
+<circle cx="55" cy="80" r="3.5" fill="#6ee7ff" opacity="0.96"/>
+<circle cx="85" cy="65" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="110" cy="55" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="140" cy="65" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="165" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="185" cy="70" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Mensa': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="155" cy="115" rx="40" ry="28" fill="rgba(200,215,255,0.08)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="75" x2="120" y2="80"/><line x1="120" y1="80" x2="160" y2="70"/>
+<line x1="160" y1="70" x2="175" y2="95"/><line x1="80" y1="75" x2="75" y2="105"/>
+<line x1="75" y1="105" x2="175" y2="95"/></g>
+<circle cx="80" cy="75" r="2.8" fill="#d0d8ff" opacity="0.88"/>
+<circle cx="120" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="160" cy="70" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="175" cy="95" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="75" cy="105" r="2.2" fill="white" opacity="0.80"/>
+<text x="148" y="111" fill="rgba(200,215,255,0.28)" font-size="7" font-family="sans-serif">LMC spur</text>
+</svg>`,
+
+            'Microscopium': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="100" y1="60" x2="140" y2="65"/><line x1="140" y1="65" x2="145" y2="100"/>
+<line x1="100" y1="60" x2="98" y2="100"/><line x1="98" y1="100" x2="145" y2="100"/>
+</g>
+<circle cx="100" cy="60" r="2.8" fill="#00c864" opacity="0.90"/>
+<circle cx="140" cy="65" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="145" cy="100" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="98" cy="100" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Monoceros': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="130" cy="95" rx="38" ry="28" fill="rgba(255,120,200,0.07)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="60" y1="80" x2="95" y2="70"/><line x1="95" y1="70" x2="130" y2="85"/>
+<line x1="130" y1="85" x2="165" y2="75"/><line x1="165" y1="75" x2="195" y2="85"/>
+<line x1="130" y1="85" x2="125" y2="115"/><line x1="125" y1="115" x2="95" y2="120"/>
+<line x1="95" y1="120" x2="60" y2="80"/></g>
+<circle cx="60" cy="80" r="3.0" fill="#ff6eb4" opacity="0.92"/>
+<circle cx="95" cy="70" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="130" cy="85" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="165" cy="75" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="195" cy="85" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="125" cy="115" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="95" cy="120" r="2.5" fill="white" opacity="0.85"/>
+<text x="113" y="91" fill="rgba(255,130,210,0.32)" font-size="7" font-family="sans-serif">Rosette ◎</text>
+</svg>`,
+
+            'Musca': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="85" y1="85" x2="120" y2="75"/><line x1="120" y1="75" x2="155" y2="85"/>
+<line x1="155" y1="85" x2="165" y2="105"/><line x1="85" y1="85" x2="78" y2="105"/>
+<line x1="120" y1="75" x2="120" y2="50"/></g>
+<circle cx="85" cy="85" r="3.0" fill="#a78bff" opacity="0.92"/>
+<circle cx="120" cy="75" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="155" cy="85" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="165" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="78" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="50" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Norma': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="95" y1="60" x2="155" y2="60"/><line x1="95" y1="60" x2="95" y2="120"/>
+<line x1="95" y1="120" x2="155" y2="120"/><line x1="155" y1="120" x2="155" y2="60"/>
+<line x1="95" y1="60" x2="155" y2="120"/></g>
+<circle cx="95" cy="60" r="3.0" fill="#f5c518" opacity="0.93"/>
+<circle cx="155" cy="60" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="95" cy="120" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="155" cy="120" r="3.0" fill="#f5c518" opacity="0.93"/>
+</svg>`,
+
+            'Octans': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<circle cx="120" cy="88" r="28" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="1" stroke-dasharray="4,4"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="75" y1="65" x2="155" y2="115"/><line x1="155" y1="115" x2="120" y2="55"/>
+<line x1="120" y1="55" x2="85" y2="125"/><line x1="85" y1="125" x2="165" y2="75"/></g>
+<circle cx="120" cy="88" r="3.5" fill="#6ee7ff" opacity="0.70"/>
+<circle cx="75" cy="65" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="155" cy="115" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="120" cy="55" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="85" cy="125" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="165" cy="75" r="2.2" fill="white" opacity="0.80"/>
+<text x="124" y="84" fill="rgba(100,220,255,0.36)" font-size="7" font-family="sans-serif">S.Pole</text>
+</svg>`,
+
+            'Pavo': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="45" x2="110" y2="80"/><line x1="110" y1="80" x2="85" y2="100"/>
+<line x1="110" y1="80" x2="140" y2="95"/><line x1="140" y1="95" x2="155" y2="120"/>
+<line x1="85" y1="100" x2="95" y2="130"/><line x1="95" y1="130" x2="125" y2="145"/>
+<line x1="155" y1="120" x2="125" y2="145"/></g>
+<circle cx="120" cy="45" r="4.5" fill="#d0e8ff" opacity="0.98"/>
+<circle cx="110" cy="80" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="85" cy="100" r="2.8" fill="#00c864" opacity="0.90"/>
+<circle cx="140" cy="95" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="155" cy="120" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="95" cy="130" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="125" cy="145" r="2.2" fill="white" opacity="0.80"/>
+<text x="124" y="41" fill="rgba(200,230,255,0.36)" font-size="7" font-family="sans-serif">Peacock</text>
+</svg>`,
+
+            'Phoenix': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="45" x2="95" y2="80"/><line x1="95" y1="80" x2="75" y2="110"/>
+<line x1="95" y1="80" x2="120" y2="100"/><line x1="120" y1="100" x2="145" y2="80"/>
+<line x1="145" y1="80" x2="165" y2="110"/><line x1="120" y1="100" x2="115" y2="135"/>
+<line x1="120" y1="45" x2="145" y2="80"/></g>
+<circle cx="120" cy="45" r="4.0" fill="#ff6b6b" opacity="0.97"/>
+<circle cx="95" cy="80" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="145" cy="80" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="75" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="165" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="100" r="3.2" fill="#ff9f43" opacity="0.94"/>
+<circle cx="115" cy="135" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Pictor': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="85" x2="125" y2="75"/><line x1="125" y1="75" x2="168" y2="90"/>
+<line x1="125" y1="75" x2="130" y2="105"/></g>
+<circle cx="80" cy="85" r="3.2" fill="#ff9f43" opacity="0.93"/>
+<circle cx="125" cy="75" r="3.5" fill="white" opacity="0.95"/>
+<circle cx="168" cy="90" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="130" cy="105" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Piscis Austrinus': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<circle cx="90" cy="88" r="20" fill="rgba(180,220,255,0.08)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="90" y1="88" x2="125" y2="72"/><line x1="125" y1="72" x2="158" y2="80"/>
+<line x1="158" y1="80" x2="170" y2="100"/><line x1="158" y1="80" x2="162" y2="65"/>
+<line x1="125" y1="72" x2="130" y2="105"/><line x1="130" y1="105" x2="90" y2="88"/></g>
+<circle cx="90" cy="88" r="5.5" fill="#d8eeff" opacity="0.99"/>
+<circle cx="125" cy="72" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="158" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="170" cy="100" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="162" cy="65" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="130" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<text x="55" y="84" fill="rgba(215,238,255,0.36)" font-size="7" font-family="sans-serif">Fomalhaut</text>
+</svg>`,
+
+            'Puppis': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="60" y1="55" x2="95" y2="70"/><line x1="95" y1="70" x2="135" y2="60"/>
+<line x1="135" y1="60" x2="170" y2="75"/><line x1="95" y1="70" x2="90" y2="110"/>
+<line x1="90" y1="110" x2="120" y2="135"/><line x1="120" y1="135" x2="155" y2="120"/>
+<line x1="155" y1="120" x2="170" y2="75"/><line x1="135" y1="60" x2="140" y2="100"/>
+<line x1="140" y1="100" x2="155" y2="120"/></g>
+<circle cx="60" cy="55" r="3.0" fill="#6ee7ff" opacity="0.92"/>
+<circle cx="95" cy="70" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="135" cy="60" r="3.5" fill="#6ee7ff" opacity="0.96"/>
+<circle cx="170" cy="75" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="90" cy="110" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="120" cy="135" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="155" cy="120" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="140" cy="100" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Pyxis': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="110" y1="55" x2="120" y2="88"/><line x1="120" y1="88" x2="125" y2="130"/>
+<line x1="110" y1="55" x2="135" y2="60"/></g>
+<circle cx="110" cy="55" r="3.2" fill="#f5c518" opacity="0.93"/>
+<circle cx="120" cy="88" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="125" cy="130" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="135" cy="60" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Reticulum': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="105" y1="65" x2="155" y2="75"/><line x1="155" y1="75" x2="145" y2="120"/>
+<line x1="145" y1="120" x2="95" y2="110"/><line x1="95" y1="110" x2="105" y2="65"/>
+<line x1="105" y1="65" x2="145" y2="120"/></g>
+<circle cx="105" cy="65" r="3.5" fill="#a78bff" opacity="0.95"/>
+<circle cx="155" cy="75" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="145" cy="120" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="95" cy="110" r="2.8" fill="white" opacity="0.88"/>
+</svg>`,
+
+            'Sagitta': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="55" y1="88" x2="170" y2="88"/><line x1="150" y1="88" x2="170" y2="75"/>
+<line x1="150" y1="88" x2="170" y2="100"/></g>
+<circle cx="55" cy="88" r="2.5" fill="#f5c518" opacity="0.90"/>
+<circle cx="100" cy="88" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="140" cy="88" r="3.2" fill="#f5c518" opacity="0.93"/>
+<circle cx="170" cy="75" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="170" cy="88" r="2.2" fill="white" opacity="0.80"/>
+<circle cx="170" cy="100" r="2.2" fill="white" opacity="0.80"/>
+</svg>`,
+
+            'Sculptor': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="110" cy="95" rx="28" ry="20" fill="rgba(180,195,255,0.09)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="65" y1="70" x2="105" y2="85"/><line x1="105" y1="85" x2="148" y2="75"/>
+<line x1="148" y1="75" x2="175" y2="90"/><line x1="105" y1="85" x2="100" y2="120"/>
+</g>
+<circle cx="65" cy="70" r="3.0" fill="#c4a8ff" opacity="0.92"/>
+<circle cx="105" cy="85" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="148" cy="75" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="175" cy="90" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="100" cy="120" r="2.5" fill="white" opacity="0.85"/>
+<text x="90" y="91" fill="rgba(200,215,255,0.30)" font-size="7" font-family="sans-serif">NGC 253 ◎</text>
+</svg>`,
+
+            'Scutum': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="130" cy="100" rx="22" ry="16" fill="rgba(255,210,100,0.10)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="95" y1="55" x2="148" y2="58"/><line x1="148" y1="58" x2="155" y2="120"/>
+<line x1="155" y1="120" x2="120" y2="140"/><line x1="120" y1="140" x2="88" y2="120"/>
+<line x1="88" y1="120" x2="95" y2="55"/></g>
+<circle cx="95" cy="55" r="3.0" fill="#ff9f43" opacity="0.92"/>
+<circle cx="148" cy="58" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="155" cy="120" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="140" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="88" cy="120" r="2.8" fill="white" opacity="0.88"/>
+<text x="120" y="97" fill="rgba(255,210,100,0.38)" font-size="7" font-family="sans-serif">M11 ◎</text>
+</svg>`,
+
+            'Serpens': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="45" y1="60" x2="72" y2="75"/><line x1="72" y1="75" x2="90" y2="65"/>
+<line x1="90" y1="65" x2="105" y2="80"/><line x1="105" y1="80" x2="118" y2="88"/>
+<line x1="125" y1="88" x2="145" y2="78"/><line x1="145" y1="78" x2="168" y2="90"/>
+<line x1="168" y1="90" x2="190" y2="75"/><line x1="190" y1="75" x2="205" y2="95"/></g>
+<circle cx="45" cy="60" r="3.0" fill="#00c864" opacity="0.92"/>
+<circle cx="72" cy="75" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="90" cy="65" r="3.2" fill="#00c864" opacity="0.93"/>
+<circle cx="105" cy="80" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="118" cy="88" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="145" cy="78" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="168" cy="90" r="3.0" fill="white" opacity="0.90"/>
+<circle cx="190" cy="75" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="205" cy="95" r="2.5" fill="white" opacity="0.85"/>
+<text x="106" y="84" fill="rgba(255,255,255,0.22)" font-size="7" font-family="sans-serif">Cap</text>
+<text x="166" y="86" fill="rgba(255,255,255,0.22)" font-size="7" font-family="sans-serif">Cauda</text>
+</svg>`,
+
+            'Sextans': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="70" x2="120" y2="88"/><line x1="120" y1="88" x2="162" y2="70"/>
+<line x1="120" y1="88" x2="115" y2="120"/></g>
+<circle cx="80" cy="70" r="2.8" fill="#6ee7ff" opacity="0.88"/>
+<circle cx="120" cy="88" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="162" cy="70" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="115" cy="120" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Telescopium': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="40" x2="115" y2="80"/><line x1="115" y1="80" x2="110" y2="130"/>
+<line x1="115" y1="80" x2="145" y2="75"/></g>
+<circle cx="120" cy="40" r="3.2" fill="#6ee7ff" opacity="0.93"/>
+<circle cx="115" cy="80" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="110" cy="130" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="145" cy="75" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Triangulum Australe': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="120" y1="45" x2="80" y2="125"/><line x1="80" y1="125" x2="160" y2="125"/>
+<line x1="160" y1="125" x2="120" y2="45"/></g>
+<circle cx="120" cy="45" r="4.5" fill="#ff6b6b" opacity="0.98"/>
+<circle cx="80" cy="125" r="3.5" fill="#ff6b6b" opacity="0.96"/>
+<circle cx="160" cy="125" r="3.5" fill="#ff6b6b" opacity="0.96"/>
+</svg>`,
+
+            'Tucana': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="162" cy="90" rx="38" ry="28" fill="rgba(200,215,255,0.10)"/>
+<ellipse cx="162" cy="90" rx="22" ry="17" fill="rgba(200,215,255,0.08)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="72" y1="68" x2="105" y2="60"/><line x1="105" y1="60" x2="128" y2="78"/>
+<line x1="128" y1="78" x2="118" y2="110"/><line x1="118" y1="110" x2="85" y2="118"/>
+<line x1="85" y1="118" x2="72" y2="68"/></g>
+<circle cx="72" cy="68" r="3.5" fill="#ff9f43" opacity="0.96"/>
+<circle cx="105" cy="60" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="128" cy="78" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="118" cy="110" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="85" cy="118" r="2.5" fill="white" opacity="0.85"/>
+<text x="156" y="86" fill="rgba(200,215,255,0.38)" font-size="7" font-family="sans-serif">SMC ◎</text>
+<text x="168" y="110" fill="rgba(200,215,255,0.32)" font-size="7" font-family="sans-serif">47 Tuc ◎</text>
+</svg>`,
+
+            'Vela': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="50" y1="80" x2="85" y2="60"/><line x1="85" y1="60" x2="125" y2="55"/>
+<line x1="125" y1="55" x2="165" y2="70"/><line x1="165" y1="70" x2="185" y2="100"/>
+<line x1="185" y1="100" x2="160" y2="130"/><line x1="160" y1="130" x2="118" y2="135"/>
+<line x1="118" y1="135" x2="75" y2="120"/><line x1="75" y1="120" x2="50" y2="80"/>
+<line x1="85" y1="60" x2="75" y2="120"/></g>
+<circle cx="50" cy="80" r="3.0" fill="#00c8ff" opacity="0.92"/>
+<circle cx="85" cy="60" r="3.5" fill="#00c8ff" opacity="0.96"/>
+<circle cx="125" cy="55" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="165" cy="70" r="3.5" fill="#00c8ff" opacity="0.96"/>
+<circle cx="185" cy="100" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="160" cy="130" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="118" cy="135" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="75" cy="120" r="3.0" fill="white" opacity="0.90"/>
+</svg>`,
+
+            'Volans': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="80" y1="80" x2="115" y2="70"/><line x1="115" y1="70" x2="155" y2="80"/>
+<line x1="155" y1="80" x2="165" y2="105"/><line x1="80" y1="80" x2="75" y2="105"/>
+<line x1="75" y1="105" x2="115" y2="115"/><line x1="115" y1="115" x2="165" y2="105"/>
+</g>
+<circle cx="80" cy="80" r="2.8" fill="#a78bff" opacity="0.90"/>
+<circle cx="115" cy="70" r="3.0" fill="white" opacity="0.92"/>
+<circle cx="155" cy="80" r="2.8" fill="white" opacity="0.88"/>
+<circle cx="165" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="75" cy="105" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="115" cy="115" r="2.5" fill="white" opacity="0.85"/>
+</svg>`,
+
+            'Vulpecula': `<svg viewBox="0 0 240 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+<rect width="240" height="175" fill="rgba(0,2,20,0.65)" rx="8"/>
+<ellipse cx="120" cy="95" rx="22" ry="18" fill="rgba(180,200,255,0.10)"/>
+<g stroke="rgba(255,255,255,0.28)" stroke-width="1.3" stroke-linecap="round">
+<line x1="60" y1="80" x2="98" y2="75"/><line x1="98" y1="75" x2="140" y2="78"/>
+<line x1="140" y1="78" x2="178" y2="72"/></g>
+<circle cx="60" cy="80" r="2.5" fill="#ff9f43" opacity="0.88"/>
+<circle cx="98" cy="75" r="3.0" fill="#ff9f43" opacity="0.92"/>
+<circle cx="140" cy="78" r="3.2" fill="white" opacity="0.93"/>
+<circle cx="178" cy="72" r="2.5" fill="white" opacity="0.85"/>
+<circle cx="120" cy="95" r="2.5" fill="rgba(200,215,255,0.65)" opacity="0.75"/>
+<text x="110" y="91" fill="rgba(200,215,255,0.36)" font-size="7" font-family="sans-serif">M27 ◎</text>
+</svg>`,
+        };
+        return maps[name] || '';
+    }
+
     function renderGuide(lang) {
         const grid = document.getElementById('guideGrid');
         if (!grid) return;
         grid.innerHTML = CONST_DATA.map(c => {
             const d = c[lang] || c['en'];
+            const svg = getConstellationSVG(c.en.name);
+            const imgHtml = svg ? `<div class="cc-img">${svg}</div>` : '';
             if (c.featured) return `
             <div class="const-card featured" style="--cc2:${c.color}">
                 <div class="const-feat-icon">${c.icon}</div>
@@ -1015,6 +3152,7 @@
                     <div class="cc-tag">${d.tag}</div>
                     <div class="cc-title">${d.name} <span style="font-weight:400;opacity:0.45;font-size:0.88rem">· ${d.sub}</span></div>
                     <div class="cc-desc">${d.desc}</div>
+                    ${imgHtml}
                     <div class="cc-detail">${d.detail}</div>
                 </div>
             </div>`;
@@ -1028,6 +3166,7 @@
                         <div class="cc-sub">${d.sub}</div>
                     </div>
                 </div>
+                ${imgHtml}
                 <div class="cc-desc">${d.desc}</div>
                 <div class="cc-detail">${d.detail}</div>
             </div>`;

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet Orbit – StarGames</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #03030a;
+            color: #e8e8ff;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        #spacebg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+        .lang-select { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.82rem; cursor:pointer; outline:none; }
+        .lang-select:hover { border-color:rgba(255,255,255,0.28); color:#fff; }
+        .lang-select option { background:#12122a; color:#e8e8ff; }
+
+        nav {
+            position: relative; z-index: 20;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(3,3,10,0.82); backdrop-filter: blur(14px);
+            flex-shrink: 0;
+        }
+        .logo { font-size: 1.1rem; font-weight: 700; background: linear-gradient(90deg,#c4a8ff,#6ee7ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        nav a:hover { color: #fff; }
+
+        /* HUD */
+        .hud {
+            position: relative; z-index: 10; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; gap: 48px;
+            padding: 8px 32px;
+            background: rgba(8,8,20,0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .hud-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .hud-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+        .hud-val   { font-size: 1.15rem; font-weight: 700; color: #ff9500; }
+        #timerVal  { color: #f5c518; }
+
+        /* Game layout */
+        .game-area {
+            flex: 1; position: relative; z-index: 5;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: flex-start; padding: 20px 16px 12px;
+            gap: 12px; overflow: hidden;
+        }
+
+        .game-label {
+            font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+            color: rgba(255,255,255,0.22);
+        }
+
+        /* Orbital area */
+        .orbit-area {
+            position: relative;
+            width: 100%; max-width: 760px;
+        }
+
+        .sun-wrap {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            margin-bottom: 10px;
+        }
+        .sun {
+            width: 64px; height: 64px; border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #fff8b0, #ffcc00 40%, #ff9500 75%, #c05000);
+            box-shadow: 0 0 40px rgba(255,165,0,0.6), 0 0 80px rgba(255,165,0,0.25);
+            flex-shrink: 0;
+        }
+        .sun-label { font-size: 0.72rem; letter-spacing: 0.2em; color: rgba(255,165,0,0.7); text-transform: uppercase; }
+
+        /* Slots grid — 2 rows × 4 columns */
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 100%; max-width: 760px;
+        }
+
+        .orbit-slot {
+            border: 2px dashed rgba(255,149,0,0.25);
+            border-radius: 16px;
+            padding: 10px 6px;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            min-height: 90px;
+            transition: border-color 0.2s, background 0.2s;
+            position: relative;
+        }
+        .orbit-slot.drag-over {
+            border-color: rgba(255,149,0,0.7);
+            background: rgba(255,149,0,0.08);
+        }
+        .orbit-slot.correct {
+            border-color: rgba(0,200,100,0.6);
+            background: rgba(0,200,100,0.07);
+        }
+        .orbit-slot.wrong-flash {
+            border-color: rgba(255,51,100,0.7);
+            background: rgba(255,51,100,0.08);
+            animation: slotShake 0.4s ease;
+        }
+        @keyframes slotShake {
+            0%,100% { transform: translateX(0); }
+            20%      { transform: translateX(-6px); }
+            60%      { transform: translateX(6px); }
+        }
+
+        .slot-num {
+            font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+            color: rgba(255,149,0,0.5);
+        }
+        .slot-name {
+            font-size: 0.7rem; color: rgba(255,255,255,0.3); text-align: center;
+            display: none;
+        }
+        .orbit-slot.correct .slot-name { display: block; color: rgba(100,255,160,0.7); }
+
+        /* Planet card */
+        .planet-card {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+        .planet-card:active { cursor: grabbing; }
+        .planet-card.dragging {
+            opacity: 0.4;
+        }
+        .planet-card.placed {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .planet-disc {
+            width: 44px; height: 44px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+            transition: box-shadow 0.2s;
+        }
+        .planet-card:not(.placed):hover .planet-disc {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.6), 0 0 16px var(--pc);
+        }
+        .planet-card-name {
+            font-size: 0.68rem; color: rgba(255,255,255,0.55); text-align: center; line-height: 1.2;
+        }
+
+        /* Tray */
+        .tray-label { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+        .tray {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+            padding: 14px 20px;
+            background: rgba(12,12,28,0.7);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            width: 100%; max-width: 760px;
+            min-height: 90px;
+        }
+
+        /* Ghost element for touch drag */
+        #dragGhost {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+            flex-direction: column; align-items: center; gap: 4px;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.78); backdrop-filter: blur(8px);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 16px; z-index: 40;
+        }
+        .overlay.hidden { display: none; }
+        .ov-icon  { font-size: 3.5rem; }
+        .ov-title { font-size: 1.9rem; font-weight: 800; }
+        .ov-sub   { color: rgba(255,255,255,0.45); font-size: 0.95rem; text-align: center; max-width: 340px; line-height: 1.5; }
+        .ov-score { font-size: 3rem; font-weight: 900; color: #ff9500; }
+        .ov-rank  { font-size: 1rem; font-weight: 700; min-height: 1.2rem; }
+        .btn-go {
+            background: linear-gradient(135deg,#6333ff,#3b82f6);
+            color: #fff; border: none; padding: 13px 38px;
+            border-radius: 50px; font-size: 0.95rem; font-weight: 600;
+            cursor: pointer; box-shadow: 0 8px 28px rgba(99,51,255,0.4);
+            transition: transform 0.15s, box-shadow 0.2s;
+        }
+        .btn-go:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(99,51,255,0.6); }
+        .ov-back { color: rgba(255,255,255,0.25); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; }
+        .ov-back:hover { color: rgba(255,255,255,0.6); }
+    </style>
+</head>
+<body>
+    <canvas id="spacebg"></canvas>
+    <nav>
+        <div class="logo">★ StarGames</div>
+        <div style="display:flex;align-items:center;gap:16px">
+            <a href="/" data-i18n="nav_back">← Back to games</a>
+            <select class="lang-select" onchange="setLang(this.value)"><option value="en">🌐 EN</option><option value="fr">🌐 FR</option></select>
+            <button class="egg-btn" onclick="openEgg && openEgg()" title="🥚">🥚</button>
+        </div>
+    </nav>
+    <div class="hud">
+        <div class="hud-stat"><span class="hud-label">Time</span><span class="hud-val" id="timerVal">0:00</span></div>
+        <div class="hud-stat"><span class="hud-label">Placed</span><span class="hud-val" id="placedVal">0 / 8</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_best">Best</span><span class="hud-val" id="bestVal">—</span></div>
+    </div>
+
+    <div class="game-area">
+        <div class="game-label">Sort the planets by distance from the Sun</div>
+
+        <div class="sun-wrap">
+            <div class="sun"></div>
+            <div class="sun-label">☀ Sun</div>
+        </div>
+
+        <div class="slots-grid" id="slotsGrid"></div>
+
+        <div class="tray-label">Planet Tray — drag planets to their orbits</div>
+        <div class="tray" id="tray"></div>
+    </div>
+
+    <!-- Touch drag ghost -->
+    <div id="dragGhost">
+        <div class="planet-disc" id="ghostDisc"></div>
+        <div class="planet-card-name" id="ghostName"></div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="ov-icon" id="ovIcon">🪐</div>
+        <div class="ov-title" id="ovTitle">Planet Orbit</div>
+        <div class="ov-sub" id="ovSub">Drag each planet into its correct orbital slot (1 = Mercury, 8 = Neptune). How fast can you sort the solar system?</div>
+        <button class="btn-go" id="btnGo">Start Game</button>
+        <a href="/" class="ov-back">← Back to games</a>
+    </div>
+
+    <script src="/static/sounds.js"></script>
+    <script src="/static/scores.js"></script>
+    <script src="/static/i18n.js"></script>
+    <script src="/static/spacebg.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', initLang);</script>
+    <script>
+    // ── Planet data ──────────────────────────────────────────────────────────
+    const PLANETS = [
+        { id: 1, name: 'Mercury', emoji: '⚫', color: '#b5b5b5' },
+        { id: 2, name: 'Venus',   emoji: '🟡', color: '#e8a958' },
+        { id: 3, name: 'Earth',   emoji: '🔵', color: '#4a90d9' },
+        { id: 4, name: 'Mars',    emoji: '🔴', color: '#c1440e' },
+        { id: 5, name: 'Jupiter', emoji: '🟠', color: '#c88b3a' },
+        { id: 6, name: 'Saturn',  emoji: '🪐', color: '#d4b483' },
+        { id: 7, name: 'Uranus',  emoji: '🔵', color: '#7de8e8' },
+        { id: 8, name: 'Neptune', emoji: '🔵', color: '#3f54ba' },
+    ];
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    let startTime   = null;
+    let timerInterval = null;
+    let placed      = 0;
+    let gameRunning = false;
+    let dragPlanet  = null;   // { id, name, color, emoji, sourceEl }
+    let touchGhostActive = false;
+
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+    const slotsGrid  = document.getElementById('slotsGrid');
+    const tray       = document.getElementById('tray');
+    const timerEl    = document.getElementById('timerVal');
+    const placedEl   = document.getElementById('placedVal');
+    const bestEl     = document.getElementById('bestVal');
+    const overlay    = document.getElementById('overlay');
+    const ovIcon     = document.getElementById('ovIcon');
+    const ovTitle    = document.getElementById('ovTitle');
+    const ovSub      = document.getElementById('ovSub');
+    const btnGo      = document.getElementById('btnGo');
+    const dragGhost  = document.getElementById('dragGhost');
+    const ghostDisc  = document.getElementById('ghostDisc');
+    const ghostName  = document.getElementById('ghostName');
+
+    // ── Build board ───────────────────────────────────────────────────────────
+    function buildBoard() {
+        placed = 0;
+        placedEl.textContent = '0 / 8';
+
+        // Build 8 orbital slots
+        slotsGrid.innerHTML = '';
+        for (let i = 1; i <= 8; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'orbit-slot';
+            slot.dataset.slot = i;
+            slot.innerHTML = `
+                <div class="slot-num">Orbit ${i}</div>
+                <div class="slot-name" id="slotName${i}"></div>`;
+            setupSlotDrop(slot);
+            slotsGrid.appendChild(slot);
+        }
+
+        // Shuffle planet order in tray
+        const shuffled = [...PLANETS].sort(() => Math.random() - 0.5);
+        tray.innerHTML = '';
+        shuffled.forEach(p => {
+            tray.appendChild(makePlanetCard(p));
+        });
+    }
+
+    function makePlanetCard(planet) {
+        const card = document.createElement('div');
+        card.className = 'planet-card';
+        card.dataset.planetId = planet.id;
+        card.style.setProperty('--pc', planet.color);
+        card.innerHTML = `
+            <div class="planet-disc" style="background:radial-gradient(circle at 35% 35%, rgba(255,255,255,0.3), ${planet.color});box-shadow:0 4px 16px rgba(0,0,0,0.5);">${planet.emoji}</div>
+            <div class="planet-card-name">${planet.name}</div>`;
+
+        // Mouse drag events
+        card.draggable = true;
+        card.addEventListener('dragstart', onDragStart);
+        card.addEventListener('dragend',   onDragEnd);
+
+        // Touch events
+        card.addEventListener('touchstart', onTouchStart, { passive: false });
+        card.addEventListener('touchmove',  onTouchMove,  { passive: false });
+        card.addEventListener('touchend',   onTouchEnd,   { passive: false });
+
+        return card;
+    }
+
+    // ── Mouse drag ────────────────────────────────────────────────────────────
+    function onDragStart(e) {
+        if (!gameRunning) { e.preventDefault(); return; }
+        const card = e.currentTarget;
+        const pid  = parseInt(card.dataset.planetId);
+        const p    = PLANETS.find(x => x.id === pid);
+        dragPlanet = { ...p, sourceEl: card };
+        card.classList.add('dragging');
+        e.dataTransfer.setData('text/plain', pid);
+        e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function onDragEnd(e) {
+        e.currentTarget.classList.remove('dragging');
+        dragPlanet = null;
+    }
+
+    function setupSlotDrop(slot) {
+        slot.addEventListener('dragover', e => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            slot.classList.add('drag-over');
+        });
+        slot.addEventListener('dragleave', () => {
+            slot.classList.remove('drag-over');
+        });
+        slot.addEventListener('drop', e => {
+            e.preventDefault();
+            slot.classList.remove('drag-over');
+            if (!dragPlanet) return;
+            if (slot.classList.contains('correct')) return; // already filled correctly
+            handleDrop(slot, dragPlanet);
+        });
+    }
+
+    // ── Touch drag ────────────────────────────────────────────────────────────
+    function onTouchStart(e) {
+        if (!gameRunning) return;
+        e.preventDefault();
+        const card = e.currentTarget;
+        const pid  = parseInt(card.dataset.planetId);
+        const p    = PLANETS.find(x => x.id === pid);
+        dragPlanet = { ...p, sourceEl: card };
+        card.classList.add('dragging');
+
+        // Show ghost
+        ghostDisc.style.background = `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.3), ${p.color})`;
+        ghostDisc.style.width  = '44px';
+        ghostDisc.style.height = '44px';
+        ghostDisc.style.borderRadius = '50%';
+        ghostDisc.style.fontSize = '1.2rem';
+        ghostDisc.style.display = 'flex';
+        ghostDisc.style.alignItems = 'center';
+        ghostDisc.style.justifyContent = 'center';
+        ghostDisc.textContent = p.emoji;
+        ghostName.textContent = p.name;
+        dragGhost.style.display = 'flex';
+        touchGhostActive = true;
+
+        const t = e.touches[0];
+        dragGhost.style.left = t.clientX + 'px';
+        dragGhost.style.top  = t.clientY + 'px';
+    }
+
+    function onTouchMove(e) {
+        if (!touchGhostActive) return;
+        e.preventDefault();
+        const t = e.touches[0];
+        dragGhost.style.left = t.clientX + 'px';
+        dragGhost.style.top  = t.clientY + 'px';
+
+        // Highlight slot under finger
+        document.querySelectorAll('.orbit-slot').forEach(s => s.classList.remove('drag-over'));
+        const el = document.elementFromPoint(t.clientX, t.clientY);
+        const slot = el && el.closest('.orbit-slot');
+        if (slot && !slot.classList.contains('correct')) slot.classList.add('drag-over');
+    }
+
+    function onTouchEnd(e) {
+        if (!touchGhostActive) return;
+        e.preventDefault();
+        dragGhost.style.display = 'none';
+        touchGhostActive = false;
+
+        const card = e.currentTarget;
+        card.classList.remove('dragging');
+
+        const t = e.changedTouches[0];
+        document.querySelectorAll('.orbit-slot').forEach(s => s.classList.remove('drag-over'));
+        const el   = document.elementFromPoint(t.clientX, t.clientY);
+        const slot = el && el.closest('.orbit-slot');
+        if (slot && dragPlanet && !slot.classList.contains('correct')) {
+            handleDrop(slot, dragPlanet);
+        }
+        dragPlanet = null;
+    }
+
+    // ── Drop handler ──────────────────────────────────────────────────────────
+    function handleDrop(slot, planet) {
+        const slotNum = parseInt(slot.dataset.slot);
+        if (slotNum === planet.id) {
+            // Correct!
+            SFX.connect();
+            slot.classList.add('correct');
+            slot.classList.remove('wrong-flash');
+
+            // Show planet inside slot
+            const disc = document.createElement('div');
+            disc.className = 'planet-card placed';
+            disc.innerHTML = `
+                <div class="planet-disc" style="background:radial-gradient(circle at 35% 35%, rgba(255,255,255,0.3), ${planet.color});">${planet.emoji}</div>`;
+            slot.querySelector('.slot-num').textContent = `Orbit ${slotNum}`;
+            const nameEl = slot.querySelector('.slot-name');
+            nameEl.textContent = planet.name;
+            nameEl.style.display = 'block';
+            slot.appendChild(disc);
+
+            // Remove from tray / source
+            if (planet.sourceEl) planet.sourceEl.remove();
+
+            placed++;
+            placedEl.textContent = `${placed} / 8`;
+
+            if (placed === 8) {
+                setTimeout(endGame, 400);
+            }
+        } else {
+            // Wrong!
+            SFX.wrong();
+            slot.classList.remove('wrong-flash');
+            void slot.offsetWidth; // reflow to restart animation
+            slot.classList.add('wrong-flash');
+            setTimeout(() => slot.classList.remove('wrong-flash'), 500);
+        }
+    }
+
+    // ── Timer ─────────────────────────────────────────────────────────────────
+    function startTimer() {
+        startTime = Date.now();
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const m = Math.floor(elapsed / 60);
+            const s = elapsed % 60;
+            timerEl.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+        }, 500);
+    }
+
+    // ── End game ──────────────────────────────────────────────────────────────
+    function endGame() {
+        gameRunning = false;
+        clearInterval(timerInterval);
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const scoreVal = Math.max(100, 800 - elapsed * 10);
+        const scRes = ScoreManager.save('planetorbit', scoreVal);
+        SFX.gameOver(true);
+
+        const bestScore = ScoreManager.getBest('planetorbit');
+        bestEl.textContent = bestScore;
+
+        const m = Math.floor(elapsed / 60);
+        const s = elapsed % 60;
+        const timeStr = `${m}:${s.toString().padStart(2, '0')}`;
+
+        let rankHtml = '';
+        if (scRes.rank === 1)    rankHtml = '<div class="ov-rank" style="color:#f5c518">🏆 New Best!</div>';
+        else if (scRes.isNew)    rankHtml = `<div class="ov-rank" style="color:#a78bff">Rank #${scRes.rank}</div>`;
+        else                     rankHtml = '<div class="ov-rank"></div>';
+
+        ovIcon.textContent  = '🏆';
+        ovTitle.textContent = 'Solar System Sorted!';
+        ovSub.innerHTML     = `Completed in <strong style="color:#f5c518">${timeStr}</strong> for <strong style="color:#ff9500">${scoreVal} pts</strong>`;
+        // inject rank
+        const existingRank = overlay.querySelector('.ov-rank');
+        if (existingRank) existingRank.remove();
+        ovSub.insertAdjacentHTML('afterend', rankHtml);
+
+        btnGo.textContent = 'Play Again';
+        btnGo.onclick = startGame;
+        overlay.classList.remove('hidden');
+    }
+
+    // ── Start game ────────────────────────────────────────────────────────────
+    function startGame() {
+        overlay.classList.add('hidden');
+        buildBoard();
+        gameRunning = true;
+        startTimer();
+    }
+
+    // ── Boot ──────────────────────────────────────────────────────────────────
+    btnGo.addEventListener('click', startGame);
+
+    // Load best
+    (function() {
+        const b = ScoreManager.getBest('planetorbit');
+        bestEl.textContent = b > 0 ? b : '—';
+    })();
+    </script>
+</body>
+</html>

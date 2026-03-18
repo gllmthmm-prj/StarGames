@@ -110,10 +110,8 @@
 
         const COMBO_WINDOW = 1500; // ms between catches to maintain combo
         let W, H, stars = [], particles = [], floaters = [], cursor = {x:-200, y:-200};
-        let score = 0, timeLeft = 30, running = false, intervalId = null;
+        let score = 0, best = 0, timeLeft = 30, running = false, intervalId = null;
         let combo = 1, lastCatchTime = 0;
-        let best = parseInt(localStorage.getItem('sc_best') || '0', 10);
-        bestEl.textContent = best || 0;
 
         function resize() {
             W = canvas.width  = canvas.offsetWidth;
@@ -171,6 +169,7 @@
                     scoreEl.textContent = score;
                     comboEl.textContent = `x${combo}`;
                     if (combo >= 2) spawnFloater(s.x, s.y, `+${pts} x${combo}!`);
+                    SFX.catch();
                     caught = true;
                     break; // one star per tap
                 }
@@ -331,17 +330,42 @@
         function endGame() {
             running = false;
             clearInterval(intervalId);
-            if (score > best) { best = score; bestEl.textContent = best; localStorage.setItem('sc_best', best); }
+            if (score > best) { best = score; bestEl.textContent = best; }
+            const scRes = ScoreManager.save('starcatch', score);
+            SFX.gameOver(score >= 20);
             overlayIcon.textContent  = score >= 20 ? '🏆' : '⭐';
             overlayTitle.textContent = score >= 20 ? 'Stellar!' : 'Game Over';
             overlayDesc.textContent  = `You caught ${score} star${score !== 1 ? 's' : ''}!`;
             overlayScore.textContent = score;
             overlayScore.classList.remove('hidden');
+            // Show rank
+            let rankEl = document.getElementById('scRankText');
+            if (!rankEl) {
+                rankEl = document.createElement('p');
+                rankEl.id = 'scRankText';
+                rankEl.style.cssText = 'font-size:1rem;font-weight:700;margin-top:4px;';
+                overlayScore.insertAdjacentElement('afterend', rankEl);
+            }
+            if (scRes.rank === 1) {
+                rankEl.textContent = '🏆 New Best!';
+                rankEl.style.color = '#f5c518';
+            } else if (scRes.isNew) {
+                rankEl.textContent = `Rank #${scRes.rank}`;
+                rankEl.style.color = '#a78bff';
+            } else {
+                rankEl.textContent = '';
+            }
             btnStart.textContent = 'Play Again';
             overlay.classList.remove('hidden');
         }
 
         btnStart.addEventListener('click', startGame);
+    </script>
+    <script src="/static/sounds.js"></script>
+    <script src="/static/scores.js"></script>
+    <script>
+        // Load best score on page load
+        bestEl.textContent = ScoreManager.getBest('starcatch');
     </script>
     <script src="/static/i18n.js"></script>
     <script src="/static/spacebg.js"></script>

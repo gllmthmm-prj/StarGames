@@ -144,6 +144,7 @@
                     </div>
                 </div>
                 <div class="hud-item"><span class="hud-label">Streak</span><span class="hud-val" id="streakVal">0🔥</span></div>
+                <div class="hud-item"><span class="hud-label" data-i18n="hud_best">Best</span><span class="hud-val" id="bestVal">0</span></div>
             </div>
             <div class="question-text" id="questionText" data-i18n="gq_loading">Loading…</div>
             <div class="answers" id="answersGrid"></div>
@@ -192,6 +193,7 @@
             const danger = timeLeft <= 3;
             timerRing.style.stroke = danger ? '#ff3364' : '#00c8ff';
             timerNum.style.color   = danger ? '#ff3364' : '#00c8ff';
+            if (danger && timeLeft > 0) SFX.tick();
         }
 
         function stopTimer() {
@@ -248,6 +250,7 @@
             btns[correct].classList.add('correct');
 
             if (chosen === correct) {
+                SFX.correct();
                 streak++;
                 const bonus = streak >= 3 ? 2 : 1;
                 score += bonus;
@@ -256,6 +259,7 @@
                 feedback.textContent = streak >= 3 ? `🔥 Correct! +${bonus} (streak bonus!)` : '✓ Correct!';
                 feedback.className   = 'feedback correct';
             } else {
+                SFX.wrong();
                 btn.classList.add('wrong');
                 streak = 0;
                 streakEl.textContent = '0🔥';
@@ -275,25 +279,35 @@
 
         function showResult() {
             stopTimer();
-            const prev  = parseInt(localStorage.getItem('gq_best') || '0', 10);
-            const isNew = score > prev;
-            if (isNew) localStorage.setItem('gq_best', score);
-            const best  = isNew ? score : prev;
-            const emoji = isNew ? '🏆' : score >= 12 ? '🌟' : score >= 7 ? '✨' : '🚀';
-            const msg   = isNew ? 'New best score!' : score >= 12 ? 'Stellar astronomer!' : score >= 7 ? 'Good explorer!' : 'Keep studying the cosmos!';
+            const scRes = ScoreManager.save('numquiz', score);
+            SFX.gameOver(score >= 7);
+            const bestEl2 = document.getElementById('bestVal');
+            if (bestEl2) bestEl2.textContent = ScoreManager.getBest('numquiz');
+            const emoji = score >= 12 ? '🏆' : score >= 7 ? '🌟' : '🚀';
+            const msg   = score >= 12 ? 'Stellar astronomer!' : score >= 7 ? 'Good explorer!' : 'Keep studying the cosmos!';
+            let rankHtml = '';
+            if (scRes.rank === 1) rankHtml = '<div style="color:#f5c518;font-weight:700;font-size:1rem">🏆 New Best!</div>';
+            else if (scRes.isNew) rankHtml = `<div style="color:#a78bff;font-weight:700;font-size:1rem">Rank #${scRes.rank}</div>`;
             quizCard.innerHTML = `
                 <div class="result-screen">
                     <div class="result-trophy">${emoji}</div>
                     <div style="font-size:1.1rem;font-weight:700">Quiz Complete</div>
                     <div class="result-score">${score} pts</div>
+                    ${rankHtml}
                     <div class="result-msg">${msg}</div>
-                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.28);margin-top:-8px">Best: ${best} pts</div>
                     <button class="btn-next" onclick="location.reload()">Play Again</button>
                     <a href="/" style="color:rgba(255,255,255,0.3);font-size:0.85rem;text-decoration:none;margin-top:4px">← Back to games</a>
                 </div>`;
         }
 
         loadQuestion();
+    </script>
+    <script src="/static/sounds.js"></script>
+    <script src="/static/scores.js"></script>
+    <script>
+        // Load best score on page load
+        const _nqBestEl = document.getElementById('bestVal');
+        if (_nqBestEl) _nqBestEl.textContent = ScoreManager.getBest('numquiz');
     </script>
     <script src="/static/i18n.js"></script>
     <script src="/static/spacebg.js"></script>

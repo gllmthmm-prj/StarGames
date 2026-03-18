@@ -133,48 +133,6 @@
 
         footer { position:relative;z-index:10;text-align:center;padding:30px; border-top:1px solid rgba(255,255,255,0.05); color:rgba(255,255,255,0.18);font-size:0.78rem;letter-spacing:0.05em; }
 
-        /* ── Your Records panel ───────────────────────────────────── */
-        .records-section {
-            position: relative; z-index: 10;
-            max-width: 1060px; margin: 0 auto;
-            padding: 0 24px 64px;
-        }
-        .records-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:20px; }
-        .records-title { font-size:1.25rem; font-weight:700; }
-        .records-sub   { font-size:0.8rem; color:rgba(255,255,255,0.28); letter-spacing:0.15em; text-transform:uppercase; margin-top:4px; }
-        .records-grid  { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px; }
-
-        .rec-card {
-            background: rgba(10,10,22,0.88);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 18px; padding: 20px 18px;
-            display: flex; flex-direction: column; gap: 10px;
-            position: relative; overflow: hidden;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.4);
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .rec-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--rc); border-radius:18px 18px 0 0; }
-        .rec-card:hover { transform:translateY(-4px); border-color:rgba(255,255,255,0.12); }
-
-        .rec-top { display:flex; align-items:center; gap:10px; }
-        .rec-icon { font-size:1.4rem; width:38px;height:38px;border-radius:10px;flex-shrink:0;
-                    background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
-                    display:flex;align-items:center;justify-content:center; }
-        .rec-name { font-size:0.82rem; font-weight:700; color:rgba(255,255,255,0.75); line-height:1.25; }
-
-        .rec-score { font-size:1.9rem; font-weight:900; color:var(--rc); line-height:1; letter-spacing:-0.02em; }
-        .rec-score.empty { font-size:1.1rem; color:rgba(255,255,255,0.18); font-weight:400; }
-        .rec-label { font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.25); margin-top:2px; }
-
-        .rec-memory-row { display:flex; gap:8px; margin-top:2px; }
-        .rec-diff-chip {
-            flex:1; text-align:center; padding:5px 4px;
-            background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);
-            border-radius:8px;
-        }
-        .rec-diff-chip .chip-val { font-size:0.95rem; font-weight:800; color:var(--rc); }
-        .rec-diff-chip .chip-lbl { font-size:0.55rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.22); }
-
         /* ── Knowledge section ───────────────────────────────────── */
         .knowledge-section {
             position: relative; z-index: 10;
@@ -443,15 +401,16 @@
         </div>
     </div>
 
-    <!-- ── Your Records Panel ────────────────────────────────────── -->
-    <div class="records-section" id="records">
-        <div class="records-header">
+    <!-- ── Top Scores Section ─────────────────────────────────────── -->
+    <div class="section" id="leaderboard" style="padding-bottom:20px">
+        <div class="section-header">
             <div>
-                <div class="records-title" data-i18n="rec_title">Your Records</div>
-                <div class="records-sub" data-i18n="rec_sub">Best scores · saved locally</div>
+                <div class="section-title">🏆 Top Scores</div>
+                <div class="section-sub">Your best local scores — stored in this browser</div>
             </div>
+            <button onclick="clearAllScores()" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 14px;color:rgba(255,255,255,0.3);font-size:0.75rem;cursor:pointer;transition:color 0.2s,border-color 0.2s" onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.3)';this.style.borderColor='rgba(255,255,255,0.1)'">Clear All</button>
         </div>
-        <div class="records-grid" id="recordsGrid"></div>
+        <div id="scoresGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;"></div>
     </div>
 
     <!-- ── Knowledge Section ──────────────────────────────────────── -->
@@ -1090,61 +1049,6 @@
         }).join('');
     }
 
-    // ── Your Records ─────────────────────────────────────────────────────────
-    const RECORD_DEFS = [
-        { key:'sc_best',  icon:'⭐', name:'Star Catcher',      color:'#f5c518', unit:'pts' },
-        { key:'gq_best',  icon:'🔭', name:'Galaxy Quiz',       color:'#a78bff', unit:'pts' },
-        { key:'cq_best',  icon:'🌌', name:'Constellation Quiz',color:'#6ee7ff', unit:'pts' },
-        { key:'dc_best',  icon:'✦',  name:'Dot Connect',       color:'#ff6b8a', unit:'pts' },
-    ];
-    const MEMORY_KEY_PREFIX = 'sm_best_';
-    const MEMORY_DIFFS = ['easy','medium','hard'];
-
-    function renderRecords() {
-        const grid = document.getElementById('recordsGrid');
-        if (!grid) return;
-        let html = '';
-
-        RECORD_DEFS.forEach(r => {
-            const val = localStorage.getItem(r.key);
-            const hasScore = val !== null && parseInt(val, 10) > 0;
-            html += `
-            <div class="rec-card" style="--rc:${r.color}">
-                <div class="rec-top">
-                    <div class="rec-icon">${r.icon}</div>
-                    <div class="rec-name">${r.name}</div>
-                </div>
-                ${hasScore
-                    ? `<div class="rec-score">${parseInt(val,10)}</div>
-                       <div class="rec-label">Best · ${r.unit}</div>`
-                    : `<div class="rec-score empty">—</div>
-                       <div class="rec-label">Not played yet</div>`}
-            </div>`;
-        });
-
-        // Star Memory card with per-difficulty bests
-        const memColor = '#00c8ff';
-        const chips = MEMORY_DIFFS.map(d => {
-            const v = localStorage.getItem(MEMORY_KEY_PREFIX + d);
-            const score = v && parseInt(v,10) > 0 ? parseInt(v,10) : '—';
-            return `<div class="rec-diff-chip">
-                        <div class="chip-val" style="color:${memColor}">${score}</div>
-                        <div class="chip-lbl">${d}</div>
-                    </div>`;
-        }).join('');
-        html += `
-        <div class="rec-card" style="--rc:${memColor}">
-            <div class="rec-top">
-                <div class="rec-icon">🧩</div>
-                <div class="rec-name">Star Memory</div>
-            </div>
-            <div class="rec-memory-row">${chips}</div>
-            <div class="rec-label">Best · pts</div>
-        </div>`;
-
-        grid.innerHTML = html;
-    }
-
     // ── Boot — DOM is ready (inline script at bottom of body) ────────────────
     (function boot() {
         const lang = localStorage.getItem('sg_lang') || 'en';
@@ -1152,8 +1056,60 @@
         renderWikiMenu(lang);
         renderConstellations(lang);
         renderAnecdotes(lang);
-        renderRecords();
+        renderLeaderboard();
     })();
+
+    function renderLeaderboard() {
+        const grid = document.getElementById('scoresGrid');
+        if (!grid) return;
+        const GAME_META = [
+            { id:'starcatch',   title:'Star Catcher',     icon:'⭐', color:'#f5c518', href:'/game/starcatch'   },
+            { id:'constellation',title:'Constellation Quiz',icon:'🔭', color:'#a78bff', href:'/game/constellation'},
+            { id:'numquiz',     title:'Galaxy Quiz',       icon:'🌌', color:'#00c8ff', href:'/game/numquiz'     },
+            { id:'starmemory',  title:'Star Memory',       icon:'🧠', color:'#ff6eb4', href:'/game/starmemory'  },
+            { id:'dotconnect',  title:'Dot Connect',       icon:'🌠', color:'#6ee7ff', href:'/game/dotconnect'  },
+            { id:'planetorbit', title:'Planet Orbit',      icon:'🪐', color:'#ff9500', href:'/game/planetorbit' },
+        ];
+        grid.innerHTML = GAME_META.map(g => {
+            const scores = (function() {
+                try {
+                    const raw = localStorage.getItem('sg_hs_' + g.id);
+                    if (!raw) return [];
+                    const p = JSON.parse(raw);
+                    return Array.isArray(p) ? p.slice(0, 5) : [];
+                } catch(e) { return []; }
+            })();
+            const best = scores.length > 0 ? scores[0] : null;
+            const top5rows = scores.length > 0
+                ? scores.map((s, i) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.04)"><span style="font-size:0.68rem;color:rgba(255,255,255,0.3)">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'  #'+(i+1)}</span><span style="font-size:0.82rem;font-weight:600;color:${i===0?g.color:'rgba(255,255,255,0.55)'}">${s}</span></div>`).join('')
+                : `<div style="font-size:0.78rem;color:rgba(255,255,255,0.2);text-align:center;padding:8px 0">No scores yet</div>`;
+            return `
+            <a href="${g.href}" style="text-decoration:none;color:inherit">
+            <div style="background:rgba(10,10,22,0.88);border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:18px;position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;--cc:${g.color}"
+                 onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 14px 40px rgba(0,0,0,0.55)'"
+                 onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="position:absolute;top:0;left:0;right:0;height:2px;background:${g.color};border-radius:18px 18px 0 0"></div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                    <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:1.1rem">${g.icon}</div>
+                    <div>
+                        <div style="font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:${g.color};opacity:0.8;margin-bottom:2px">Top Scores</div>
+                        <div style="font-size:0.88rem;font-weight:700;color:#fff">${g.title}</div>
+                    </div>
+                    ${best !== null ? `<div style="margin-left:auto;font-size:1.1rem;font-weight:900;color:${g.color}">${best}</div>` : ''}
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0">${top5rows}</div>
+            </div>
+            </a>`;
+        }).join('');
+    }
+
+    function clearAllScores() {
+        if (!confirm('Clear all high scores?')) return;
+        ['starcatch','constellation','numquiz','starmemory','dotconnect','planetorbit'].forEach(id => {
+            try { localStorage.removeItem('sg_hs_' + id); } catch(e){}
+        });
+        renderLeaderboard();
+    }
 
     function renderAnecdotes(lang) {
         const grid = document.getElementById('anecdotesGrid');

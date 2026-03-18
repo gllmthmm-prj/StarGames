@@ -49,6 +49,15 @@ GAMES = [
         "category": "Trivia",
         "difficulty": "Easy",
     },
+    {
+        "id": "planetorbit",
+        "title": "Planet Orbit",
+        "description": "Drag each planet into its correct orbital position around the Sun. How fast can you sort the solar system?",
+        "icon": "🪐",
+        "color": "#ff9500",
+        "category": "Puzzle",
+        "difficulty": "Medium",
+    },
 ]
 
 @app.route('/')

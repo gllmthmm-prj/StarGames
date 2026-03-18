@@ -115,6 +115,7 @@
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_score">Score</span><span class="hud-val" id="scoreVal">0</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_time">Time</span><span class="hud-val" id="timerVal">20</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_round">Round</span><span class="hud-val" id="roundVal">1 / 8</span></div>
+        <div class="hud-stat"><span class="hud-label" data-i18n="hud_best">Best</span><span class="hud-val" id="bestVal">0</span></div>
     </div>
 
     <div class="game-area">
@@ -406,6 +407,7 @@
         const expected = puzzle.order[nextExpected];
         if (hit === expected) {
             // Correct!
+            SFX.connect();
             burst(px(puzzle.stars[hit].x), py(puzzle.stars[hit].y));
             if (nextExpected > 0) {
                 drawnLines.push([puzzle.order[nextExpected-1], hit]);
@@ -429,6 +431,7 @@
             }
         } else {
             // Wrong star — flash
+            SFX.wrong();
             instructEl.textContent = `✗ Wrong star! Click star ${nextExpected + 1}`;
             instructEl.style.color = '#ff6b8a';
             setTimeout(() => { instructEl.style.color = ''; }, 600);
@@ -479,15 +482,16 @@
     function showResult() {
         gameRunning = false;
         clearInterval(timerId);
-        const prev  = parseInt(localStorage.getItem('dc_best') || '0', 10);
-        const isNew = score > prev;
-        if (isNew) localStorage.setItem('dc_best', score);
-        const best  = isNew ? score : prev;
-        const icon  = isNew ? '🏆' : score >= 40 ? '🌟' : score >= 20 ? '✨' : '🚀';
-        const msg   = isNew ? 'New best score!' : score >= 40 ? 'Stellar navigator!' : score >= 20 ? 'Good star tracer!' : 'Keep practicing!';
+        const scRes = ScoreManager.save('dotconnect', score);
+        SFX.gameOver(score >= 20);
+        const icon = score >= 40 ? '🏆' : score >= 20 ? '🌟' : '🚀';
+        const msg  = score >= 40 ? 'Stellar navigator!' : score >= 20 ? 'Good star tracer!' : 'Keep practicing!';
+        let rankHtml = '';
+        if (scRes.rank === 1) rankHtml = '<br><span style="color:#f5c518;font-weight:700">🏆 New Best!</span>';
+        else if (scRes.isNew) rankHtml = `<br><span style="color:#c4a8ff;font-weight:700">Rank #${scRes.rank}</span>`;
         ovIcon.textContent  = icon;
         ovTitle.textContent = 'Game Over!';
-        ovSub.innerHTML     = `You scored <strong style="color:#c4a8ff">${score} points</strong> across ${ROUNDS} constellations.<br><span style="font-size:0.78rem;color:rgba(255,255,255,0.28)">Best: ${best} pts</span><br><em style="font-size:0.85rem;color:rgba(255,255,255,0.3)">${msg}</em>`;
+        ovSub.innerHTML     = `You scored <strong style="color:#c4a8ff">${score} points</strong> across ${ROUNDS} constellations.${rankHtml}<br><em style="font-size:0.85rem;color:rgba(255,255,255,0.3)">${msg}</em>`;
         btnGo.textContent   = 'Play Again';
         btnGo.onclick       = () => { overlay.classList.add('hidden'); resetGame(); };
         overlay.classList.remove('hidden');
@@ -505,6 +509,13 @@
         overlay.classList.add('hidden');
         resetGame();
     });
+    </script>
+    <script src="/static/sounds.js"></script>
+    <script src="/static/scores.js"></script>
+    <script>
+        // Load best score on page load
+        const _dcBestEl = document.getElementById('bestVal');
+        if (_dcBestEl) _dcBestEl.textContent = ScoreManager.getBest('dotconnect');
     </script>
     <script src="/static/i18n.js"></script>
     <script src="/static/spacebg.js"></script>
