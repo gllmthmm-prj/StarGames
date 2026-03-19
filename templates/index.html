@@ -778,10 +778,9 @@
                     <div class="card-desc">{{ g.description }}</div>
                     <div class="card-footer">
                         <div class="card-cta" data-i18n="card_play_now">Play now →</div>
-                        <div id="footer-right-{{ g.id }}" style="display:flex;align-items:center;gap:8px;">
+                        <div style="display:flex;align-items:center;gap:8px;">
                             <div class="card-play-count" id="playcount-{{ g.id }}">▶ —</div>
                             <div class="card-score-badge" id="badge-{{ g.id }}"><span class="badge-star">★</span> —</div>
-                            <button class="card-info-btn" title="Game details">ℹ</button>
                         </div>
                     </div>
                 </div>
@@ -795,17 +794,11 @@
                     </div>
                 </div>
                 <div class="card-desc">{{ g.description }}</div>
-                <div class="diff-selector" id="diff-{{ g.id }}">
-                    <button class="diff-pill" data-d="easy" onclick="setDiff('{{ g.id }}','easy',event)">Easy</button>
-                    <button class="diff-pill active" data-d="medium" onclick="setDiff('{{ g.id }}','medium',event)">Med</button>
-                    <button class="diff-pill" data-d="hard" onclick="setDiff('{{ g.id }}','hard',event)">Hard</button>
-                </div>
                 <div class="card-footer">
                     <div class="card-cta" data-i18n="card_play">Play →</div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <div class="card-play-count" id="playcount-{{ g.id }}">▶ —</div>
                         <div class="card-score-badge" id="badge-{{ g.id }}"><span class="badge-star">★</span> —</div>
-                        <button class="card-info-btn" title="Game details">ℹ</button>
                     </div>
                 </div>
                 {% endif %}
@@ -1063,15 +1056,6 @@
 
     // ── Difficulty selector ───────────────────────────────────────────────────
     const _diffs = {};
-    function setDiff(gameId, level, e) {
-        e.preventDefault(); e.stopPropagation();
-        _diffs[gameId] = level;
-        localStorage.setItem('sg_diff_' + gameId, level);
-        const pills = document.querySelectorAll('#diff-' + gameId + ' .diff-pill');
-        pills.forEach(p => p.classList.toggle('active', p.dataset.d === level));
-        const link = document.getElementById('link-' + gameId);
-        if (link) link.href = '/game/' + gameId + '?difficulty=' + level;
-    }
 
     // Lang change hook — set up after page loads
     window.addEventListener('load', () => {
@@ -1083,14 +1067,12 @@
             document.getElementById('themeToggle').textContent = '☀️';
         }
 
-        // Restore saved difficulties
+        // Restore saved difficulties in link hrefs
         ['constellation','starcatch','starmemory','dotconnect','numquiz','planetorbit','trivia','asteroid','constdraw'].forEach(id => {
             const saved = localStorage.getItem('sg_diff_' + id) || 'medium';
             _diffs[id] = saved;
             const link = document.getElementById('link-' + id);
             if (link) link.href = '/game/' + id + '?difficulty=' + saved;
-            const pills = document.querySelectorAll('#diff-' + id + ' .diff-pill');
-            pills.forEach(p => p.classList.toggle('active', p.dataset.d === saved));
         });
 
         const _sl = window.setLang;
@@ -1870,20 +1852,7 @@
     // ── PHASE 7 — Game Cards & Discovery ───────────────────────────────────────
     // ═══════════════════════════════════════════════════════════════════════════
 
-    // ── P7.0 Info button click → open game detail modal ──────────────────────
-    document.querySelectorAll('.card-info-btn').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            openGameDetail(btn.closest('.game-card').dataset.gameid, e);
-        });
-    });
-
-    // ── openEgg stub (egg button in nav) ────────────────────────────────────────
-    function openEgg() {
-        const msgs = ['🌟 You found the cosmic egg!', '☄️ A shooting star just for you!', '🪐 Somewhere in the universe, a new planet formed.'];
-        alert(msgs[Math.floor(Math.random() * msgs.length)]);
-    }
+    // (No card click interception — cards navigate directly via href)
 
     // Jinja-rendered game metadata available in JS
     const GAMES_META = [
