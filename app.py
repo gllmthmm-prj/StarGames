@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import random
+import os
 
 app = Flask(__name__)
 
@@ -181,4 +182,5 @@ def quiz_question():
     return jsonify({"question": q["q"], "answers": new_answers, "correct": new_correct})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    port = int(os.environ.get('PORT', 5001))
+    app.run(host='0.0.0.0', debug=False, port=port)
