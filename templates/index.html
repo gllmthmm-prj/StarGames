@@ -35,8 +35,11 @@
         body.light .lang-select { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.6); }
         body.light .lang-select:hover { border-color:rgba(0,0,30,0.3); color:#0d0d1a; }
         body.light .lang-select option { background:#f0f2ff; color:#0d0d1a; }
-        body.light #themeToggle { background:rgba(0,0,30,0.06) !important; border-color:rgba(0,0,30,0.15) !important; color:rgba(0,0,30,0.6) !important; }
-        body.light #themeToggle:hover { color:#0d0d1a !important; }
+        /* Theme toggle button */
+        #themeToggle { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.9rem; cursor:pointer; transition:all 0.2s; font-family:inherit; }
+        #themeToggle:hover { color:#fff; border-color:rgba(255,255,255,0.28); }
+        body.light #themeToggle { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.6); }
+        body.light #themeToggle:hover { color:#0d0d1a; border-color:rgba(0,0,30,0.3); }
 
         /* Hero */
         body.light .hero p { color: rgba(0,0,30,0.5); }
@@ -467,7 +470,7 @@
                 <option value="en">🌐 EN</option>
                 <option value="fr">🌐 FR</option>
             </select>
-            <button id="themeToggle" onclick="toggleTheme()" title="Toggle theme" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 10px;color:rgba(255,255,255,0.65);font-size:0.9rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.65)'">🌙</button>
+            <button id="themeToggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
             <button class="egg-btn" onclick="openEgg()" title="🥚">🥚</button>
         </div>
     </nav>
