@@ -5,12 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StarGames</title>
     <style>
+        :root {
+            --bg: #03030a;
+            --surface: rgba(10,10,22,0.88);
+            --surface-border: rgba(255,255,255,0.07);
+            --text: #e8e8ff;
+            --text-muted: rgba(255,255,255,0.38);
+            --nav-bg: rgba(3,3,10,0.65);
+        }
+        body.light {
+            --bg: #f0f2ff;
+            --surface: rgba(255,255,255,0.92);
+            --surface-border: rgba(0,0,30,0.1);
+            --text: #0d0d1a;
+            --text-muted: rgba(0,0,30,0.5);
+            --nav-bg: rgba(240,242,255,0.85);
+        }
+        body.light .milkyway,
+        body.light .nebula-1,
+        body.light .nebula-2,
+        body.light .nebula-3 { opacity: 0; }
+        body.light #starfield { opacity: 0.25; }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #03030a;
-            color: #e8e8ff;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -63,7 +85,7 @@
             display: flex; align-items: center; justify-content: space-between;
             padding: 20px 52px;
             border-bottom: 1px solid rgba(255,255,255,0.055);
-            background: rgba(3,3,10,0.65); backdrop-filter: blur(18px);
+            background: var(--nav-bg); backdrop-filter: blur(18px);
         }
         .logo { font-size: 1.45rem; font-weight: 800; letter-spacing: 0.05em; background: linear-gradient(90deg,#c4a8ff,#6ee7ff,#f5c518); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-links { display: flex; gap: 30px; align-items: center; }
@@ -103,12 +125,17 @@
         .games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }
 
         .game-card {
-            background:rgba(10,10,22,0.88); border:1px solid rgba(255,255,255,0.07);
+            background:var(--surface); border:1px solid var(--surface-border);
             border-radius:20px; padding:26px; text-decoration:none; color:inherit;
             display:flex; flex-direction:column; gap:12px;
             transition:transform 0.22s,box-shadow 0.22s,border-color 0.22s;
             box-shadow:0 8px 28px rgba(0,0,0,0.4); position:relative; overflow:hidden;
         }
+
+        .diff-selector { display:flex; gap:6px; margin-top:2px; }
+        .diff-pill { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:50px; padding:3px 10px; font-size:0.68rem; letter-spacing:0.06em; color:rgba(255,255,255,0.35); cursor:pointer; transition:all 0.18s; font-family:inherit; }
+        .diff-pill:hover { border-color:rgba(255,255,255,0.25); color:rgba(255,255,255,0.7); }
+        .diff-pill.active { background:color-mix(in srgb,var(--cc) 20%,transparent); border-color:color-mix(in srgb,var(--cc) 45%,transparent); color:var(--cc); }
         .game-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--cc); border-radius:20px 20px 0 0; }
         .game-card::after  { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 0%, color-mix(in srgb,var(--cc) 12%,transparent) 0%,transparent 70%); opacity:0; transition:opacity 0.3s; pointer-events:none; border-radius:20px; }
         .game-card:hover { transform:translateY(-6px); border-color:rgba(255,255,255,0.13); box-shadow:0 18px 50px rgba(0,0,0,0.55); }
@@ -131,7 +158,7 @@
         /* ── Achievements section ──────────────────────────────── */
         .achievements-section { position:relative;z-index:10;max-width:1060px;margin:0 auto;padding:0 24px 80px; }
         .ach-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px; }
-        .ach-card { background:rgba(10,10,22,0.88);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:transform 0.2s,border-color 0.2s; }
+        .ach-card { background:var(--surface);border:1px solid var(--surface-border);border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:transform 0.2s,border-color 0.2s; }
         .ach-card.earned { border-color:rgba(196,168,255,0.25);background:rgba(196,168,255,0.06); }
         .ach-card:hover { transform:translateY(-3px); }
         .ach-icon { font-size:1.8rem;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08); }
@@ -181,8 +208,8 @@
 
         .anec-card {
             break-inside: avoid;
-            background: rgba(10,10,22,0.88);
-            border: 1px solid rgba(255,255,255,0.07);
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
             border-radius: 18px; padding: 24px;
             margin-bottom: 18px;
             position: relative; overflow: hidden;
@@ -357,6 +384,7 @@
                 <option value="en">🌐 EN</option>
                 <option value="fr">🌐 FR</option>
             </select>
+            <button id="themeToggle" onclick="toggleTheme()" title="Toggle theme" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 10px;color:rgba(255,255,255,0.65);font-size:0.9rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.65)'">🌙</button>
             <button class="egg-btn" onclick="openEgg()" title="🥚">🥚</button>
         </div>
     </nav>
@@ -390,7 +418,7 @@
         <div class="games-grid">
             {% for g in games %}
             <a class="game-card {% if loop.index == 1 %}featured{% endif %}"
-               href="/game/{{ g.id }}" style="--cc: {{ g.color }}">
+               href="/game/{{ g.id }}{% if loop.index == 1 %}?difficulty=medium{% endif %}" {% if loop.index != 1 %}id="link-{{ g.id }}"{% endif %} style="--cc: {{ g.color }}">
                 {% if loop.index == 1 %}
                 <div class="card-icon-wrap">{{ g.icon }}</div>
                 <div class="featured-body">
@@ -413,6 +441,11 @@
                     </div>
                 </div>
                 <div class="card-desc">{{ g.description }}</div>
+                <div class="diff-selector" id="diff-{{ g.id }}">
+                    <button class="diff-pill" data-d="easy" onclick="setDiff('{{ g.id }}','easy',event)">Easy</button>
+                    <button class="diff-pill active" data-d="medium" onclick="setDiff('{{ g.id }}','medium',event)">Med</button>
+                    <button class="diff-pill" data-d="hard" onclick="setDiff('{{ g.id }}','hard',event)">Hard</button>
+                </div>
                 <div class="card-footer">
                     <div class="card-cta" data-i18n="card_play">Play →</div>
                     <div class="card-score-badge" id="badge-{{ g.id }}"><span class="badge-star">★</span> —</div>
@@ -497,31 +530,81 @@
             </div>`).join('');
     }
 
-    // ── Starfield ──────────────────────────────────────────────────────────────
+    // ── Starfield (3-layer parallax) ───────────────────────────────────────────
     const canvas = document.getElementById('starfield');
     const ctx    = canvas.getContext('2d');
-    let stars    = [];
+
+    const LAYERS = [
+        { count: 120, minR: 0.2, maxR: 0.6, twinkleSpeed: 0.003, parallaxFactor: 0.008, scrollFactor: 0.05,  glow: false, stars: [], px: 0, py: 0, tx: 0, ty: 0 },
+        { count: 140, minR: 0.5, maxR: 1.2, twinkleSpeed: 0.005, parallaxFactor: 0.018, scrollFactor: 0.12,  glow: false, stars: [], px: 0, py: 0, tx: 0, ty: 0 },
+        { count:  60, minR: 1.0, maxR: 2.2, twinkleSpeed: 0.002, parallaxFactor: 0.035, scrollFactor: 0.22,  glow: true,  stars: [], px: 0, py: 0, tx: 0, ty: 0 },
+    ];
+
+    let _mouseCX = 0, _mouseCY = 0;
 
     function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+
     function initStars() {
-        stars = Array.from({length: 320}, () => ({
-            x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-            r: Math.random()*1.4+0.2, baseA: Math.random()*0.7+0.1,
-            speed: Math.random()*0.006+0.001, phase: Math.random()*Math.PI*2,
-            color: Math.random()<0.08?'#f5c518':Math.random()<0.12?'#a0c8ff':'#ffffff',
-        }));
-    }
-    function drawStars(t) {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        stars.forEach(s => {
-            const alpha = s.baseA*(0.5+0.5*Math.sin(t*s.speed+s.phase));
-            ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-            ctx.fillStyle = s.color==='#ffffff'?`rgba(255,255,255,${alpha})`:s.color==='#f5c518'?`rgba(245,197,24,${alpha})`:`rgba(160,200,255,${alpha})`;
-            if(s.r>1.1){ctx.shadowColor=s.color;ctx.shadowBlur=4;}
-            ctx.fill(); ctx.shadowBlur=0;
+        LAYERS.forEach(layer => {
+            layer.stars = Array.from({length: layer.count}, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * (layer.maxR - layer.minR) + layer.minR,
+                baseA: Math.random() * 0.6 + 0.2,
+                speed: Math.random() * layer.twinkleSpeed + 0.001,
+                phase: Math.random() * Math.PI * 2,
+                color: Math.random() < 0.08 ? '#f5c518' : Math.random() < 0.12 ? '#a0c8ff' : '#ffffff',
+            }));
         });
+    }
+
+    window.addEventListener('mousemove', e => {
+        _mouseCX = e.clientX - canvas.width  / 2;
+        _mouseCY = e.clientY - canvas.height / 2;
+        LAYERS.forEach(layer => {
+            layer.tx = -_mouseCX * layer.parallaxFactor;
+            layer.ty = -_mouseCY * layer.parallaxFactor;
+        });
+    });
+
+    function drawStars(t) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const scrollY = window.scrollY || 0;
+
+        LAYERS.forEach(layer => {
+            // lerp toward target
+            layer.px += (layer.tx - layer.px) * 0.05;
+            layer.py += (layer.ty - layer.py) * 0.05;
+
+            const ox = layer.px;
+            const oy = layer.py - scrollY * layer.scrollFactor;
+
+            ctx.save();
+            ctx.translate(ox, oy);
+
+            layer.stars.forEach(s => {
+                const alpha = s.baseA * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                const a = alpha.toFixed(3);
+                if (s.color === '#f5c518') {
+                    ctx.fillStyle = `rgba(245,197,24,${a})`;
+                } else if (s.color === '#a0c8ff') {
+                    ctx.fillStyle = `rgba(160,200,255,${a})`;
+                } else {
+                    ctx.fillStyle = `rgba(255,255,255,${a})`;
+                }
+                if (layer.glow) { ctx.shadowColor = s.color; ctx.shadowBlur = 6; }
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+
+            ctx.restore();
+        });
+
         requestAnimationFrame(drawStars);
     }
+
     resizeCanvas(); initStars(); requestAnimationFrame(drawStars);
     window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
 
@@ -539,10 +622,52 @@
     setTimeout(spawnShoot, 800);
     setTimeout(spawnShoot, 3500);
 
+    // ── Theme toggle ──────────────────────────────────────────────────────────
+    function toggleTheme() {
+        const isLight = document.body.classList.toggle('light');
+        document.getElementById('themeToggle').textContent = isLight ? '☀️' : '🌙';
+        localStorage.setItem('sg_theme', isLight ? 'light' : 'dark');
+    }
+    // Restore saved theme
+    (function() {
+        const savedTheme = localStorage.getItem('sg_theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light');
+            // button text will be set in load listener after DOM is ready
+        }
+    })();
+
+    // ── Difficulty selector ───────────────────────────────────────────────────
+    const _diffs = {};
+    function setDiff(gameId, level, e) {
+        e.preventDefault(); e.stopPropagation();
+        _diffs[gameId] = level;
+        localStorage.setItem('sg_diff_' + gameId, level);
+        const pills = document.querySelectorAll('#diff-' + gameId + ' .diff-pill');
+        pills.forEach(p => p.classList.toggle('active', p.dataset.d === level));
+        const link = document.getElementById('link-' + gameId);
+        if (link) link.href = '/game/' + gameId + '?difficulty=' + level;
+    }
+
     // Lang change hook — set up after page loads
     window.addEventListener('load', () => {
         refreshScoreBadges();
         renderAchievements();
+
+        // Restore theme toggle button label
+        if (document.body.classList.contains('light')) {
+            document.getElementById('themeToggle').textContent = '☀️';
+        }
+
+        // Restore saved difficulties
+        ['constellation','starcatch','starmemory','dotconnect','numquiz','planetorbit','trivia','asteroid','constdraw'].forEach(id => {
+            const saved = localStorage.getItem('sg_diff_' + id) || 'medium';
+            _diffs[id] = saved;
+            const link = document.getElementById('link-' + id);
+            if (link) link.href = '/game/' + id + '?difficulty=' + saved;
+            const pills = document.querySelectorAll('#diff-' + id + ' .diff-pill');
+            pills.forEach(p => p.classList.toggle('active', p.dataset.d === saved));
+        });
 
         const _sl = window.setLang;
         window.setLang = function(lang) {

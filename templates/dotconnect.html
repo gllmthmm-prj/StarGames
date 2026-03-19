@@ -38,6 +38,7 @@
         .hud-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
         .hud-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
         .hud-val   { font-size: 1.15rem; font-weight: 700; color: #c4a8ff; }
+        .diff-badge { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 2px 8px; border-radius: 50px; background: rgba(196,168,255,0.15); color: #c4a8ff; border: 1px solid rgba(196,168,255,0.3); }
         #timerVal  { color: #f5c518; transition: color 0.3s; }
         #timerVal.urgent { color: #ff6b8a; animation: pulse 0.6s ease-in-out infinite alternate; }
         @keyframes pulse { from{opacity:1}to{opacity:0.3} }
@@ -116,6 +117,7 @@
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_time">Time</span><span class="hud-val" id="timerVal">20</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_round">Round</span><span class="hud-val" id="roundVal">1 / 8</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_best">Best</span><span class="hud-val" id="bestVal">0</span></div>
+        <div class="hud-stat"><span class="hud-label">Mode</span><span class="diff-badge" id="diffBadge">Medium</span></div>
     </div>
 
     <div class="game-area">
@@ -241,9 +243,18 @@
         },
     ];
 
+    // ── Difficulty ────────────────────────────────────────────────────────────
+    const DIFFICULTY = new URLSearchParams(window.location.search).get('difficulty') || 'medium';
+    const DIFF_CFG = {
+        easy:   { timeBonus: 1.4, scoreMult: 0.8,  label: 'Easy'   },
+        medium: { timeBonus: 1.0, scoreMult: 1.0,  label: 'Medium' },
+        hard:   { timeBonus: 0.65, scoreMult: 1.5, label: 'Hard'   },
+    }[DIFFICULTY] || { timeBonus: 1.0, scoreMult: 1.0, label: 'Medium' };
+    document.getElementById('diffBadge').textContent = DIFF_CFG.label;
+
     // ── State ─────────────────────────────────────────────────────────────────
     const ROUNDS    = 8;
-    const ROUND_TIME = 20;
+    const ROUND_TIME = Math.round(20 * DIFF_CFG.timeBonus);
     let round       = 0;
     let score       = 0;
     let timeLeft    = ROUND_TIME;
@@ -423,9 +434,10 @@
             if (nextExpected >= puzzle.order.length) {
                 // Completed!
                 const bonus = Math.ceil(timeLeft / 4);
-                score += 5 + bonus;
+                const earned = Math.round((5 + bonus) * DIFF_CFG.scoreMult);
+                score += earned;
                 scoreEl.textContent = score;
-                instructEl.textContent = `🌟 ${puzzle.name} complete! +${5+bonus} pts`;
+                instructEl.textContent = `🌟 ${puzzle.name} complete! +${earned} pts`;
                 clearInterval(timerId);
                 setTimeout(nextRound, 1400);
             }

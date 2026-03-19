@@ -46,6 +46,18 @@
         .hud-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
         .hud-val   { font-size: 1.15rem; font-weight: 700; color: #ff9500; }
         #timerVal  { color: #f5c518; }
+        .diff-badge { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 2px 8px; border-radius: 50px; background: rgba(255,149,0,0.12); color: #ff9500; border: 1px solid rgba(255,149,0,0.3); }
+
+        /* Mobile responsive */
+        @media (max-width: 600px) {
+            .hud-label { font-size: 0.52rem; }
+            .hud-val   { font-size: 0.95rem; }
+            .planet-disc { width: 34px; height: 34px; font-size: 1rem; }
+            .planet-card-name { font-size: 0.58rem; }
+            .slots-grid { gap: 6px; }
+            .orbit-slot { min-height: 72px; padding: 8px 4px; }
+            .tray { gap: 8px; padding: 10px 12px; }
+        }
 
         /* Game layout */
         .game-area {
@@ -218,6 +230,7 @@
         <div class="hud-stat"><span class="hud-label">Time</span><span class="hud-val" id="timerVal">0:00</span></div>
         <div class="hud-stat"><span class="hud-label">Placed</span><span class="hud-val" id="placedVal">0 / 8</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_best">Best</span><span class="hud-val" id="bestVal">—</span></div>
+        <div class="hud-stat"><span class="hud-label">Mode</span><span class="diff-badge" id="diffBadge">Medium</span></div>
     </div>
 
     <div class="game-area">
@@ -255,6 +268,15 @@
     <script src="/static/spacebg.js"></script>
     <script>document.addEventListener('DOMContentLoaded', initLang);</script>
     <script>
+    // ── Difficulty ────────────────────────────────────────────────────────────
+    const DIFFICULTY = new URLSearchParams(window.location.search).get('difficulty') || 'medium';
+    const DIFF_CFG = {
+        easy:   { timeBonus: 1.4, scoreMult: 0.8,  label: 'Easy',   timeLimit: 120 },
+        medium: { timeBonus: 1.0, scoreMult: 1.0,  label: 'Medium', timeLimit: 90  },
+        hard:   { timeBonus: 0.65, scoreMult: 1.5, label: 'Hard',   timeLimit: 60  },
+    }[DIFFICULTY] || { timeBonus: 1.0, scoreMult: 1.0, label: 'Medium', timeLimit: 90 };
+    document.getElementById('diffBadge').textContent = DIFF_CFG.label;
+
     // ── Planet data ──────────────────────────────────────────────────────────
     const PLANETS = [
         { id: 1, name: 'Mercury', emoji: '⚫', color: '#b5b5b5' },
@@ -274,6 +296,7 @@
     let gameRunning = false;
     let dragPlanet  = null;   // { id, name, color, emoji, sourceEl }
     let touchGhostActive = false;
+    let timeLeft    = DIFF_CFG.timeLimit; // countdown timer
 
     // ── DOM refs ──────────────────────────────────────────────────────────────
     const slotsGrid  = document.getElementById('slotsGrid');
@@ -382,6 +405,13 @@
         const p    = PLANETS.find(x => x.id === pid);
         dragPlanet = { ...p, sourceEl: card };
         card.classList.add('dragging');
+        // Touch feedback: scale up briefly to confirm selection
+        const disc = card.querySelector('.planet-disc');
+        if (disc) {
+            disc.style.transform = 'scale(1.1)';
+            disc.style.transition = 'transform 0.15s';
+            setTimeout(() => { disc.style.transform = ''; }, 200);
+        }
 
         // Show ghost
         ghostDisc.style.background = `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.3), ${p.color})`;
@@ -462,7 +492,7 @@
             placedEl.textContent = `${placed} / 8`;
 
             if (placed === 8) {
-                setTimeout(endGame, 400);
+                setTimeout(() => endGame(false), 400);
             }
         } else {
             // Wrong!
@@ -477,23 +507,35 @@
     // ── Timer ─────────────────────────────────────────────────────────────────
     function startTimer() {
         startTime = Date.now();
+        timeLeft = DIFF_CFG.timeLimit;
         clearInterval(timerInterval);
         timerInterval = setInterval(() => {
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            const m = Math.floor(elapsed / 60);
-            const s = elapsed % 60;
+            timeLeft--;
+            const m = Math.floor(timeLeft / 60);
+            const s = timeLeft % 60;
             timerEl.textContent = `${m}:${s.toString().padStart(2, '0')}`;
-        }, 500);
+            if (timeLeft <= 10) timerEl.style.color = '#ff6b8a';
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                if (gameRunning) endGame(true);
+            }
+        }, 1000);
+        // Show initial value
+        const m0 = Math.floor(timeLeft / 60);
+        const s0 = timeLeft % 60;
+        timerEl.textContent = `${m0}:${s0.toString().padStart(2, '0')}`;
     }
 
     // ── End game ──────────────────────────────────────────────────────────────
-    function endGame() {
+    function endGame(timedOut) {
         gameRunning = false;
         clearInterval(timerInterval);
+        timerEl.style.color = '';
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        const scoreVal = Math.max(100, 800 - elapsed * 10);
+        const baseScore = timedOut ? Math.max(0, placed * 50) : Math.max(100, 800 - elapsed * 10);
+        const scoreVal  = Math.round(baseScore * DIFF_CFG.scoreMult);
         const scRes = ScoreManager.save('planetorbit', scoreVal);
-        SFX.gameOver(true);
+        SFX.gameOver(!timedOut);
 
         const bestScore = ScoreManager.getBest('planetorbit');
         bestEl.textContent = bestScore;
@@ -507,9 +549,11 @@
         else if (scRes.isNew)    rankHtml = `<div class="ov-rank" style="color:#a78bff">Rank #${scRes.rank}</div>`;
         else                     rankHtml = '<div class="ov-rank"></div>';
 
-        ovIcon.textContent  = '🏆';
-        ovTitle.textContent = 'Solar System Sorted!';
-        ovSub.innerHTML     = `Completed in <strong style="color:#f5c518">${timeStr}</strong> for <strong style="color:#ff9500">${scoreVal} pts</strong>`;
+        ovIcon.textContent  = timedOut ? '⏱' : '🏆';
+        ovTitle.textContent = timedOut ? `Time's Up! ${placed}/8 placed` : 'Solar System Sorted!';
+        ovSub.innerHTML     = timedOut
+            ? `You placed <strong style="color:#ff9500">${placed} / 8</strong> planets before time ran out. Score: <strong style="color:#ff9500">${scoreVal} pts</strong>`
+            : `Completed in <strong style="color:#f5c518">${timeStr}</strong> for <strong style="color:#ff9500">${scoreVal} pts</strong>`;
         // inject rank
         const existingRank = overlay.querySelector('.ov-rank');
         if (existingRank) existingRank.remove();
@@ -523,6 +567,7 @@
     // ── Start game ────────────────────────────────────────────────────────────
     function startGame() {
         overlay.classList.add('hidden');
+        timerEl.style.color = '';
         buildBoard();
         gameRunning = true;
         startTimer();

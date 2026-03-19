@@ -43,6 +43,7 @@
         .hud-val   { font-size: 1.3rem; font-weight: 700; color: #f5c518; }
         #timerVal  { color: #ff6b8a; }
         #comboVal  { color: #a78bff; }
+        .diff-badge { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 2px 8px; border-radius: 50px; background: rgba(167,139,255,0.15); color: #a78bff; border: 1px solid rgba(167,139,255,0.3); }
 
         #canvas { flex: 1; display: block; cursor: none; touch-action: none; }
 
@@ -83,6 +84,7 @@
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_time">Time</span><span class="hud-val" id="timerVal">30</span></div>
         <div class="hud-stat"><span class="hud-label">Combo</span><span class="hud-val" id="comboVal">x1</span></div>
         <div class="hud-stat"><span class="hud-label" data-i18n="hud_best">Best</span><span class="hud-val" id="bestVal">0</span></div>
+        <div class="hud-stat"><span class="hud-label">Mode</span><span class="diff-badge" id="diffBadge">Medium</span></div>
     </div>
     <canvas id="canvas"></canvas>
 
@@ -95,6 +97,16 @@
     </div>
 
     <script>
+        const DIFFICULTY = new URLSearchParams(window.location.search).get('difficulty') || 'medium';
+        const DIFF_CFG = {
+            easy:   { timeBonus: 1.4, scoreMult: 0.8,  label: 'Easy'   },
+            medium: { timeBonus: 1.0, scoreMult: 1.0,  label: 'Medium' },
+            hard:   { timeBonus: 0.65, scoreMult: 1.5, label: 'Hard'   },
+        }[DIFFICULTY] || { timeBonus: 1.0, scoreMult: 1.0, label: 'Medium' };
+
+        // Apply difficulty badge
+        document.getElementById('diffBadge').textContent = DIFF_CFG.label;
+
         const canvas    = document.getElementById('canvas');
         const ctx       = canvas.getContext('2d');
         const scoreEl   = document.getElementById('scoreVal');
@@ -112,6 +124,7 @@
         let W, H, stars = [], particles = [], floaters = [], cursor = {x:-200, y:-200};
         let score = 0, best = 0, timeLeft = 30, running = false, intervalId = null;
         let combo = 1, lastCatchTime = 0;
+        let _speedMult = 1.0; // set by startGame based on difficulty
 
         function resize() {
             W = canvas.width  = canvas.offsetWidth;
@@ -184,7 +197,7 @@
                 x: Math.random() * (W - 80) + 40,
                 y: -size,
                 r: size,
-                vy: Math.random() * 1.2 + 0.6,
+                vy: (Math.random() * 1.2 + 0.6) * _speedMult,
                 life: 1,
                 decay: Math.random() * 0.003 + 0.002,
                 color: colors[Math.floor(Math.random() * colors.length)],
@@ -297,15 +310,20 @@
         }
 
         function startGame() {
-            stars = []; particles = []; floaters = []; score = 0; timeLeft = 30;
+            const baseDuration = 30;
+            const gameDuration = Math.round(baseDuration * DIFF_CFG.timeBonus);
+            stars = []; particles = []; floaters = []; score = 0; timeLeft = gameDuration;
             combo = 1; lastCatchTime = 0;
             scoreEl.textContent = '0';
             comboEl.textContent = 'x1';
-            timerEl.textContent = '30';
+            timerEl.textContent = gameDuration;
             overlay.classList.add('hidden');
             running = true;
 
-            let spawnDelay = 900;
+            // Difficulty affects initial spawn delay and speed multiplier
+            const spawnDelayBase = DIFFICULTY === 'easy' ? 1200 : DIFFICULTY === 'hard' ? 600 : 900;
+            _speedMult = DIFFICULTY === 'easy' ? 0.7 : DIFFICULTY === 'hard' ? 1.5 : 1.0;
+            let spawnDelay = spawnDelayBase;
             let spawnTimer = 0;
             let lastTime   = performance.now();
 
@@ -330,6 +348,8 @@
         function endGame() {
             running = false;
             clearInterval(intervalId);
+            score = Math.round(score * DIFF_CFG.scoreMult);
+            scoreEl.textContent = score;
             if (score > best) { best = score; bestEl.textContent = best; }
             const scRes = ScoreManager.save('starcatch', score);
             SFX.gameOver(score >= 20);

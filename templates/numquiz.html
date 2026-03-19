@@ -63,6 +63,7 @@
         .hud-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .hud-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
         .hud-val { font-size: 1.2rem; font-weight: 700; color: #00c8ff; }
+        .diff-badge { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 2px 8px; border-radius: 50px; background: rgba(0,200,255,0.12); color: #00c8ff; border: 1px solid rgba(0,200,255,0.3); }
 
         /* Timer */
         .timer-ring-wrap { position: relative; width: 54px; height: 54px; }
@@ -133,6 +134,7 @@
             <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
             <div class="hud-row">
                 <div class="hud-item"><span class="hud-label" data-i18n="hud_score">Score</span><span class="hud-val" id="scoreVal">0</span></div>
+                <div class="hud-item"><span class="hud-label">Mode</span><span class="diff-badge" id="diffBadge">Medium</span></div>
                 <div class="hud-item">
                     <div class="timer-ring-wrap">
                         <svg viewBox="0 0 54 54" width="54" height="54">
@@ -154,8 +156,16 @@
     </div>
 
     <script>
+        const DIFFICULTY = new URLSearchParams(window.location.search).get('difficulty') || 'medium';
+        const DIFF_CFG = {
+            easy:   { timeBonus: 1.4, scoreMult: 0.8,  label: 'Easy'   },
+            medium: { timeBonus: 1.0, scoreMult: 1.0,  label: 'Medium' },
+            hard:   { timeBonus: 0.65, scoreMult: 1.5, label: 'Hard'   },
+        }[DIFFICULTY] || { timeBonus: 1.0, scoreMult: 1.0, label: 'Medium' };
+        document.getElementById('diffBadge').textContent = DIFF_CFG.label;
+
         const TOTAL      = 8;
-        const TIME_LIMIT = 10; // seconds per question
+        const TIME_LIMIT = DIFFICULTY === 'easy' ? 20 : DIFFICULTY === 'hard' ? 8 : 15;
         const CIRC       = 2 * Math.PI * 22; // stroke-dasharray for r=22
 
         let qIndex = 0, score = 0, streak = 0, answered = false;
@@ -252,11 +262,11 @@
             if (chosen === correct) {
                 SFX.correct();
                 streak++;
-                const bonus = streak >= 3 ? 2 : 1;
+                const bonus = Math.round((streak >= 3 ? 2 : 1) * DIFF_CFG.scoreMult);
                 score += bonus;
                 scoreEl.textContent  = score;
                 streakEl.textContent = `${streak}🔥`;
-                feedback.textContent = streak >= 3 ? `🔥 Correct! +${bonus} (streak bonus!)` : '✓ Correct!';
+                feedback.textContent = streak >= 3 ? `🔥 Correct! +${bonus} (streak bonus!)` : `✓ Correct! +${bonus}`;
                 feedback.className   = 'feedback correct';
             } else {
                 SFX.wrong();
