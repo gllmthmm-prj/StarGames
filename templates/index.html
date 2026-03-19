@@ -168,7 +168,7 @@
 
         /* ── Nav ─────────────────────────────────────────────── */
         nav {
-            position: relative; z-index: 20;
+            position: sticky; top: 0; z-index: 200;
             display: flex; align-items: center; justify-content: space-between;
             padding: 20px 52px;
             border-bottom: 1px solid rgba(255,255,255,0.055);
@@ -176,8 +176,234 @@
         }
         .logo { font-size: 1.45rem; font-weight: 800; letter-spacing: 0.05em; background: linear-gradient(90deg,#c4a8ff,#6ee7ff,#f5c518); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-links { display: flex; gap: 30px; align-items: center; }
-        .nav-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.88rem; letter-spacing: 0.04em; transition: color 0.2s; }
+        .nav-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.88rem; letter-spacing: 0.04em; transition: color 0.2s, box-shadow 0.2s; padding-bottom: 3px; }
         .nav-links a:hover { color: rgba(255,255,255,0.85); }
+        .nav-links a.nav-active { color: #c4a8ff; box-shadow: 0 2px 0 #c4a8ff; }
+        html.light .nav-links a.nav-active { color: #5a3fbf; box-shadow: 0 2px 0 #5a3fbf; }
+
+        /* ── Hamburger ──────────────────────────────────────── */
+        .hamburger { display:none; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:7px 11px; color:rgba(255,255,255,0.65); font-size:1.1rem; cursor:pointer; transition:all 0.2s; font-family:inherit; line-height:1; }
+        .hamburger:hover { color:#fff; border-color:rgba(255,255,255,0.28); }
+        html.light .hamburger { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.6); }
+        html.light .hamburger:hover { color:#0d0d1a; border-color:rgba(0,0,30,0.3); }
+        .mobile-menu {
+            display:none; position:absolute; top:100%; left:0; right:0;
+            background:var(--nav-bg); backdrop-filter:blur(18px);
+            border-bottom:1px solid rgba(255,255,255,0.07);
+            flex-direction:column; padding:12px 24px 20px; gap:12px;
+            z-index:199;
+            animation: slideDown 0.2s ease;
+        }
+        @keyframes slideDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+        .mobile-menu.open { display:flex; }
+        .mobile-menu a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.92rem; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05); transition:color 0.2s; }
+        .mobile-menu a:hover { color:#fff; }
+        .mobile-menu a:last-of-type { border-bottom:none; }
+        html.light .mobile-menu a { color:rgba(0,0,30,0.5); border-bottom-color:rgba(0,0,30,0.07); }
+        html.light .mobile-menu a:hover { color:#0d0d1a; }
+        @media(max-width:768px) {
+            nav { padding:14px 20px; }
+            .nav-links { display:none; }
+            .hamburger { display:block; }
+            nav { position:relative; }
+        }
+
+        /* ── Category filter pills ──────────────────────────── */
+        .filter-bar { display:flex; align-items:center; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
+        .filter-pill {
+            background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+            border-radius:50px; padding:5px 14px; font-size:0.72rem; letter-spacing:0.06em;
+            color:rgba(255,255,255,0.45); cursor:pointer; transition:all 0.18s; font-family:inherit;
+        }
+        .filter-pill:hover { border-color:rgba(255,255,255,0.25); color:rgba(255,255,255,0.8); }
+        .filter-pill.active { background:linear-gradient(135deg,rgba(99,51,255,0.35),rgba(59,130,246,0.35)); border-color:rgba(99,51,255,0.55); color:#c4a8ff; }
+        html.light .filter-pill { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.45); }
+        html.light .filter-pill:hover { border-color:rgba(0,0,30,0.25); color:rgba(0,0,30,0.75); }
+        html.light .filter-pill.active { background:linear-gradient(135deg,rgba(90,63,191,0.18),rgba(26,126,192,0.18)); border-color:rgba(90,63,191,0.45); color:#5a3fbf; }
+        .filter-count { font-size:0.65rem; opacity:0.65; margin-left:3px; }
+
+        /* ── Search bar ─────────────────────────────────────── */
+        .search-wrap { position:relative; margin-bottom:22px; display:flex; align-items:center; gap:10px; }
+        .search-input {
+            flex:1; max-width:340px; background:rgba(255,255,255,0.05);
+            border:1px solid rgba(255,255,255,0.1); border-radius:50px;
+            padding:8px 36px 8px 18px; font-size:0.84rem; color:var(--text);
+            font-family:inherit; outline:none; transition:border-color 0.2s, background 0.2s;
+        }
+        .search-input::placeholder { color:rgba(255,255,255,0.25); }
+        .search-input:focus { border-color:rgba(99,51,255,0.5); background:rgba(255,255,255,0.07); }
+        html.light .search-input { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.12); }
+        html.light .search-input::placeholder { color:rgba(0,0,30,0.3); }
+        html.light .search-input:focus { border-color:rgba(90,63,191,0.45); background:rgba(0,0,30,0.07); }
+        .search-clear { position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:rgba(255,255,255,0.35); cursor:pointer; font-size:1rem; display:none; line-height:1; padding:2px; }
+        .search-clear.visible { display:block; }
+        html.light .search-clear { color:rgba(0,0,30,0.35); }
+        .search-empty { text-align:center; padding:40px 20px; color:rgba(255,255,255,0.3); font-size:0.9rem; display:none; }
+        .search-empty.visible { display:block; }
+        html.light .search-empty { color:rgba(0,0,30,0.35); }
+
+        /* ── Back to top ────────────────────────────────────── */
+        #backToTop {
+            position:fixed; bottom:28px; right:28px; z-index:300;
+            width:44px; height:44px; border-radius:50%;
+            background:rgba(10,10,22,0.75); border:1px solid rgba(255,255,255,0.12);
+            backdrop-filter:blur(14px); color:rgba(255,255,255,0.7);
+            font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+            opacity:0; pointer-events:none; transition:opacity 0.3s, transform 0.2s;
+            box-shadow:0 8px 28px rgba(0,0,0,0.5); font-family:inherit;
+        }
+        #backToTop.visible { opacity:1; pointer-events:all; }
+        #backToTop:hover { transform:translateY(-3px); color:#fff; border-color:rgba(255,255,255,0.28); }
+        html.light #backToTop { background:rgba(240,242,255,0.85); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.55); }
+        html.light #backToTop:hover { color:#0d0d1a; border-color:rgba(0,0,30,0.3); }
+
+        /* ── Footer upgrade ─────────────────────────────────── */
+        .site-footer {
+            position:relative; z-index:10;
+            border-top:1px solid transparent;
+            background:linear-gradient(var(--bg),var(--bg)) padding-box,
+                        linear-gradient(90deg,#6333ff,#3b82f6,#f5c518) border-box;
+            padding:0;
+        }
+        .footer-inner {
+            max-width:1060px; margin:0 auto; padding:40px 24px 32px;
+            display:grid; grid-template-columns:1fr auto 1fr; gap:32px; align-items:start;
+        }
+        @media(max-width:700px){ .footer-inner{grid-template-columns:1fr;text-align:center;} }
+        .footer-brand .logo { font-size:1.2rem; margin-bottom:8px; display:block; }
+        .footer-tagline { font-size:0.78rem; color:rgba(255,255,255,0.3); letter-spacing:0.08em; }
+        html.light .footer-tagline { color:rgba(0,0,30,0.4); }
+        .footer-links { display:grid; grid-template-columns:repeat(2,auto); gap:8px 24px; justify-content:center; }
+        .footer-links a { color:rgba(255,255,255,0.35); text-decoration:none; font-size:0.78rem; letter-spacing:0.06em; transition:color 0.2s; }
+        .footer-links a:hover { color:rgba(255,255,255,0.8); }
+        html.light .footer-links a { color:rgba(0,0,30,0.4); }
+        html.light .footer-links a:hover { color:#0d0d1a; }
+        .footer-right { text-align:right; }
+        @media(max-width:700px){ .footer-right{text-align:center;} }
+        .footer-made { font-size:0.78rem; color:rgba(255,255,255,0.28); letter-spacing:0.04em; margin-bottom:10px; }
+        html.light .footer-made { color:rgba(0,0,30,0.35); }
+        .footer-bottom { text-align:center; padding:12px 24px 20px; font-size:0.7rem; color:rgba(255,255,255,0.18); letter-spacing:0.05em; border-top:1px solid rgba(255,255,255,0.04); }
+        html.light .footer-bottom { color:rgba(0,0,30,0.28); border-top-color:rgba(0,0,30,0.07); }
+
+        /* ── Game Detail Modal ──────────────────────────────── */
+        #gameDetailModal {
+            position:fixed; inset:0; z-index:600;
+            display:flex; align-items:center; justify-content:center;
+            background:rgba(0,0,10,0.82); backdrop-filter:blur(14px);
+            opacity:0; pointer-events:none; transition:opacity 0.3s;
+            padding:16px;
+        }
+        #gameDetailModal.open { opacity:1; pointer-events:all; }
+        .gdm-box {
+            width:100%; max-width:580px; max-height:90vh;
+            background:#070710; border:1px solid rgba(255,255,255,0.09);
+            border-radius:28px; display:flex; flex-direction:column; overflow:hidden;
+            transform:scale(0.9); opacity:0;
+            transition:transform 0.35s cubic-bezier(0.34,1.15,0.64,1), opacity 0.3s;
+            box-shadow:0 30px 90px rgba(0,0,0,0.85);
+        }
+        #gameDetailModal.open .gdm-box { transform:scale(1); opacity:1; }
+        html.light .gdm-box { background:#f4f6ff; border-color:rgba(0,0,30,0.1); box-shadow:0 30px 90px rgba(0,0,30,0.2); }
+
+        .gdm-header {
+            position:relative; overflow:hidden; flex-shrink:0;
+            padding:32px 36px 24px;
+            border-bottom:1px solid rgba(255,255,255,0.07);
+        }
+        html.light .gdm-header { border-bottom-color:rgba(0,0,30,0.08); }
+        .gdm-hd-bg { position:absolute; inset:0; pointer-events:none;
+            background:radial-gradient(ellipse at 10% 60%, var(--gdm-glow, rgba(167,139,255,0.22)) 0%, transparent 65%); }
+        .gdm-close {
+            position:absolute; top:16px; right:16px; z-index:2;
+            width:36px; height:36px; border-radius:50%;
+            background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1);
+            color:rgba(255,255,255,0.5); font-size:1rem; cursor:pointer;
+            display:flex; align-items:center; justify-content:center;
+            transition:background 0.2s, color 0.2s; font-family:inherit;
+        }
+        .gdm-close:hover { background:rgba(255,255,255,0.13); color:#fff; }
+        html.light .gdm-close { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.4); }
+        html.light .gdm-close:hover { background:rgba(0,0,30,0.12); color:#0d0d1a; }
+
+        .gdm-hd-row { position:relative; z-index:1; display:flex; align-items:flex-start; gap:18px; }
+        .gdm-icon { width:68px; height:68px; border-radius:20px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:2.2rem; flex-shrink:0; }
+        html.light .gdm-icon { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
+        .gdm-hd-meta { flex:1; min-width:0; }
+        .gdm-title { font-size:1.5rem; font-weight:900; color:#fff; margin-bottom:6px; line-height:1.1; }
+        html.light .gdm-title { color:#0d0d1a; }
+        .gdm-badges { display:flex; gap:6px; flex-wrap:wrap; }
+        .gdm-badge { display:inline-flex; align-items:center; gap:4px; border-radius:50px; padding:3px 11px; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); color:rgba(255,255,255,0.6); }
+        .gdm-badge.accent { background:color-mix(in srgb,var(--gdm-cc,#a78bff) 20%,transparent); border-color:color-mix(in srgb,var(--gdm-cc,#a78bff) 40%,transparent); color:var(--gdm-cc,#a78bff); }
+        html.light .gdm-badge { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.5); }
+        html.light .gdm-badge.accent { background:color-mix(in srgb,var(--gdm-cc,#5a3fbf) 15%,transparent); border-color:color-mix(in srgb,var(--gdm-cc,#5a3fbf) 35%,transparent); color:var(--gdm-cc,#5a3fbf); }
+
+        .gdm-body { flex:1; overflow-y:auto; padding:24px 36px 28px; display:flex; flex-direction:column; gap:20px; }
+        .gdm-body::-webkit-scrollbar{width:4px;}
+        .gdm-body::-webkit-scrollbar-track{background:transparent;}
+        .gdm-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px;}
+        .gdm-desc { font-size:0.88rem; color:rgba(255,255,255,0.5); line-height:1.65; }
+        html.light .gdm-desc { color:rgba(0,0,30,0.55); }
+        .gdm-section-lbl { font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:rgba(255,255,255,0.28); margin-bottom:8px; }
+        html.light .gdm-section-lbl { color:rgba(0,0,30,0.35); }
+        .gdm-controls-box { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:12px 16px; font-size:0.84rem; color:rgba(255,255,255,0.45); line-height:1.55; }
+        html.light .gdm-controls-box { background:rgba(0,0,30,0.04); border-color:rgba(0,0,30,0.08); color:rgba(0,0,30,0.5); }
+        .gdm-scores-list { display:flex; flex-direction:column; gap:4px; }
+        .gdm-score-row { display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.82rem; }
+        html.light .gdm-score-row { border-bottom-color:rgba(0,0,30,0.06); }
+        .gdm-score-row:last-child { border-bottom:none; }
+        .gdm-score-rank { color:rgba(255,255,255,0.3); font-size:0.72rem; }
+        html.light .gdm-score-rank { color:rgba(0,0,30,0.35); }
+        .gdm-score-val { font-weight:700; color:var(--gdm-cc, #a78bff); }
+        .gdm-no-scores { font-size:0.8rem; color:rgba(255,255,255,0.25); font-style:italic; }
+        html.light .gdm-no-scores { color:rgba(0,0,30,0.3); }
+
+        .gdm-diff-row { display:flex; gap:6px; }
+        .gdm-diff-pill { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:50px; padding:4px 13px; font-size:0.72rem; letter-spacing:0.06em; color:rgba(255,255,255,0.35); cursor:pointer; transition:all 0.18s; font-family:inherit; }
+        .gdm-diff-pill:hover { border-color:rgba(255,255,255,0.25); color:rgba(255,255,255,0.7); }
+        .gdm-diff-pill.active { background:color-mix(in srgb,var(--gdm-cc,#a78bff) 20%,transparent); border-color:color-mix(in srgb,var(--gdm-cc,#a78bff) 45%,transparent); color:var(--gdm-cc,#a78bff); }
+        html.light .gdm-diff-pill { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.4); }
+        html.light .gdm-diff-pill:hover { border-color:rgba(0,0,30,0.25); color:rgba(0,0,30,0.75); }
+
+        .gdm-footer { display:flex; gap:10px; padding:20px 36px 28px; flex-shrink:0; border-top:1px solid rgba(255,255,255,0.06); }
+        html.light .gdm-footer { border-top-color:rgba(0,0,30,0.07); }
+        .gdm-play-btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px; background:linear-gradient(135deg,#6333ff,#3b82f6); color:#fff; text-decoration:none; padding:13px 20px; border-radius:50px; font-size:0.88rem; font-weight:700; letter-spacing:0.05em; box-shadow:0 8px 28px rgba(99,51,255,0.45); transition:box-shadow 0.2s,transform 0.15s; border:none; cursor:pointer; font-family:inherit; }
+        .gdm-play-btn:hover { box-shadow:0 12px 40px rgba(99,51,255,0.65); transform:translateY(-2px); }
+        .gdm-cancel-btn { display:inline-flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.5); padding:13px 22px; border-radius:50px; font-size:0.88rem; cursor:pointer; transition:all 0.2s; font-family:inherit; }
+        .gdm-cancel-btn:hover { background:rgba(255,255,255,0.09); color:#fff; }
+        html.light .gdm-cancel-btn { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.5); }
+        html.light .gdm-cancel-btn:hover { background:rgba(0,0,30,0.09); color:#0d0d1a; }
+
+        /* ── Recently played strip ──────────────────────────── */
+        .recent-strip { margin-bottom:20px; }
+        .recent-label { font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.28); margin-bottom:10px; }
+        html.light .recent-label { color:rgba(0,0,30,0.38); }
+        .recent-scroll { display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding-bottom:2px; }
+        .recent-scroll::-webkit-scrollbar { display:none; }
+        .recent-chip { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:50px; padding:6px 14px; font-size:0.78rem; color:rgba(255,255,255,0.55); white-space:nowrap; cursor:pointer; text-decoration:none; transition:all 0.18s; }
+        .recent-chip:hover { background:rgba(255,255,255,0.1); color:#fff; border-color:rgba(255,255,255,0.2); }
+        html.light .recent-chip { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.5); }
+        html.light .recent-chip:hover { background:rgba(0,0,30,0.09); color:#0d0d1a; }
+
+        /* ── Recommended next ───────────────────────────────── */
+        .rec-card { display:flex; align-items:center; gap:16px; background:rgba(99,51,255,0.06); border:1px dashed rgba(99,51,255,0.35); border-radius:16px; padding:16px 20px; margin-bottom:18px; transition:border-color 0.2s, box-shadow 0.2s; text-decoration:none; color:inherit; }
+        .rec-card:hover { border-color:rgba(99,51,255,0.6); box-shadow:0 0 20px rgba(99,51,255,0.2); }
+        html.light .rec-card { background:rgba(90,63,191,0.05); border-color:rgba(90,63,191,0.3); }
+        html.light .rec-card:hover { border-color:rgba(90,63,191,0.55); box-shadow:0 0 18px rgba(90,63,191,0.15); }
+        .rec-icon { font-size:1.6rem; flex-shrink:0; }
+        .rec-body { flex:1; min-width:0; }
+        .rec-eyebrow { font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase; color:#a78bff; margin-bottom:3px; }
+        html.light .rec-eyebrow { color:#5a3fbf; }
+        .rec-title { font-size:0.9rem; font-weight:700; color:#fff; }
+        html.light .rec-title { color:#0d0d1a; }
+        .rec-cta { font-size:0.75rem; font-weight:600; color:#a78bff; letter-spacing:0.06em; white-space:nowrap; flex-shrink:0; }
+        html.light .rec-cta { color:#5a3fbf; }
+
+        /* ── NEW badge ──────────────────────────────────────── */
+        .card-new-badge { position:absolute; top:14px; right:14px; background:linear-gradient(135deg,#6333ff,#3b82f6); color:#fff; font-size:0.58rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; padding:3px 8px; border-radius:50px; z-index:2; }
+        .card-play-count { font-size:0.7rem; color:rgba(255,255,255,0.25); display:flex; align-items:center; gap:4px; }
+        html.light .card-play-count { color:rgba(0,0,30,0.35); }
+        .card-play-count.played { color:rgba(255,255,255,0.45); }
+        html.light .card-play-count.played { color:rgba(0,0,30,0.5); }
 
         /* ── Hero ─────────────────────────────────────────────── */
         .hero { position: relative; z-index: 10; text-align: center; padding: 100px 20px 64px; }
@@ -459,14 +685,14 @@
     <div class="nebula nebula-3"></div>
     <div class="shooting-wrap" id="shootingWrap"></div>
 
-    <nav>
+    <nav id="mainNav">
         <div class="logo">★ StarGames</div>
-        <div class="nav-links">
-            <a href="/" data-i18n="nav_home">Home</a>
-            <a href="#games" data-i18n="nav_games">Games</a>
+        <div class="nav-links" id="navLinks">
+            <a href="/" data-i18n="nav_home" data-nav-section="">Home</a>
+            <a href="#games" data-i18n="nav_games" data-nav-section="games">Games</a>
             <a href="/wiki#guide" data-i18n="nav_const">Constellations</a>
             <a href="/wiki" data-i18n="nav_wiki">★ Wiki Stars</a>
-            <a href="#achievements">🏅 Achievements</a>
+            <a href="#achievements" data-nav-section="achievements">🏅 Achievements</a>
             <select class="lang-select" onchange="setLang(this.value)" title="Language">
                 <option value="en">🌐 EN</option>
                 <option value="fr">🌐 FR</option>
@@ -474,7 +700,15 @@
             <button id="themeToggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
             <button class="egg-btn" onclick="openEgg()" title="🥚">🥚</button>
         </div>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
     </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/" data-i18n="nav_home" onclick="closeMobileMenu()">Home</a>
+        <a href="#games" data-i18n="nav_games" onclick="closeMobileMenu()">Games</a>
+        <a href="/wiki#guide" data-i18n="nav_const" onclick="closeMobileMenu()">Constellations</a>
+        <a href="/wiki" data-i18n="nav_wiki" onclick="closeMobileMenu()">★ Wiki Stars</a>
+        <a href="#achievements" onclick="closeMobileMenu()">🏅 Achievements</a>
+    </div>
 
     <div class="hero">
         <div class="hero-badge"><span class="badge-dot"></span><span data-i18n="hero_badge">🚀 Your Cosmic Arcade</span></div>
@@ -502,10 +736,34 @@
                 <div class="section-sub" data-i18n="sec_sub">Pick your mission</div>
             </div>
         </div>
-        <div class="games-grid">
+
+        <!-- Category filter pills -->
+        <div class="filter-bar" id="filterBar">
+            <button class="filter-pill active" data-cat="all" onclick="filterGames('all')">All <span class="filter-count" id="fc-all"></span></button>
+            <button class="filter-pill" data-cat="Quiz" onclick="filterGames('Quiz')">Quiz <span class="filter-count" id="fc-quiz"></span></button>
+            <button class="filter-pill" data-cat="Puzzle" onclick="filterGames('Puzzle')">Puzzle <span class="filter-count" id="fc-puzzle"></span></button>
+            <button class="filter-pill" data-cat="Arcade" onclick="filterGames('Arcade')">Arcade <span class="filter-count" id="fc-arcade"></span></button>
+            <button class="filter-pill" data-cat="Trivia" onclick="filterGames('Trivia')">Trivia <span class="filter-count" id="fc-trivia"></span></button>
+            <button class="filter-pill" data-cat="Reflex" onclick="filterGames('Reflex')">Reflex <span class="filter-count" id="fc-reflex"></span></button>
+        </div>
+
+        <!-- Search bar -->
+        <div class="search-wrap">
+            <input class="search-input" id="gameSearch" type="text" placeholder="Search games…" oninput="handleSearch(this.value)" autocomplete="off">
+            <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Clear">×</button>
+        </div>
+
+        <!-- Recently played strip (populated by JS) -->
+        <div id="recentStrip"></div>
+
+        <!-- Recommended next (populated by JS) -->
+        <div id="recommendedCard"></div>
+
+        <div class="games-grid" id="gamesGrid">
             {% for g in games %}
             <a class="game-card {% if loop.index == 1 %}featured{% endif %}"
-               href="/game/{{ g.id }}{% if loop.index == 1 %}?difficulty=medium{% endif %}" {% if loop.index != 1 %}id="link-{{ g.id }}"{% endif %} style="--cc: {{ g.color }}">
+               data-category="{{ g.category if g.category else 'Game' }}" data-title="{{ g.title }}" data-gameid="{{ g.id }}"
+               href="#" onclick="openGameDetail('{{ g.id }}', event)" {% if loop.index != 1 %}id="link-{{ g.id }}"{% endif %} style="--cc: {{ g.color }}">
                 {% if loop.index == 1 %}
                 <div class="card-icon-wrap">{{ g.icon }}</div>
                 <div class="featured-body">
@@ -516,10 +774,14 @@
                     <div class="card-desc">{{ g.description }}</div>
                     <div class="card-footer">
                         <div class="card-cta" data-i18n="card_play_now">Play now →</div>
-                        <div class="card-score-badge" id="badge-{{ g.id }}"><span class="badge-star">★</span> —</div>
+                        <div id="footer-right-{{ g.id }}" style="display:flex;align-items:center;gap:8px;">
+                            <div class="card-play-count" id="playcount-{{ g.id }}">▶ —</div>
+                            <div class="card-score-badge" id="badge-{{ g.id }}"><span class="badge-star">★</span> —</div>
+                        </div>
                     </div>
                 </div>
                 {% else %}
+                {% if g.id in ['asteroid','trivia','constdraw'] %}<div class="card-new-badge">NEW</div>{% endif %}
                 <div class="card-top">
                     <div class="card-icon-wrap">{{ g.icon }}</div>
                     <div class="card-meta">
@@ -535,12 +797,16 @@
                 </div>
                 <div class="card-footer">
                     <div class="card-cta" data-i18n="card_play">Play →</div>
-                    <div class="card-score-badge" id="badge-{{ g.id }}"><span class="badge-star">★</span> —</div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <div class="card-play-count" id="playcount-{{ g.id }}">▶ —</div>
+                        <div class="card-score-badge" id="badge-{{ g.id }}"><span class="badge-star">★</span> —</div>
+                    </div>
                 </div>
                 {% endif %}
             </a>
             {% endfor %}
         </div>
+        <div class="search-empty" id="searchEmpty">No games found matching your search.</div>
     </div>
 
     <!-- ── Top Scores Section ─────────────────────────────────────── -->
@@ -576,7 +842,73 @@
         <div class="anecdotes-grid" id="anecdotesGrid"></div>
     </div>
 
-    <footer data-i18n="footer">© 2026 StarGames — Play Beyond The Universe</footer>
+    <!-- ── Back to top ──────────────────────────────────────────────── -->
+    <button id="backToTop" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲</button>
+
+    <!-- ── Game Detail Modal ────────────────────────────────────────── -->
+    <div id="gameDetailModal" onclick="handleGdmBackdrop(event)">
+        <div class="gdm-box" id="gdmBox">
+            <div class="gdm-header" id="gdmHeader">
+                <div class="gdm-hd-bg" id="gdmHdBg"></div>
+                <button class="gdm-close" onclick="closeGameDetail()">✕</button>
+                <div class="gdm-hd-row">
+                    <div class="gdm-icon" id="gdmIcon"></div>
+                    <div class="gdm-hd-meta">
+                        <div class="gdm-title" id="gdmTitle"></div>
+                        <div class="gdm-badges" id="gdmBadges"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="gdm-body" id="gdmBody">
+                <div>
+                    <div class="gdm-section-lbl">About</div>
+                    <div class="gdm-desc" id="gdmDesc"></div>
+                </div>
+                <div>
+                    <div class="gdm-section-lbl">Controls</div>
+                    <div class="gdm-controls-box" id="gdmControls"></div>
+                </div>
+                <div>
+                    <div class="gdm-section-lbl">Your Best Scores</div>
+                    <div id="gdmScores"></div>
+                </div>
+                <div>
+                    <div class="gdm-section-lbl">Difficulty</div>
+                    <div class="gdm-diff-row" id="gdmDiffRow">
+                        <button class="gdm-diff-pill" data-d="easy" onclick="setGdmDiff('easy')">Easy</button>
+                        <button class="gdm-diff-pill active" data-d="medium" onclick="setGdmDiff('medium')">Med</button>
+                        <button class="gdm-diff-pill" data-d="hard" onclick="setGdmDiff('hard')">Hard</button>
+                    </div>
+                </div>
+            </div>
+            <div class="gdm-footer">
+                <button class="gdm-play-btn" id="gdmPlayBtn" onclick="launchGame()">Play Now →</button>
+                <button class="gdm-cancel-btn" onclick="closeGameDetail()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Footer ─────────────────────────────────────────────────── -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="logo footer-brand">★ StarGames</span>
+                <div class="footer-tagline">Play Beyond The Universe</div>
+            </div>
+            <nav class="footer-links" aria-label="Footer links">
+                <a href="/">Home</a>
+                <a href="#games">Games</a>
+                <a href="/wiki">Wiki</a>
+                <a href="/wiki#guide">Constellations</a>
+                <a href="#achievements">Achievements</a>
+            </nav>
+            <div class="footer-right">
+                <div class="footer-made">Made with ★ and curiosity</div>
+                <button onclick="toggleTheme()" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 12px;color:rgba(255,255,255,0.55);font-size:0.82rem;cursor:pointer;transition:all 0.2s;font-family:inherit;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Toggle Theme</button>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 StarGames — All rights reserved</div>
+    </footer>
 
     <script src="/static/i18n.js"></script>
     <script src="/static/scores.js"></script>
@@ -1417,5 +1749,344 @@
             </div>`;
         }).join('');
     }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // ── PHASE 6 — Navigation & Page Structure ──────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // ── P6.1 Sticky nav active section highlight ──────────────────────────────
+    (function initNavObserver() {
+        const sectionMap = { games: null, achievements: null };
+        document.querySelectorAll('[data-nav-section]').forEach(a => {
+            const sec = a.dataset.navSection;
+            if (sec) sectionMap[sec] = a;
+        });
+        const sections = ['games', 'achievements'].map(id => document.getElementById(id)).filter(Boolean);
+        if (!sections.length) return;
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const link = sectionMap[entry.target.id];
+                if (!link) return;
+                if (entry.isIntersecting) {
+                    // clear all, set active
+                    Object.values(sectionMap).forEach(l => l && l.classList.remove('nav-active'));
+                    link.classList.add('nav-active');
+                }
+            });
+        }, { threshold: 0.25 });
+        sections.forEach(s => obs.observe(s));
+    })();
+
+    // ── P6.2 Hamburger menu ───────────────────────────────────────────────────
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('open');
+    }
+    function closeMobileMenu() {
+        document.getElementById('mobileMenu').classList.remove('open');
+    }
+    document.addEventListener('click', function(e) {
+        const nav = document.getElementById('mainNav');
+        const menu = document.getElementById('mobileMenu');
+        if (!nav.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove('open');
+        }
+    });
+
+    // ── P6.3 Category filter ──────────────────────────────────────────────────
+    let _activeFilter = 'all';
+    let _searchVal    = '';
+
+    function buildFilterCounts() {
+        const cats = { Quiz: 0, Puzzle: 0, Arcade: 0, Trivia: 0, Reflex: 0, all: 0 };
+        document.querySelectorAll('#gamesGrid .game-card').forEach(card => {
+            const c = card.dataset.category;
+            cats.all++;
+            if (cats[c] !== undefined) cats[c]++;
+        });
+        const map = { all: 'fc-all', Quiz: 'fc-quiz', Puzzle: 'fc-puzzle', Arcade: 'fc-arcade', Trivia: 'fc-trivia', Reflex: 'fc-reflex' };
+        Object.entries(map).forEach(([k, id]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = '(' + (cats[k] || 0) + ')';
+        });
+    }
+
+    function filterGames(cat) {
+        _activeFilter = cat;
+        document.querySelectorAll('.filter-pill').forEach(p => p.classList.toggle('active', p.dataset.cat === cat));
+        applyFilters();
+    }
+
+    function applyFilters() {
+        const q = _searchVal.toLowerCase();
+        let visible = 0;
+        document.querySelectorAll('#gamesGrid .game-card').forEach(card => {
+            const catMatch = _activeFilter === 'all' || card.dataset.category === _activeFilter;
+            const titleMatch = !q || card.dataset.title.toLowerCase().includes(q) || card.dataset.category.toLowerCase().includes(q);
+            const show = catMatch && titleMatch;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        const empty = document.getElementById('searchEmpty');
+        if (empty) empty.classList.toggle('visible', visible === 0);
+    }
+
+    // ── P6.4 Search bar ───────────────────────────────────────────────────────
+    function handleSearch(val) {
+        _searchVal = val;
+        const clearBtn = document.getElementById('searchClear');
+        if (clearBtn) clearBtn.classList.toggle('visible', val.length > 0);
+        applyFilters();
+    }
+    function clearSearch() {
+        const inp = document.getElementById('gameSearch');
+        if (inp) inp.value = '';
+        _searchVal = '';
+        const clearBtn = document.getElementById('searchClear');
+        if (clearBtn) clearBtn.classList.remove('visible');
+        applyFilters();
+    }
+
+    // ── P6.5 Back to top ──────────────────────────────────────────────────────
+    window.addEventListener('scroll', function() {
+        const btn = document.getElementById('backToTop');
+        if (!btn) return;
+        btn.classList.toggle('visible', window.scrollY > 400);
+    }, { passive: true });
+
+    // ── P6.6 Footer theme toggle button light mode ────────────────────────────
+    // (handled inline via existing toggleTheme function — light styles applied via html.light)
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // ── PHASE 7 — Game Cards & Discovery ───────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // Jinja-rendered game metadata available in JS
+    const GAMES_META = [
+        {% for g in games %}
+        { id: '{{ g.id }}', title: {{ g.title | tojson }}, icon: '{{ g.icon }}', color: '{{ g.color }}', category: '{{ g.category if g.category else "Game" }}', difficulty: '{{ g.difficulty if g.difficulty else "medium" }}', description: {{ g.description | tojson }} }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ];
+
+    // Controls per game type
+    const GAME_CONTROLS = {
+        constellation: 'Click the correct answer from the multiple-choice options.',
+        numquiz:       'Click the correct answer from the multiple-choice options.',
+        trivia:        'Click the correct answer from the multiple-choice options.',
+        starcatch:     'Click or tap the falling stars before they disappear.',
+        starmemory:    'Click cards to flip them and find matching pairs.',
+        dotconnect:    'Click or drag to connect the dots in the right order.',
+        constdraw:     'Click and drag to draw constellation lines between stars.',
+        planetorbit:   'Drag planets to their correct orbital slots around the sun.',
+        asteroid:      'Arrow keys or WASD to move your ship. Space to shoot.',
+    };
+
+    // ── P7.1 Game detail modal ────────────────────────────────────────────────
+    let _gdmGameId   = null;
+    let _gdmDiff     = 'medium';
+
+    function openGameDetail(gameId, event) {
+        if (event) { event.preventDefault(); event.stopPropagation(); }
+        const game = GAMES_META.find(g => g.id === gameId);
+        if (!game) return;
+
+        _gdmGameId = gameId;
+        _gdmDiff   = localStorage.getItem('sg_diff_' + gameId) || 'medium';
+
+        // Set CSS vars
+        const box = document.getElementById('gdmBox');
+        box.style.setProperty('--gdm-cc', game.color);
+        document.getElementById('gdmHdBg').style.background =
+            'radial-gradient(ellipse at 10% 60%, ' + hexToRgba(game.color, 0.22) + ' 0%, transparent 65%)';
+
+        // Header
+        document.getElementById('gdmIcon').textContent = game.icon;
+        document.getElementById('gdmTitle').textContent = game.title;
+        const badges = document.getElementById('gdmBadges');
+        badges.innerHTML =
+            `<span class="gdm-badge accent">${game.category}</span>` +
+            `<span class="gdm-badge">${game.difficulty || _gdmDiff}</span>`;
+
+        // Description
+        document.getElementById('gdmDesc').textContent = game.description;
+
+        // Controls
+        document.getElementById('gdmControls').textContent = GAME_CONTROLS[gameId] || 'Click or interact to play.';
+
+        // Scores
+        const scoresEl = document.getElementById('gdmScores');
+        const top5 = getTop5Scores(gameId);
+        if (top5.length === 0) {
+            scoresEl.innerHTML = '<div class="gdm-no-scores">No scores yet — be the first to play!</div>';
+        } else {
+            const medals = ['🥇','🥈','🥉','#4','#5'];
+            scoresEl.innerHTML = '<div class="gdm-scores-list">' +
+                top5.map((s, i) => `<div class="gdm-score-row"><span class="gdm-score-rank">${medals[i]}</span><span class="gdm-score-val">${Number(s).toLocaleString()}</span></div>`).join('') +
+                '</div>';
+        }
+
+        // Difficulty pills
+        document.querySelectorAll('.gdm-diff-pill').forEach(p => p.classList.toggle('active', p.dataset.d === _gdmDiff));
+
+        // Open
+        document.getElementById('gameDetailModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeGameDetail() {
+        document.getElementById('gameDetailModal').classList.remove('open');
+        document.body.style.overflow = '';
+        _gdmGameId = null;
+    }
+
+    function handleGdmBackdrop(e) {
+        if (e.target === document.getElementById('gameDetailModal')) closeGameDetail();
+    }
+
+    function setGdmDiff(level) {
+        _gdmDiff = level;
+        document.querySelectorAll('.gdm-diff-pill').forEach(p => p.classList.toggle('active', p.dataset.d === level));
+    }
+
+    function launchGame() {
+        if (!_gdmGameId) return;
+        // Track play timestamp and count
+        localStorage.setItem('sg_played_' + _gdmGameId, Date.now().toString());
+        const plays = parseInt(localStorage.getItem('sg_plays_' + _gdmGameId) || '0', 10) + 1;
+        localStorage.setItem('sg_plays_' + _gdmGameId, plays.toString());
+        // Also sync difficulty on card
+        if (_gdmGameId !== 'constellation') {
+            const link = document.getElementById('link-' + _gdmGameId);
+            if (link) link.href = '/game/' + _gdmGameId + '?difficulty=' + _gdmDiff;
+            const pills = document.querySelectorAll('#diff-' + _gdmGameId + ' .diff-pill');
+            pills.forEach(p => p.classList.toggle('active', p.dataset.d === _gdmDiff));
+            _diffs[_gdmGameId] = _gdmDiff;
+            localStorage.setItem('sg_diff_' + _gdmGameId, _gdmDiff);
+        }
+        closeGameDetail();
+        window.location.href = '/game/' + _gdmGameId + '?difficulty=' + _gdmDiff;
+    }
+
+    // Escape key closes game detail modal (extend existing keydown handler)
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('gameDetailModal').classList.contains('open')) {
+            closeGameDetail();
+        }
+    });
+
+    // ── P7.2 Recently played strip ────────────────────────────────────────────
+    function renderRecentStrip() {
+        const strip = document.getElementById('recentStrip');
+        if (!strip) return;
+
+        // Gather played games sorted by recency
+        const played = GAMES_META
+            .map(g => ({ g, ts: parseInt(localStorage.getItem('sg_played_' + g.id) || '0', 10) }))
+            .filter(x => x.ts > 0)
+            .sort((a, b) => b.ts - a.ts)
+            .slice(0, 4);
+
+        if (played.length === 0) { strip.innerHTML = ''; return; }
+
+        strip.innerHTML = `
+            <div class="recent-strip">
+                <div class="recent-label">Recently Played</div>
+                <div class="recent-scroll">
+                    ${played.map(({ g }) => `
+                    <a class="recent-chip" href="#" onclick="openGameDetail('${g.id}',event)">
+                        <span>${g.icon}</span><span>${g.title}</span>
+                    </a>`).join('')}
+                </div>
+            </div>`;
+    }
+
+    // ── P7.3 Recommended next ─────────────────────────────────────────────────
+    function renderRecommended() {
+        const el = document.getElementById('recommendedCard');
+        if (!el) return;
+
+        const playedIds = new Set(GAMES_META.filter(g => localStorage.getItem('sg_played_' + g.id)).map(g => g.id));
+        const allPlayed = playedIds.size === GAMES_META.length;
+
+        if (allPlayed) { el.innerHTML = ''; return; }
+
+        let rec = null;
+        if (playedIds.size > 0) {
+            // Find played game with lowest best score
+            const playedGames = GAMES_META.filter(g => playedIds.has(g.id));
+            playedGames.sort((a, b) => {
+                const sa = getBestScore(a.id), sb = getBestScore(b.id);
+                return sa - sb;
+            });
+            rec = playedGames[0];
+        } else {
+            // Pick a random unplayed game
+            const unplayed = GAMES_META.filter(g => !playedIds.has(g.id));
+            rec = unplayed[Math.floor(Math.random() * unplayed.length)];
+        }
+
+        if (!rec) { el.innerHTML = ''; return; }
+
+        el.innerHTML = `
+            <a class="rec-card" href="#" onclick="openGameDetail('${rec.id}',event)">
+                <div class="rec-icon">${rec.icon}</div>
+                <div class="rec-body">
+                    <div class="rec-eyebrow">⭐ Recommended</div>
+                    <div class="rec-title">${rec.title}</div>
+                </div>
+                <div class="rec-cta">Try this next →</div>
+            </a>`;
+    }
+
+    // ── P7.4 Play counts on cards ─────────────────────────────────────────────
+    function renderPlayCounts() {
+        GAMES_META.forEach(g => {
+            const el = document.getElementById('playcount-' + g.id);
+            if (!el) return;
+            const n = parseInt(localStorage.getItem('sg_plays_' + g.id) || '0', 10);
+            if (n > 0) {
+                el.textContent = '▶ ' + n + ' play' + (n === 1 ? '' : 's');
+                el.classList.add('played');
+            } else {
+                el.textContent = '▶ Not played yet';
+                el.classList.remove('played');
+            }
+        });
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function getTop5Scores(gameId) {
+        try {
+            const raw = localStorage.getItem('sg_hs_' + gameId);
+            if (!raw) return [];
+            const p = JSON.parse(raw);
+            return Array.isArray(p) ? p.slice(0, 5) : [];
+        } catch(e) { return []; }
+    }
+
+    function getBestScore(gameId) {
+        const scores = getTop5Scores(gameId);
+        return scores.length > 0 ? scores[0] : 0;
+    }
+
+    function hexToRgba(hex, alpha) {
+        // Supports #rrggbb and css named/rgb vars — fallback gracefully
+        const match = hex.match(/^#([0-9a-f]{6})$/i);
+        if (!match) return 'rgba(167,139,255,' + alpha + ')';
+        const r = parseInt(match[1].slice(0,2),16);
+        const g = parseInt(match[1].slice(2,4),16);
+        const b = parseInt(match[1].slice(4,6),16);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+    }
+
+    // ── Boot extensions ───────────────────────────────────────────────────────
+    window.addEventListener('load', function() {
+        buildFilterCounts();
+        renderRecentStrip();
+        renderRecommended();
+        renderPlayCounts();
+    });
+
+    </script>
 </body>
 </html>
