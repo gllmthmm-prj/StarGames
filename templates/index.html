@@ -13,7 +13,7 @@
             --text-muted: rgba(255,255,255,0.38);
             --nav-bg: rgba(3,3,10,0.65);
         }
-        body.light {
+        html.light {
             --bg: #f0f2ff;
             --surface: rgba(255,255,255,0.92);
             --surface-border: rgba(0,0,30,0.1);
@@ -21,97 +21,98 @@
             --text-muted: rgba(0,0,30,0.5);
             --nav-bg: rgba(240,242,255,0.85);
         }
-        body.light .milkyway,
-        body.light .nebula-1,
-        body.light .nebula-2,
-        body.light .nebula-3 { opacity: 0; }
-        body.light #starfield { opacity: 0.12; }
-        body.light .shoot { background: linear-gradient(90deg, rgba(80,60,200,0), rgba(80,60,200,0.5), rgba(80,60,200,0)); }
+        html.light body { background: #f0f2ff; color: #0d0d1a; }
+        html.light .milkyway,
+        html.light .nebula-1,
+        html.light .nebula-2,
+        html.light .nebula-3 { opacity: 0; }
+        html.light #starfield { opacity: 0.12; }
+        html.light .shoot { background: linear-gradient(90deg, rgba(80,60,200,0), rgba(80,60,200,0.5), rgba(80,60,200,0)); }
 
         /* Nav */
-        body.light nav { border-bottom-color: rgba(0,0,30,0.1); }
-        body.light .nav-links a { color: rgba(0,0,30,0.5); }
-        body.light .nav-links a:hover { color: #0d0d1a; }
-        body.light .lang-select { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.6); }
-        body.light .lang-select:hover { border-color:rgba(0,0,30,0.3); color:#0d0d1a; }
-        body.light .lang-select option { background:#f0f2ff; color:#0d0d1a; }
+        html.lightnav { border-bottom-color: rgba(0,0,30,0.1); }
+        html.light.nav-links a { color: rgba(0,0,30,0.5); }
+        html.light.nav-links a:hover { color: #0d0d1a; }
+        html.light.lang-select { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.6); }
+        html.light.lang-select:hover { border-color:rgba(0,0,30,0.3); color:#0d0d1a; }
+        html.light.lang-select option { background:#f0f2ff; color:#0d0d1a; }
         /* Theme toggle button */
         #themeToggle { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.9rem; cursor:pointer; transition:all 0.2s; font-family:inherit; }
         #themeToggle:hover { color:#fff; border-color:rgba(255,255,255,0.28); }
-        body.light #themeToggle { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.6); }
-        body.light #themeToggle:hover { color:#0d0d1a; border-color:rgba(0,0,30,0.3); }
+        html.light#themeToggle { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.6); }
+        html.light#themeToggle:hover { color:#0d0d1a; border-color:rgba(0,0,30,0.3); }
 
         /* Hero */
-        body.light .hero p { color: rgba(0,0,30,0.5); }
-        body.light .btn-secondary { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.65); }
-        body.light .btn-secondary:hover { background:rgba(0,0,30,0.1); color:#0d0d1a; }
+        html.light.hero p { color: rgba(0,0,30,0.5); }
+        html.light.btn-secondary { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.15); color:rgba(0,0,30,0.65); }
+        html.light.btn-secondary:hover { background:rgba(0,0,30,0.1); color:#0d0d1a; }
 
         /* Stats */
-        body.light .stat-lbl { color: rgba(0,0,30,0.4); }
+        html.light.stat-lbl { color: rgba(0,0,30,0.4); }
 
         /* Section headers */
-        body.light .section-sub { color: rgba(0,0,30,0.4); }
+        html.light.section-sub { color: rgba(0,0,30,0.4); }
 
         /* Game cards */
-        body.light .game-card:hover { border-color: rgba(0,0,30,0.18); box-shadow: 0 18px 50px rgba(0,0,30,0.12); }
-        body.light .card-icon-wrap { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
-        body.light .card-title { color: #0d0d1a; }
-        body.light .card-desc  { color: rgba(0,0,30,0.5); }
-        body.light .card-diff  { color: rgba(0,0,30,0.3); }
-        body.light .diff-pill  { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.4); }
-        body.light .diff-pill:hover { border-color:rgba(0,0,30,0.25); color:rgba(0,0,30,0.75); }
-        body.light .card-score-badge { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.4); }
+        html.light.game-card:hover { border-color: rgba(0,0,30,0.18); box-shadow: 0 18px 50px rgba(0,0,30,0.12); }
+        html.light.card-icon-wrap { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
+        html.light.card-title { color: #0d0d1a; }
+        html.light.card-desc  { color: rgba(0,0,30,0.5); }
+        html.light.card-diff  { color: rgba(0,0,30,0.3); }
+        html.light.diff-pill  { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.4); }
+        html.light.diff-pill:hover { border-color:rgba(0,0,30,0.25); color:rgba(0,0,30,0.75); }
+        html.light.card-score-badge { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.4); }
 
         /* Achievements */
-        body.light .ach-icon { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
-        body.light .ach-name { color: #0d0d1a; }
-        body.light .ach-card:not(.earned) .ach-name { color: rgba(0,0,30,0.3); }
-        body.light .ach-desc { color: rgba(0,0,30,0.45); }
+        html.light.ach-icon { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
+        html.light.ach-name { color: #0d0d1a; }
+        html.light.ach-card:not(.earned) .ach-name { color: rgba(0,0,30,0.3); }
+        html.light.ach-desc { color: rgba(0,0,30,0.45); }
 
         /* Leaderboard */
-        body.light #leaderboard button { background:rgba(0,0,30,0.04); border-color:rgba(0,0,30,0.1); color:rgba(0,0,30,0.35); }
+        html.light#leaderboard button { background:rgba(0,0,30,0.04); border-color:rgba(0,0,30,0.1); color:rgba(0,0,30,0.35); }
 
         /* Know section */
-        body.light .know-title { background: linear-gradient(135deg,#0d0d1a 0%,#5a3fbf 60%,#1a7ec0 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-        body.light .know-sub { color: rgba(0,0,30,0.45); }
+        html.light.know-title { background: linear-gradient(135deg,#0d0d1a 0%,#5a3fbf 60%,#1a7ec0 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        html.light.know-sub { color: rgba(0,0,30,0.45); }
 
         /* Anecdote cards */
-        body.light .anec-card:hover { border-color:rgba(0,0,30,0.18); box-shadow:0 16px 44px rgba(0,0,30,0.12); }
-        body.light .anec-icon { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
-        body.light .anec-title { color: #0d0d1a; }
-        body.light .anec-body  { color: rgba(0,0,30,0.55); }
-        body.light .anec-footer { border-top-color:rgba(0,0,30,0.08); color:rgba(0,0,30,0.3); }
+        html.light.anec-card:hover { border-color:rgba(0,0,30,0.18); box-shadow:0 16px 44px rgba(0,0,30,0.12); }
+        html.light.anec-icon { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
+        html.light.anec-title { color: #0d0d1a; }
+        html.light.anec-body  { color: rgba(0,0,30,0.55); }
+        html.light.anec-footer { border-top-color:rgba(0,0,30,0.08); color:rgba(0,0,30,0.3); }
 
         /* Wiki menu cards */
-        body.light .wiki-menu-card { background:rgba(255,255,255,0.92); border-color:rgba(0,0,30,0.1); box-shadow:0 8px 32px rgba(0,0,30,0.1); }
-        body.light .wiki-menu-card:hover { border-color:rgba(0,0,30,0.18); box-shadow:0 24px 60px rgba(0,0,30,0.15); }
-        body.light .wiki-menu-icon-wrap { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
-        body.light .wiki-menu-title { color: #0d0d1a; }
-        body.light .wiki-menu-intro { color: rgba(0,0,30,0.5); }
-        body.light .wiki-menu-badge { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); color:rgba(0,0,30,0.35); }
-        body.light .wiki-deco span { background: rgba(0,0,30,0.15); }
+        html.light.wiki-menu-card { background:rgba(255,255,255,0.92); border-color:rgba(0,0,30,0.1); box-shadow:0 8px 32px rgba(0,0,30,0.1); }
+        html.light.wiki-menu-card:hover { border-color:rgba(0,0,30,0.18); box-shadow:0 24px 60px rgba(0,0,30,0.15); }
+        html.light.wiki-menu-icon-wrap { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
+        html.light.wiki-menu-title { color: #0d0d1a; }
+        html.light.wiki-menu-intro { color: rgba(0,0,30,0.5); }
+        html.light.wiki-menu-badge { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); color:rgba(0,0,30,0.35); }
+        html.light.wiki-deco span { background: rgba(0,0,30,0.15); }
 
         /* Wiki cards */
-        body.light .wiki-card { background:rgba(255,255,255,0.92); border-color:rgba(0,0,30,0.1); }
-        body.light .wiki-card:hover { border-color:rgba(0,0,30,0.18); box-shadow:0 18px 50px rgba(0,0,30,0.12); }
-        body.light .wiki-icon { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
-        body.light .wiki-card-title { color: #0d0d1a; }
-        body.light .wiki-card-desc  { color: rgba(0,0,30,0.5); }
-        body.light .wiki-fact { color: rgba(0,0,30,0.35); }
+        html.light.wiki-card { background:rgba(255,255,255,0.92); border-color:rgba(0,0,30,0.1); }
+        html.light.wiki-card:hover { border-color:rgba(0,0,30,0.18); box-shadow:0 18px 50px rgba(0,0,30,0.12); }
+        html.light.wiki-icon { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
+        html.light.wiki-card-title { color: #0d0d1a; }
+        html.light.wiki-card-desc  { color: rgba(0,0,30,0.5); }
+        html.light.wiki-fact { color: rgba(0,0,30,0.35); }
 
         /* Wiki modal */
-        body.light #wikiModal { background: rgba(230,232,255,0.88); }
-        body.light .wiki-modal-box { background: #f4f6ff; border-color: rgba(0,0,30,0.1); }
-        body.light .wiki-modal-hd { border-bottom-color: rgba(0,0,30,0.08); }
-        body.light .wiki-modal-stars span { background: rgba(0,0,30,0.2); }
-        body.light .wiki-modal-icon { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
-        body.light .wiki-modal-title { color: #0d0d1a; }
-        body.light .wiki-modal-intro { color: rgba(0,0,30,0.5); }
-        body.light .wiki-modal-close { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.4); }
-        body.light .wiki-modal-close:hover { background:rgba(0,0,30,0.12); color:#0d0d1a; }
+        html.light#wikiModal { background: rgba(230,232,255,0.88); }
+        html.light.wiki-modal-box { background: #f4f6ff; border-color: rgba(0,0,30,0.1); }
+        html.light.wiki-modal-hd { border-bottom-color: rgba(0,0,30,0.08); }
+        html.light.wiki-modal-stars span { background: rgba(0,0,30,0.2); }
+        html.light.wiki-modal-icon { background:rgba(0,0,30,0.05); border-color:rgba(0,0,30,0.1); }
+        html.light.wiki-modal-title { color: #0d0d1a; }
+        html.light.wiki-modal-intro { color: rgba(0,0,30,0.5); }
+        html.light.wiki-modal-close { background:rgba(0,0,30,0.06); border-color:rgba(0,0,30,0.12); color:rgba(0,0,30,0.4); }
+        html.light.wiki-modal-close:hover { background:rgba(0,0,30,0.12); color:#0d0d1a; }
 
         /* Footer */
-        body.light footer { border-top-color: rgba(0,0,30,0.08); color: rgba(0,0,30,0.3); }
+        html.lightfooter { border-top-color: rgba(0,0,30,0.08); color: rgba(0,0,30,0.3); }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -709,19 +710,18 @@
     setTimeout(spawnShoot, 3500);
 
     // ── Theme toggle ──────────────────────────────────────────────────────────
-    function toggleTheme() {
-        const isLight = document.body.classList.toggle('light');
-        document.getElementById('themeToggle').textContent = isLight ? '☀️' : '🌙';
+    function applyTheme(isLight) {
+        document.documentElement.classList.toggle('light', isLight);
+        document.body.classList.toggle('light', isLight);
+        const btn = document.getElementById('themeToggle');
+        if (btn) btn.textContent = isLight ? '☀️' : '🌙';
         localStorage.setItem('sg_theme', isLight ? 'light' : 'dark');
     }
-    // Restore saved theme
-    (function() {
-        const savedTheme = localStorage.getItem('sg_theme');
-        if (savedTheme === 'light') {
-            document.body.classList.add('light');
-            // button text will be set in load listener after DOM is ready
-        }
-    })();
+    function toggleTheme() {
+        applyTheme(!document.documentElement.classList.contains('light'));
+    }
+    // Restore saved theme immediately (before paint)
+    applyTheme(localStorage.getItem('sg_theme') === 'light');
 
     // ── Difficulty selector ───────────────────────────────────────────────────
     const _diffs = {};
@@ -740,8 +740,8 @@
         refreshScoreBadges();
         renderAchievements();
 
-        // Restore theme toggle button label
-        if (document.body.classList.contains('light')) {
+        // Sync button label with current theme
+        if (document.documentElement.classList.contains('light')) {
             document.getElementById('themeToggle').textContent = '☀️';
         }
 
