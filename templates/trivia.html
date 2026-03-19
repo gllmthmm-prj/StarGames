@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planet Trivia Showdown – StarGames</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #03030a;
+      color: #e8e8ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    #spacebg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+    /* ── Nav ── */
+    nav {
+      position: relative; z-index: 20;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+      background: rgba(3,3,10,0.75);
+      backdrop-filter: blur(18px);
+    }
+    .logo {
+      font-size: 1.2rem; font-weight: 800; letter-spacing: 0.05em;
+      background: linear-gradient(90deg,#c4a8ff,#6ee7ff,#f5c518);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+    .nav-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.86rem; transition: color 0.2s; }
+    .nav-links a:hover { color: rgba(255,255,255,0.85); }
+    .lang-select {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 5px 10px; color: rgba(255,255,255,0.65);
+      font-size: 0.82rem; cursor: pointer; outline: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .lang-select:hover { border-color: rgba(255,255,255,0.28); color: #fff; }
+    .lang-select option { background: #12122a; color: #e8e8ff; }
+
+    /* ── Arena ── */
+    .arena {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 32px 16px; position: relative; z-index: 5;
+    }
+
+    /* ── Screens ── */
+    .screen { display: none; }
+    .screen.active { display: flex; }
+
+    /* ── Setup Screen ── */
+    #setupScreen {
+      flex-direction: column; align-items: center; justify-content: center;
+      width: 100%;
+    }
+    .setup-card {
+      background: rgba(14,14,28,0.92);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 28px;
+      padding: 48px 44px;
+      width: 100%; max-width: 520px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 80px rgba(100,50,255,0.08);
+      text-align: center;
+    }
+    .setup-title {
+      font-size: 2rem; font-weight: 900; margin-bottom: 6px;
+      background: linear-gradient(135deg,#ff9f43,#ffdd59,#ff6b81);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .setup-subtitle {
+      color: rgba(255,255,255,0.35); font-size: 0.88rem; margin-bottom: 36px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .player-inputs { display: flex; flex-direction: column; gap: 16px; margin-bottom: 28px; }
+    .player-field { display: flex; flex-direction: column; gap: 6px; text-align: left; }
+    .player-field label {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 700;
+    }
+    .p1-label { color: #ff9f43; }
+    .p2-label { color: #54a0ff; }
+    .player-input {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.10);
+      border-radius: 12px; padding: 12px 16px;
+      color: #e8e8ff; font-size: 0.95rem; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .player-input:focus { background: rgba(255,255,255,0.08); }
+    .player-input.p1:focus { border-color: rgba(255,159,67,0.6); }
+    .player-input.p2:focus { border-color: rgba(84,160,255,0.6); }
+    .solo-hint {
+      font-size: 0.72rem; color: rgba(255,255,255,0.28); margin-top: 2px;
+    }
+    .rounds-label {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.4); font-weight: 700; margin-bottom: 12px;
+    }
+    .rounds-options { display: flex; gap: 10px; justify-content: center; margin-bottom: 32px; }
+    .round-btn {
+      flex: 1; max-width: 100px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.10);
+      border-radius: 12px; padding: 12px 0;
+      color: rgba(255,255,255,0.55); font-size: 1.1rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .round-btn:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.22); color: #fff; }
+    .round-btn.selected {
+      background: rgba(99,51,255,0.2); border-color: #7c5cfc; color: #c4a8ff;
+      box-shadow: 0 0 20px rgba(124,92,252,0.25);
+    }
+    .btn-start {
+      width: 100%;
+      background: linear-gradient(135deg,#ff9f43,#ff6348);
+      color: #fff; border: none; border-radius: 50px;
+      padding: 16px 0; font-size: 1.05rem; font-weight: 700;
+      cursor: pointer; letter-spacing: 0.05em;
+      box-shadow: 0 8px 32px rgba(255,99,72,0.4);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,99,72,0.55); }
+
+    /* ── Scoreboard (always-visible top bar during game) ── */
+    .scoreboard {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+      display: none;
+      background: rgba(3,3,10,0.88); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 0 24px;
+      height: 62px; align-items: center; justify-content: space-between;
+    }
+    .scoreboard.visible { display: flex; }
+    .sb-player {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 16px; border-radius: 50px;
+      border: 1.5px solid transparent;
+      transition: all 0.3s;
+    }
+    .sb-player.active-turn {
+      border-color: currentColor;
+      box-shadow: 0 0 18px -4px currentColor;
+    }
+    .sb-p1 { color: #ff9f43; }
+    .sb-p2 { color: #54a0ff; }
+    .sb-name { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sb-score-val { font-size: 1.3rem; font-weight: 900; }
+    .sb-center { font-size: 0.72rem; color: rgba(255,255,255,0.3); text-align: center; letter-spacing: 0.12em; text-transform: uppercase; }
+    .sb-round { font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.6); }
+
+    /* ── Question Screen ── */
+    #gameScreen {
+      flex-direction: column; align-items: center; justify-content: center;
+      width: 100%; padding-top: 70px;
+    }
+    .question-card {
+      background: rgba(14,14,28,0.92);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 28px;
+      padding: 36px 38px 32px;
+      width: 100%; max-width: 640px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,200,255,0.04);
+      display: flex; flex-direction: column; gap: 22px;
+    }
+    .q-header { display: flex; align-items: center; justify-content: space-between; }
+    .q-whose-turn {
+      font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
+      padding: 5px 14px; border-radius: 50px;
+      border: 1.5px solid currentColor;
+    }
+    .q-turn-p1 { color: #ff9f43; }
+    .q-turn-p2 { color: #54a0ff; }
+    .q-meta { font-size: 0.72rem; color: rgba(255,255,255,0.3); letter-spacing: 0.15em; text-transform: uppercase; }
+
+    /* Timer bar */
+    .timer-bar-wrap {
+      height: 6px; background: rgba(255,255,255,0.07); border-radius: 6px; overflow: hidden;
+    }
+    .timer-bar {
+      height: 100%; width: 100%; border-radius: 6px;
+      background: linear-gradient(90deg,#6ee7ff,#a78bff);
+      transition: width 1s linear, background 0.4s;
+      transform-origin: left;
+    }
+    .timer-bar.danger { background: linear-gradient(90deg,#ff6348,#ff9f43); }
+
+    .timer-counter {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 1.4rem; font-weight: 900;
+      color: #6ee7ff; transition: color 0.3s;
+      min-width: 48px; justify-content: flex-end;
+    }
+    .timer-counter.danger { color: #ff6348; }
+
+    .question-text {
+      font-size: 1.25rem; font-weight: 600; line-height: 1.5;
+      color: #e8e8ff; min-height: 64px;
+    }
+
+    /* Answer buttons */
+    .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ans-btn {
+      background: rgba(22,22,44,0.9);
+      border: 1.5px solid rgba(255,255,255,0.09);
+      border-radius: 16px; padding: 16px 14px;
+      color: rgba(255,255,255,0.8); font-size: 0.92rem; font-weight: 500;
+      cursor: pointer; line-height: 1.35; text-align: left;
+      transition: background 0.15s, border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .ans-btn:hover:not(:disabled) {
+      background: rgba(40,40,72,0.95);
+      border-color: rgba(255,255,255,0.22);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .ans-letter {
+      display: flex; align-items: center; justify-content: center;
+      min-width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      font-size: 0.75rem; font-weight: 800; letter-spacing: 0;
+      color: rgba(255,255,255,0.5); flex-shrink: 0; margin-top: 1px;
+    }
+    .ans-btn:hover:not(:disabled) .ans-letter { background: rgba(255,255,255,0.14); color: #fff; }
+    .ans-btn.correct {
+      background: rgba(0,200,100,0.18); border-color: #00c864;
+      color: #5dffa5; transform: none;
+      box-shadow: 0 0 24px rgba(0,200,100,0.2);
+    }
+    .ans-btn.correct .ans-letter { background: #00c864; color: #001a0a; }
+    .ans-btn.wrong {
+      background: rgba(255,51,100,0.18); border-color: #ff3364;
+      color: #ff8aaa; transform: none;
+    }
+    .ans-btn.wrong .ans-letter { background: #ff3364; color: #200010; }
+    .ans-btn:disabled { cursor: default; }
+
+    /* Feedback row */
+    .feedback-row {
+      display: flex; align-items: center; justify-content: space-between; min-height: 28px;
+    }
+    .feedback-msg {
+      font-size: 1rem; font-weight: 700; transition: opacity 0.2s; color: transparent;
+    }
+    .feedback-msg.correct { color: #5dffa5; }
+    .feedback-msg.wrong   { color: #ff8aaa; }
+    .feedback-msg.timeout { color: rgba(255,200,100,0.9); }
+    .pts-gained {
+      font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.3);
+    }
+    .pts-gained.earned { color: #ffd700; animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes popIn { 0%{transform:scale(0.5);opacity:0} 100%{transform:scale(1);opacity:1} }
+
+    /* ── Transition Screen ── */
+    #transitionScreen {
+      flex-direction: column; align-items: center; justify-content: center;
+      width: 100%;
+    }
+    .pass-card {
+      background: rgba(14,14,28,0.93);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 28px;
+      padding: 60px 48px;
+      width: 100%; max-width: 480px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.65);
+      animation: slideUp 0.4s cubic-bezier(0.34,1.2,0.64,1);
+    }
+    @keyframes slideUp {
+      0% { transform: translateY(40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .pass-icon { font-size: 3.5rem; margin-bottom: 16px; animation: bounce 0.6s ease; }
+    @keyframes bounce { 0%{transform:scale(0.5)} 70%{transform:scale(1.15)} 100%{transform:scale(1)} }
+    .pass-label {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.25em;
+      color: rgba(255,255,255,0.35); margin-bottom: 10px;
+    }
+    .pass-name {
+      font-size: 2rem; font-weight: 900; margin-bottom: 6px;
+    }
+    .pass-name.p1 { color: #ff9f43; }
+    .pass-name.p2 { color: #54a0ff; }
+    .pass-ready { font-size: 0.9rem; color: rgba(255,255,255,0.4); margin-bottom: 36px; }
+    .pass-countdown {
+      font-size: 3.5rem; font-weight: 900;
+      background: linear-gradient(135deg,#c4a8ff,#6ee7ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: countPulse 1s ease-in-out infinite;
+    }
+    @keyframes countPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+    /* ── End Screen ── */
+    #endScreen {
+      flex-direction: column; align-items: center; justify-content: center;
+      width: 100%; padding-top: 16px;
+    }
+    .end-card {
+      background: rgba(14,14,28,0.93);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 28px;
+      padding: 48px 44px;
+      width: 100%; max-width: 560px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.65), 0 0 100px rgba(255,200,0,0.07);
+      animation: slideUp 0.5s cubic-bezier(0.34,1.2,0.64,1);
+      position: relative; overflow: hidden;
+    }
+    .trophy-emoji { font-size: 4.5rem; display: block; margin-bottom: 12px; animation: trophySpin 0.8s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes trophySpin { 0%{transform:rotate(-20deg) scale(0.4)} 100%{transform:rotate(0deg) scale(1)} }
+    .end-title {
+      font-size: 1rem; text-transform: uppercase; letter-spacing: 0.25em;
+      color: rgba(255,255,255,0.35); margin-bottom: 8px;
+    }
+    .winner-name {
+      font-size: 2.4rem; font-weight: 900; margin-bottom: 4px;
+    }
+    .winner-name.p1 { color: #ff9f43; }
+    .winner-name.p2 { color: #54a0ff; }
+    .winner-name.tie { background: linear-gradient(135deg,#ff9f43,#54a0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .winner-sub { color: rgba(255,255,255,0.35); font-size: 0.88rem; margin-bottom: 32px; }
+
+    .final-scores {
+      display: flex; gap: 16px; justify-content: center; margin-bottom: 32px;
+    }
+    .fs-block {
+      flex: 1; max-width: 180px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 20px 16px;
+    }
+    .fs-block.winner-block { border-color: currentColor; box-shadow: 0 0 28px -6px currentColor; }
+    .fs-block.p1 { color: #ff9f43; }
+    .fs-block.p2 { color: #54a0ff; }
+    .fs-name { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 8px; opacity: 0.7; }
+    .fs-score { font-size: 2.8rem; font-weight: 900; line-height: 1; }
+    .fs-pts { font-size: 0.72rem; opacity: 0.5; }
+
+    .end-actions { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .btn-play-again {
+      background: linear-gradient(135deg,#6333ff,#3b82f6);
+      color: #fff; border: none; border-radius: 50px;
+      padding: 14px 48px; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; letter-spacing: 0.05em;
+      box-shadow: 0 8px 28px rgba(99,51,255,0.4);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-play-again:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(99,51,255,0.6); }
+    .end-home { color: rgba(255,255,255,0.28); font-size: 0.85rem; text-decoration: none; transition: color 0.2s; }
+    .end-home:hover { color: rgba(255,255,255,0.65); }
+
+    /* Star burst confetti */
+    .star-burst { position: fixed; inset: 0; pointer-events: none; z-index: 25; overflow: hidden; }
+    .burst-star {
+      position: absolute;
+      font-size: 1.2rem;
+      animation: burstFly var(--dur, 2.4s) ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes burstFly {
+      0% { transform: translate(0,0) rotate(0deg) scale(0.3); opacity: 0; }
+      15% { opacity: 1; }
+      80% { opacity: 0.7; }
+      100% { transform: translate(var(--tx,80px), var(--ty,-200px)) rotate(var(--rot,360deg)) scale(0.8); opacity: 0; }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .answers-grid { grid-template-columns: 1fr; }
+      .question-card { padding: 24px 20px 20px; }
+      .setup-card { padding: 32px 24px; }
+      .end-card { padding: 36px 24px; }
+      .final-scores { flex-direction: column; align-items: center; }
+      .fs-block { max-width: 100%; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="spacebg"></canvas>
+
+  <!-- Scoreboard bar (visible during game & transition) -->
+  <div class="scoreboard" id="scoreboard">
+    <div class="sb-player sb-p1" id="sbP1">
+      <div style="display:flex;flex-direction:column;gap:1px">
+        <div class="sb-name" id="sbP1Name">Player 1</div>
+        <div style="font-size:0.6rem;color:rgba(255,159,67,0.5);text-transform:uppercase;letter-spacing:0.12em">P1</div>
+      </div>
+      <div class="sb-score-val" id="sbP1Score">0</div>
+    </div>
+    <div style="text-align:center">
+      <div class="sb-round" id="sbRound">1 / 5</div>
+      <div class="sb-center">rounds</div>
+    </div>
+    <div class="sb-player sb-p2" id="sbP2">
+      <div class="sb-score-val" id="sbP2Score">0</div>
+      <div style="display:flex;flex-direction:column;gap:1px;align-items:flex-end">
+        <div class="sb-name" id="sbP2Name">Player 2</div>
+        <div style="font-size:0.6rem;color:rgba(84,160,255,0.5);text-transform:uppercase;letter-spacing:0.12em">P2</div>
+      </div>
+    </div>
+  </div>
+
+  <nav>
+    <a href="/" class="logo">★ StarGames</a>
+    <div class="nav-links">
+      <a href="/" data-i18n="nav_home">Home</a>
+      <a href="/#games" data-i18n="nav_games">Games</a>
+      <a href="/wiki" data-i18n="nav_wiki">Wiki</a>
+      <select class="lang-select" onchange="if(typeof setLang==='function') setLang(this.value)">
+        <option value="en">🌐 EN</option>
+        <option value="fr">🌐 FR</option>
+      </select>
+    </div>
+  </nav>
+
+  <div class="arena">
+    <!-- Setup Screen -->
+    <div class="screen active" id="setupScreen">
+      <div class="setup-card">
+        <div class="setup-title">Planet Trivia</div>
+        <div class="setup-subtitle">Showdown · 2 Players</div>
+        <div class="player-inputs">
+          <div class="player-field">
+            <label class="p1-label">Player 1</label>
+            <input class="player-input p1" id="p1Name" type="text" placeholder="Player 1" maxlength="20" autocomplete="off">
+          </div>
+          <div class="player-field">
+            <label class="p2-label">Player 2 <span class="solo-hint">(leave empty for solo)</span></label>
+            <input class="player-input p2" id="p2Name" type="text" placeholder="Player 2" maxlength="20" autocomplete="off">
+          </div>
+        </div>
+        <div class="rounds-label">Rounds</div>
+        <div class="rounds-options">
+          <button class="round-btn" data-rounds="5" onclick="selectRounds(5)">5</button>
+          <button class="round-btn selected" data-rounds="10" onclick="selectRounds(10)">10</button>
+          <button class="round-btn" data-rounds="15" onclick="selectRounds(15)">15</button>
+        </div>
+        <button class="btn-start" onclick="startGame()">Launch Showdown 🚀</button>
+      </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div class="screen" id="gameScreen">
+      <div class="question-card">
+        <div class="q-header">
+          <div class="q-whose-turn q-turn-p1" id="qTurnLabel">Player 1's turn</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="q-meta" id="qMeta">Q 1</div>
+            <div class="timer-counter" id="timerCounter">15</div>
+          </div>
+        </div>
+        <div class="timer-bar-wrap">
+          <div class="timer-bar" id="timerBar"></div>
+        </div>
+        <div class="question-text" id="questionText">Loading…</div>
+        <div class="answers-grid" id="answersGrid"></div>
+        <div class="feedback-row">
+          <div class="feedback-msg" id="feedbackMsg"></div>
+          <div class="pts-gained" id="ptsGained"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transition Screen -->
+    <div class="screen" id="transitionScreen">
+      <div class="pass-card">
+        <div class="pass-icon">📱</div>
+        <div class="pass-label">Pass the device to</div>
+        <div class="pass-name p1" id="passName">Player 2</div>
+        <div class="pass-ready">Get ready — your question is coming!</div>
+        <div class="pass-countdown" id="passCountdown">3</div>
+      </div>
+    </div>
+
+    <!-- End Screen -->
+    <div class="screen" id="endScreen">
+      <div class="end-card" id="endCard">
+        <span class="trophy-emoji" id="trophyEmoji">🏆</span>
+        <div class="end-title" id="endTitle">Winner</div>
+        <div class="winner-name" id="winnerName">Player 1</div>
+        <div class="winner-sub" id="winnerSub">Cosmic champion of the stars!</div>
+        <div class="final-scores" id="finalScores">
+          <!-- populated by JS -->
+        </div>
+        <div class="end-actions">
+          <button class="btn-play-again" onclick="resetGame()">Play Again</button>
+          <a href="/" class="end-home">← Back to StarGames</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Star burst container -->
+  <div class="star-burst" id="starBurst"></div>
+
+  <script src="/static/spacebg.js"></script>
+  <script src="/static/sounds.js"></script>
+  <script src="/static/scores.js"></script>
+  <script src="/static/i18n.js"></script>
+  <script>
+    /* ═══════════════════════════════════════════════════════
+       QUESTION BANK — 35 astronomy trivia questions
+    ═══════════════════════════════════════════════════════ */
+    const ALL_QUESTIONS = [
+      // Planets
+      { q: "Which planet has the most moons as of recent counts?",
+        opts: ["Jupiter","Saturn","Uranus","Neptune"], correct: 1 },
+      { q: "What is the largest planet in our solar system?",
+        opts: ["Saturn","Uranus","Jupiter","Neptune"], correct: 2 },
+      { q: "Which planet is known as the Red Planet?",
+        opts: ["Jupiter","Venus","Saturn","Mars"], correct: 3 },
+      { q: "Which planet rotates on its side, with an axial tilt of 98°?",
+        opts: ["Neptune","Uranus","Saturn","Venus"], correct: 1 },
+      { q: "What is the hottest planet in our solar system?",
+        opts: ["Mercury","Venus","Mars","Jupiter"], correct: 1 },
+      { q: "Which planet has a Great Dark Spot, similar to Jupiter's Great Red Spot?",
+        opts: ["Uranus","Saturn","Neptune","Mars"], correct: 2 },
+      { q: "How long does it take Earth to orbit the Sun?",
+        opts: ["365.25 days","360 days","400 days","300 days"], correct: 0 },
+      { q: "What is the smallest planet in our solar system?",
+        opts: ["Mars","Mercury","Pluto","Venus"], correct: 1 },
+      { q: "Which planet has a moon called Titan that has a thick atmosphere?",
+        opts: ["Jupiter","Uranus","Saturn","Neptune"], correct: 2 },
+      { q: "What is the average distance from Earth to the Sun called?",
+        opts: ["Light-year","Astronomical Unit","Parsec","Furlong"], correct: 1 },
+      // Moons & Solar System
+      { q: "What is the largest moon in our solar system?",
+        opts: ["Titan","Callisto","Ganymede","Europa"], correct: 2 },
+      { q: "Which moon of Jupiter is thought to have a subsurface liquid water ocean?",
+        opts: ["Io","Callisto","Ganymede","Europa"], correct: 3 },
+      { q: "Which moon of Jupiter is the most volcanically active body in the solar system?",
+        opts: ["Io","Europa","Callisto","Ganymede"], correct: 0 },
+      { q: "What is the name of Earth's only natural satellite?",
+        opts: ["Titan","Deimos","The Moon","Phobos"], correct: 2 },
+      { q: "Mars has two small moons — Phobos and what?",
+        opts: ["Triton","Deimos","Charon","Miranda"], correct: 1 },
+      // Stars & the Sun
+      { q: "What type of star is our Sun?",
+        opts: ["Red giant","White dwarf","Yellow dwarf","Neutron star"], correct: 2 },
+      { q: "What is the closest star to Earth (other than the Sun)?",
+        opts: ["Barnard's Star","Sirius","Proxima Centauri","Alpha Centauri A"], correct: 2 },
+      { q: "What is a neutron star that emits regular radio pulses called?",
+        opts: ["Quasar","Blazar","Pulsar","Magnetar"], correct: 2 },
+      { q: "What is the name for the final stage of a massive star's life that results in a violent explosion?",
+        opts: ["Solar flare","Supernova","Nebula","Quasar"], correct: 1 },
+      { q: "What is the bright core of an active galaxy powered by a supermassive black hole?",
+        opts: ["Nebula","Globular cluster","Quasar","Pulsar"], correct: 2 },
+      // Galaxies & Cosmos
+      { q: "What is the name of the galaxy that contains our solar system?",
+        opts: ["Andromeda","Triangulum","Milky Way","Whirlpool"], correct: 2 },
+      { q: "Approximately how many stars are in the Milky Way galaxy?",
+        opts: ["100 billion","1 million","1 trillion","10 billion"], correct: 0 },
+      { q: "Which galaxy is the nearest large galaxy to the Milky Way?",
+        opts: ["Triangulum","Sombrero","Andromeda","Pinwheel"], correct: 2 },
+      { q: "What is the name for the theoretical boundary around a black hole beyond which nothing can escape?",
+        opts: ["Photon sphere","Accretion disk","Event horizon","Schwarzschild limit"], correct: 2 },
+      { q: "What is dark matter?",
+        opts: ["Matter in black holes","Invisible matter detected only gravitationally","Anti-matter","Cold interstellar gas"], correct: 1 },
+      // Space Exploration
+      { q: "Who was the first human to walk on the Moon?",
+        opts: ["Buzz Aldrin","Yuri Gagarin","Neil Armstrong","Alan Shepard"], correct: 2 },
+      { q: "Which mission first landed humans on the Moon?",
+        opts: ["Apollo 10","Apollo 11","Apollo 13","Gemini 7"], correct: 1 },
+      { q: "Which space telescope was launched in 1990 and revolutionized astronomy?",
+        opts: ["James Webb","Chandra","Hubble","Spitzer"], correct: 2 },
+      { q: "What is the name of NASA's Mars rover that landed in Jezero Crater in 2021?",
+        opts: ["Curiosity","Spirit","Opportunity","Perseverance"], correct: 3 },
+      { q: "Which country launched Sputnik 1, the first artificial satellite, in 1957?",
+        opts: ["USA","China","Soviet Union","Germany"], correct: 2 },
+      // Physics of Space
+      { q: "At approximately what speed does light travel in a vacuum?",
+        opts: ["300,000 km/s","150,000 km/s","500,000 km/s","30,000 km/s"], correct: 0 },
+      { q: "What is a light-year a measure of?",
+        opts: ["Time","Speed","Distance","Brightness"], correct: 2 },
+      { q: "What force keeps planets in orbit around the Sun?",
+        opts: ["Magnetism","Electromagnetism","Gravity","Nuclear force"], correct: 2 },
+      { q: "The Big Bang theory describes the origin of what?",
+        opts: ["Our solar system","The Milky Way","The observable universe","Black holes"], correct: 2 },
+      { q: "What is the Cosmic Microwave Background (CMB)?",
+        opts: ["Radiation from the Sun","Leftover heat radiation from shortly after the Big Bang","Radio waves from pulsars","Signals from distant galaxies"], correct: 1 },
+    ];
+
+    /* ═══════════════════════════════════════════════════════
+       GAME STATE
+    ═══════════════════════════════════════════════════════ */
+    const TIMER_SECONDS = 15;
+    const BONUS_MAX     = 50;
+    const BASE_PTS      = 100;
+
+    let state = {
+      p1Name: 'Player 1',
+      p2Name: 'Player 2',
+      soloMode: false,
+      totalRounds: 10,       // questions per player
+      scores: [0, 0],
+      currentPlayer: 0,      // 0 = P1, 1 = P2
+      questionsDone: [0, 0], // how many rounds each player has answered
+      questions: [],         // shuffled deck
+      qPointer: 0,
+      timerInterval: null,
+      timeLeft: TIMER_SECONDS,
+      timeStarted: 0,
+      answered: false,
+    };
+
+    /* ═══════════════════════════════════════════════════════
+       HELPERS
+    ═══════════════════════════════════════════════════════ */
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function getEl(id) { return document.getElementById(id); }
+
+    function showScreen(id) {
+      ['setupScreen','gameScreen','transitionScreen','endScreen'].forEach(s => {
+        const el = getEl(s);
+        el.classList.remove('active');
+      });
+      getEl(id).classList.add('active');
+    }
+
+    function setScoreboard(visible) {
+      const sb = getEl('scoreboard');
+      if (visible) sb.classList.add('visible');
+      else sb.classList.remove('visible');
+    }
+
+    function updateScoreboard() {
+      getEl('sbP1Name').textContent  = state.p1Name;
+      getEl('sbP2Name').textContent  = state.soloMode ? '(Ghost)' : state.p2Name;
+      getEl('sbP1Score').textContent = state.scores[0];
+      getEl('sbP2Score').textContent = state.scores[1];
+      const totalRoundsDisplayed = state.soloMode
+        ? state.questionsDone[0]
+        : Math.ceil((state.questionsDone[0] + state.questionsDone[1]) / 2);
+      getEl('sbRound').textContent = `${totalRoundsDisplayed} / ${state.totalRounds}`;
+
+      const sbP1 = getEl('sbP1');
+      const sbP2 = getEl('sbP2');
+      sbP1.classList.toggle('active-turn', state.currentPlayer === 0);
+      sbP2.classList.toggle('active-turn', state.currentPlayer === 1);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       SETUP
+    ═══════════════════════════════════════════════════════ */
+    let selectedRounds = 10;
+
+    function selectRounds(n) {
+      selectedRounds = n;
+      document.querySelectorAll('.round-btn').forEach(btn => {
+        btn.classList.toggle('selected', parseInt(btn.dataset.rounds) === n);
+      });
+    }
+
+    function startGame() {
+      const p1Input = getEl('p1Name').value.trim();
+      const p2Input = getEl('p2Name').value.trim();
+
+      state.p1Name      = p1Input || 'Player 1';
+      state.p2Name      = p2Input || 'Player 2';
+      state.soloMode    = p2Input === '';
+      state.totalRounds = selectedRounds;
+      state.scores      = [0, 0];
+      state.questionsDone = [0, 0];
+      state.currentPlayer = 0;
+      state.qPointer    = 0;
+      state.answered    = false;
+
+      // Need totalRounds questions per player (or just totalRounds for solo)
+      const needed = state.soloMode ? state.totalRounds : state.totalRounds * 2;
+      const pool = ALL_QUESTIONS.length >= needed
+        ? shuffle(ALL_QUESTIONS).slice(0, needed)
+        : shuffle([...ALL_QUESTIONS, ...shuffle(ALL_QUESTIONS)]).slice(0, needed);
+      state.questions = pool;
+
+      setScoreboard(true);
+      updateScoreboard();
+      showScreen('gameScreen');
+      loadQuestion();
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       TIMER
+    ═══════════════════════════════════════════════════════ */
+    function startTimer() {
+      clearInterval(state.timerInterval);
+      state.timeLeft   = TIMER_SECONDS;
+      state.timeStarted = Date.now();
+      updateTimerUI();
+
+      state.timerInterval = setInterval(() => {
+        state.timeLeft--;
+        updateTimerUI();
+        if (state.timeLeft <= 5 && state.timeLeft > 0) {
+          if (typeof SFX !== 'undefined') SFX.tick();
+        }
+        if (state.timeLeft <= 0) {
+          clearInterval(state.timerInterval);
+          handleTimeout();
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(state.timerInterval);
+    }
+
+    function updateTimerUI() {
+      const pct = state.timeLeft / TIMER_SECONDS;
+      const bar = getEl('timerBar');
+      const counter = getEl('timerCounter');
+      bar.style.width = (pct * 100) + '%';
+      const danger = state.timeLeft <= 5;
+      bar.classList.toggle('danger', danger);
+      counter.textContent = state.timeLeft;
+      counter.classList.toggle('danger', danger);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       QUESTION DISPLAY
+    ═══════════════════════════════════════════════════════ */
+    function loadQuestion() {
+      if (state.qPointer >= state.questions.length) {
+        // shouldn't happen, but guard
+        endGame();
+        return;
+      }
+
+      state.answered = false;
+      const cp = state.currentPlayer;
+      const pName = cp === 0 ? state.p1Name : (state.soloMode ? '(Ghost)' : state.p2Name);
+      const qNum  = state.questionsDone[cp] + 1;
+
+      // Turn label
+      const turnLabel = getEl('qTurnLabel');
+      turnLabel.textContent = `${pName}'s turn`;
+      turnLabel.className   = `q-whose-turn q-turn-p${cp + 1}`;
+
+      // Q meta
+      getEl('qMeta').textContent = `Q ${qNum} / ${state.totalRounds}`;
+
+      // Clear feedback
+      const fbMsg = getEl('feedbackMsg');
+      fbMsg.textContent = '';
+      fbMsg.className   = 'feedback-msg';
+      const ptsEl = getEl('ptsGained');
+      ptsEl.textContent = '';
+      ptsEl.className   = 'pts-gained';
+
+      // Question text
+      const q = state.questions[state.qPointer];
+      getEl('questionText').textContent = q.q;
+
+      // Answers
+      const grid = getEl('answersGrid');
+      grid.innerHTML = '';
+      const letters = ['A','B','C','D'];
+      q.opts.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'ans-btn';
+        btn.innerHTML = `<span class="ans-letter">${letters[i]}</span><span>${opt}</span>`;
+        btn.addEventListener('click', () => handleAnswer(i, q.correct, btn));
+        grid.appendChild(btn);
+      });
+
+      startTimer();
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       ANSWER HANDLING
+    ═══════════════════════════════════════════════════════ */
+    function handleAnswer(chosen, correct, clickedBtn) {
+      if (state.answered) return;
+      state.answered = true;
+      stopTimer();
+
+      const elapsed = (Date.now() - state.timeStarted) / 1000;
+      const btns    = document.querySelectorAll('.ans-btn');
+      btns.forEach(b => { b.disabled = true; });
+      btns[correct].classList.add('correct');
+
+      const fbMsg = getEl('feedbackMsg');
+      const ptsEl = getEl('ptsGained');
+
+      if (chosen === correct) {
+        if (typeof SFX !== 'undefined') SFX.correct();
+        const speedBonus = Math.round(BONUS_MAX * Math.max(0, (TIMER_SECONDS - elapsed) / TIMER_SECONDS));
+        const total = BASE_PTS + speedBonus;
+        state.scores[state.currentPlayer] += total;
+        updateScoreboard();
+
+        fbMsg.textContent = '✓ Correct!';
+        fbMsg.className   = 'feedback-msg correct';
+        ptsEl.textContent = `+${total} pts`;
+        ptsEl.className   = 'pts-gained earned';
+      } else {
+        if (typeof SFX !== 'undefined') SFX.wrong();
+        clickedBtn.classList.add('wrong');
+        fbMsg.textContent = '✗ Wrong!';
+        fbMsg.className   = 'feedback-msg wrong';
+        ptsEl.textContent = '+0 pts';
+        ptsEl.className   = 'pts-gained';
+      }
+
+      setTimeout(() => afterAnswer(), 1400);
+    }
+
+    function handleTimeout() {
+      if (state.answered) return;
+      state.answered = true;
+
+      const btns = document.querySelectorAll('.ans-btn');
+      btns.forEach(b => { b.disabled = true; });
+      const q = state.questions[state.qPointer];
+      btns[q.correct].classList.add('correct');
+
+      if (typeof SFX !== 'undefined') SFX.wrong();
+      const fbMsg = getEl('feedbackMsg');
+      fbMsg.textContent = '⏰ Time\'s up!';
+      fbMsg.className   = 'feedback-msg timeout';
+      getEl('ptsGained').textContent = '+0 pts';
+
+      setTimeout(() => afterAnswer(), 1600);
+    }
+
+    function afterAnswer() {
+      state.questionsDone[state.currentPlayer]++;
+      state.qPointer++;
+
+      // Check if current player is done
+      if (state.questionsDone[state.currentPlayer] >= state.totalRounds) {
+        // Mark them done
+        if (state.soloMode) {
+          // solo: only P1
+          endGame();
+          return;
+        }
+        // Check if both done
+        if (state.questionsDone[0] >= state.totalRounds && state.questionsDone[1] >= state.totalRounds) {
+          endGame();
+          return;
+        }
+        // Switch to the other player if they still have rounds
+        const nextPlayer = 1 - state.currentPlayer;
+        if (state.questionsDone[nextPlayer] < state.totalRounds) {
+          state.currentPlayer = nextPlayer;
+          showTransition();
+        } else {
+          endGame();
+        }
+        return;
+      }
+
+      if (state.soloMode) {
+        loadQuestion();
+        return;
+      }
+
+      // Alternate players each question
+      const nextPlayer = 1 - state.currentPlayer;
+      if (state.questionsDone[nextPlayer] < state.totalRounds) {
+        state.currentPlayer = nextPlayer;
+        showTransition();
+      } else {
+        loadQuestion();
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       TRANSITION SCREEN
+    ═══════════════════════════════════════════════════════ */
+    function showTransition() {
+      const cp = state.currentPlayer;
+      const pName = cp === 0 ? state.p1Name : state.p2Name;
+      const passNameEl = getEl('passName');
+      passNameEl.textContent = pName;
+      passNameEl.className   = `pass-name p${cp + 1}`;
+
+      updateScoreboard();
+      showScreen('transitionScreen');
+
+      let count = 3;
+      getEl('passCountdown').textContent = count;
+      const cd = setInterval(() => {
+        count--;
+        if (count <= 0) {
+          clearInterval(cd);
+          showScreen('gameScreen');
+          loadQuestion();
+        } else {
+          getEl('passCountdown').textContent = count;
+        }
+      }, 1000);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       END GAME
+    ═══════════════════════════════════════════════════════ */
+    function endGame() {
+      stopTimer();
+      setScoreboard(false);
+      if (typeof SFX !== 'undefined') SFX.gameOver(true);
+
+      const s1 = state.scores[0], s2 = state.scores[1];
+      const p1 = state.p1Name, p2 = state.soloMode ? 'Ghost' : state.p2Name;
+
+      let trophyEmoji, winnerNameText, winnerNameClass, winnerSub;
+
+      if (state.soloMode) {
+        trophyEmoji     = '🌟';
+        winnerNameText  = p1;
+        winnerNameClass = 'winner-name p1';
+        winnerSub       = `Solo score: ${s1} pts`;
+      } else if (s1 > s2) {
+        trophyEmoji     = '🏆';
+        winnerNameText  = p1;
+        winnerNameClass = 'winner-name p1';
+        winnerSub       = 'Cosmic champion of the stars!';
+      } else if (s2 > s1) {
+        trophyEmoji     = '🏆';
+        winnerNameText  = p2;
+        winnerNameClass = 'winner-name p2';
+        winnerSub       = 'Cosmic champion of the stars!';
+      } else {
+        trophyEmoji     = '🤝';
+        winnerNameText  = "It's a Tie!";
+        winnerNameClass = 'winner-name tie';
+        winnerSub       = 'Both players are stellar astronomers!';
+      }
+
+      getEl('trophyEmoji').textContent  = trophyEmoji;
+      getEl('winnerName').textContent   = winnerNameText;
+      getEl('winnerName').className     = winnerNameClass;
+      getEl('winnerSub').textContent    = winnerSub;
+      getEl('endTitle').textContent     = s1 === s2 && !state.soloMode ? 'Draw!' : 'Winner';
+
+      // Final scores
+      const p1Winner = !state.soloMode && s1 >= s2;
+      const p2Winner = !state.soloMode && s2 >= s1;
+      const fsHtml = `
+        <div class="fs-block p1 ${p1Winner ? 'winner-block' : ''}">
+          <div class="fs-name">${escHtml(p1)}</div>
+          <div class="fs-score">${s1}</div>
+          <div class="fs-pts">points</div>
+        </div>
+        ${!state.soloMode ? `
+        <div class="fs-block p2 ${p2Winner ? 'winner-block' : ''}">
+          <div class="fs-name">${escHtml(p2)}</div>
+          <div class="fs-score">${s2}</div>
+          <div class="fs-pts">points</div>
+        </div>` : ''}
+      `;
+      getEl('finalScores').innerHTML = fsHtml;
+
+      showScreen('endScreen');
+      launchStarBurst();
+
+      // Save scores
+      if (typeof ScoreManager !== 'undefined') {
+        ScoreManager.save('trivia_p1', s1);
+        if (!state.soloMode) ScoreManager.save('trivia_p2', s2);
+      }
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       STAR BURST CONFETTI
+    ═══════════════════════════════════════════════════════ */
+    function launchStarBurst() {
+      const container = getEl('starBurst');
+      container.innerHTML = '';
+      const symbols   = ['★','✦','✧','✩','✪','⭐','🌟','💫'];
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+
+      for (let i = 0; i < 48; i++) {
+        const star = document.createElement('span');
+        star.className = 'burst-star';
+        star.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+        const angle  = (Math.PI * 2 * i) / 48 + (Math.random() - 0.5) * 0.5;
+        const dist   = 180 + Math.random() * 320;
+        const tx     = Math.cos(angle) * dist;
+        const ty     = Math.sin(angle) * dist - 60;
+        const rot    = (Math.random() - 0.5) * 720;
+        const dur    = 1.8 + Math.random() * 1.4;
+        const delay  = Math.random() * 0.6;
+        const size   = 0.9 + Math.random() * 1.0;
+
+        star.style.cssText = `
+          left: ${cx}px; top: ${cy}px;
+          font-size: ${size}rem;
+          --tx: ${tx}px; --ty: ${ty}px; --rot: ${rot}deg; --dur: ${dur}s;
+          animation-delay: ${delay}s;
+        `;
+        container.appendChild(star);
+      }
+
+      setTimeout(() => { container.innerHTML = ''; }, 5000);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       RESET
+    ═══════════════════════════════════════════════════════ */
+    function resetGame() {
+      stopTimer();
+      setScoreboard(false);
+      getEl('starBurst').innerHTML = '';
+      // Reset inputs to current names for convenience
+      getEl('p1Name').value = state.p1Name === 'Player 1' ? '' : state.p1Name;
+      getEl('p2Name').value = state.soloMode ? '' : (state.p2Name === 'Player 2' ? '' : state.p2Name);
+      showScreen('setupScreen');
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       INIT
+    ═══════════════════════════════════════════════════════ */
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof initLang === 'function') initLang();
+      // Focus P1 name on load
+      const p1Input = getEl('p1Name');
+      if (p1Input) p1Input.focus();
+      // Allow Enter to start from P2 field
+      getEl('p2Name').addEventListener('keydown', e => {
+        if (e.key === 'Enter') startGame();
+      });
+    });
+  </script>
+</body>
+</html>

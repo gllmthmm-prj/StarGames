@@ -58,6 +58,33 @@ GAMES = [
         "category": "Puzzle",
         "difficulty": "Medium",
     },
+    {
+        "id": "trivia",
+        "title": "Planet Trivia Showdown",
+        "description": "2-player hot-seat astronomy quiz. Take turns answering questions about planets, stars, and space exploration. May the best explorer win!",
+        "icon": "🏆",
+        "color": "#ff9f43",
+        "category": "Trivia",
+        "difficulty": "Mixed",
+    },
+    {
+        "id": "asteroid",
+        "title": "Asteroid Dodge",
+        "description": "Pilot your ship through a deadly asteroid field. Dodge or destroy rocks as they rain down — survive as long as you can!",
+        "icon": "☄️",
+        "color": "#ff6b35",
+        "category": "Arcade",
+        "difficulty": "Hard",
+    },
+    {
+        "id": "constdraw",
+        "title": "Constellation Draw",
+        "description": "Connect the stars freehand to trace the constellation. The more accurate your lines, the higher your score!",
+        "icon": "✏️",
+        "color": "#c4a8ff",
+        "category": "Puzzle",
+        "difficulty": "Medium",
+    },
 ]
 
 @app.route('/')

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constellation Draw – StarGames</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #03030a; color: #e8e8ff;
+            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+        }
+
+        #spacebg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+        .lang-select {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px; padding: 5px 10px; color: rgba(255,255,255,0.65);
+            font-size: 0.82rem; cursor: pointer; outline: none;
+        }
+        .lang-select:hover { border-color: rgba(255,255,255,0.28); color: #fff; }
+        .lang-select option { background: #12122a; color: #e8e8ff; }
+
+        nav {
+            position: relative; z-index: 20;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 32px; border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(3,3,10,0.82); backdrop-filter: blur(14px); flex-shrink: 0;
+        }
+        .logo {
+            font-size: 1.1rem; font-weight: 700;
+            background: linear-gradient(90deg,#c4a8ff,#6ee7ff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; align-items: center; gap: 20px; }
+        nav a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        nav a:hover { color: #fff; }
+
+        /* HUD */
+        .hud {
+            position: relative; z-index: 10; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 32px; background: rgba(8,8,20,0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .hud-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+        .hud-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+        .hud-val   { font-size: 1.15rem; font-weight: 700; color: #c4a8ff; }
+        #timerVal  { color: #f5c518; transition: color 0.3s; }
+        #timerVal.urgent { color: #ff6b8a; animation: pulse 0.6s ease-in-out infinite alternate; }
+        @keyframes pulse { from{opacity:1}to{opacity:0.3} }
+
+        /* Game area */
+        .game-area {
+            flex: 1; position: relative; z-index: 5;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 10px; padding: 10px 16px;
+            overflow: hidden;
+        }
+
+        .const-name {
+            font-size: 1.05rem; font-weight: 700; letter-spacing: 0.2em;
+            text-transform: uppercase; color: #c4a8ff;
+            text-shadow: 0 0 20px rgba(196,168,255,0.5);
+        }
+
+        /* Canvas */
+        .canvas-wrap {
+            position: relative; border-radius: 20px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.07);
+            box-shadow: 0 0 60px rgba(99,51,255,0.15), 0 20px 50px rgba(0,0,0,0.6);
+            flex-shrink: 0;
+        }
+        #gameCanvas { display: block; cursor: crosshair; touch-action: none; }
+
+        /* Tool bar */
+        .toolbar {
+            display: flex; gap: 10px; align-items: center; flex-shrink: 0;
+        }
+        .btn-tool {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px; padding: 7px 18px; color: rgba(255,255,255,0.6);
+            font-size: 0.82rem; cursor: pointer; transition: all 0.18s;
+        }
+        .btn-tool:hover { background: rgba(196,168,255,0.12); border-color: rgba(196,168,255,0.4); color: #c4a8ff; }
+
+        .instruction {
+            font-size: 0.82rem; color: rgba(255,255,255,0.32); text-align: center; min-height: 20px;
+        }
+
+        /* Progress bar */
+        .prog-wrap {
+            width: 100%; max-width: 520px; height: 4px;
+            background: rgba(255,255,255,0.07); border-radius: 4px; overflow: hidden;
+        }
+        .prog-bar {
+            height: 100%;
+            background: linear-gradient(90deg,#a78bff,#6ee7ff);
+            border-radius: 4px; transition: width 0.3s;
+            width: 0%;
+        }
+
+        /* Overlays */
+        .overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.82); backdrop-filter: blur(10px);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 14px; z-index: 50;
+        }
+        .overlay.hidden { display: none; }
+        .ov-icon  { font-size: 3.5rem; }
+        .ov-title { font-size: 1.9rem; font-weight: 800; }
+        .ov-sub   { color: rgba(255,255,255,0.45); font-size: 0.95rem; text-align: center; max-width: 380px; line-height: 1.6; }
+        .ov-score { font-size: 3.2rem; font-weight: 900; color: #c4a8ff; }
+        .ov-grade {
+            font-size: 2.4rem; font-weight: 900; width: 64px; height: 64px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            border: 3px solid currentColor;
+        }
+        .grade-S { color: #f5c518; }
+        .grade-A { color: #c4a8ff; }
+        .grade-B { color: #6ee7ff; }
+        .grade-C { color: #88e888; }
+        .grade-D { color: rgba(255,255,255,0.4); }
+
+        .btn-go {
+            background: linear-gradient(135deg,#6333ff,#3b82f6);
+            color: #fff; border: none; padding: 13px 38px; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 600; cursor: pointer;
+            box-shadow: 0 8px 28px rgba(99,51,255,0.4); transition: transform 0.15s, box-shadow 0.2s;
+        }
+        .btn-go:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(99,51,255,0.6); }
+        .ov-back { color: rgba(255,255,255,0.25); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; }
+        .ov-back:hover { color: rgba(255,255,255,0.6); }
+
+        /* Round result overlay */
+        #roundOverlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 16px; z-index: 45;
+        }
+        #roundOverlay.hidden { display: none; }
+        .round-score-label { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+        .round-score-val   { font-size: 3rem; font-weight: 900; color: #c4a8ff; }
+        .round-detail      { font-size: 0.9rem; color: rgba(255,255,255,0.45); }
+        .round-msg         { font-size: 1.05rem; font-weight: 600; color: #e8e8ff; }
+    </style>
+</head>
+<body>
+    <canvas id="spacebg"></canvas>
+
+    <nav>
+        <div class="logo">★ StarGames</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/">Games</a>
+            <a href="/wiki">Wiki</a>
+            <select class="lang-select" onchange="setLang(this.value)">
+                <option value="en">🌐 EN</option>
+                <option value="fr">🌐 FR</option>
+            </select>
+        </div>
+    </nav>
+
+    <div class="hud">
+        <div class="hud-stat">
+            <span class="hud-label">Round</span>
+            <span class="hud-val" id="roundVal">1 / 8</span>
+        </div>
+        <div class="hud-stat">
+            <span class="hud-label">Time</span>
+            <span class="hud-val" id="timerVal">30</span>
+        </div>
+        <div class="hud-stat">
+            <span class="hud-label">Score</span>
+            <span class="hud-val" id="scoreVal">0</span>
+        </div>
+        <div class="hud-stat">
+            <span class="hud-label">Best</span>
+            <span class="hud-val" id="bestVal">0</span>
+        </div>
+    </div>
+
+    <div class="game-area">
+        <div class="const-name" id="constName">—</div>
+        <div class="prog-wrap"><div class="prog-bar" id="progBar"></div></div>
+        <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="gameCanvas"></canvas>
+        </div>
+        <div class="toolbar">
+            <button class="btn-tool" id="btnUndo" onclick="undoLine()">↩ Undo</button>
+            <button class="btn-tool" id="btnClear" onclick="clearLines()">✕ Clear</button>
+        </div>
+        <div class="instruction" id="instruction">Draw lines connecting the stars to trace the constellation</div>
+    </div>
+
+    <!-- Start / End overlay -->
+    <div class="overlay" id="overlay">
+        <div class="ov-icon" id="ovIcon">✨</div>
+        <div class="ov-title" id="ovTitle">Constellation Draw</div>
+        <div class="ov-sub" id="ovSub">
+            Connect the faint star dots by drawing lines freehand.<br>
+            Match the constellation's shape before time runs out!
+        </div>
+        <div class="ov-score hidden" id="ovScore"></div>
+        <div id="ovGrade"></div>
+        <button class="btn-go" id="btnGo">Start Game</button>
+        <a href="/" class="ov-back">← Back to games</a>
+    </div>
+
+    <!-- Round result overlay -->
+    <div class="overlay hidden" id="roundOverlay">
+        <div class="ov-icon" id="rovIcon">⭐</div>
+        <div class="round-score-label">Round Score</div>
+        <div class="round-score-val" id="rovScore">0</div>
+        <div class="round-msg" id="rovMsg">Nice work!</div>
+        <div class="round-detail" id="rovDetail">3 of 7 connections matched</div>
+        <button class="btn-go" id="btnNext">Next Constellation →</button>
+    </div>
+
+    <script src="/static/sounds.js"></script>
+    <script src="/static/scores.js"></script>
+    <script src="/static/i18n.js"></script>
+    <script src="/static/spacebg.js"></script>
+    <script>
+    // ── Constellation data ──────────────────────────────────────────────────────
+    // All coordinates normalized 0–1, scaled to canvas with padding
+    const CONSTELLATIONS = [
+        {
+            name: "Orion",
+            // stars: head, right shoulder, left shoulder, right belt, center belt, left belt, right foot, left foot
+            stars: [
+                {x:0.50,y:0.12},  // 0 head
+                {x:0.36,y:0.30},  // 1 right shoulder (Betelgeuse)
+                {x:0.66,y:0.28},  // 2 left shoulder (Bellatrix)
+                {x:0.42,y:0.52},  // 3 right belt (Mintaka)
+                {x:0.50,y:0.54},  // 4 center belt (Alnilam)
+                {x:0.58,y:0.56},  // 5 left belt (Alnitak)
+                {x:0.34,y:0.78},  // 6 right foot (Rigel)
+                {x:0.68,y:0.80},  // 7 left foot (Saiph)
+            ],
+            connections: [[0,1],[0,2],[1,2],[1,3],[2,5],[3,4],[4,5],[3,6],[5,7]],
+        },
+        {
+            name: "Ursa Major",
+            // Big Dipper: bowl 4 stars + handle 3 stars
+            stars: [
+                {x:0.14,y:0.62},  // 0 bowl bottom-right
+                {x:0.14,y:0.40},  // 1 bowl top-right
+                {x:0.34,y:0.34},  // 2 bowl top-left
+                {x:0.34,y:0.56},  // 3 bowl bottom-left
+                {x:0.54,y:0.30},  // 4 handle start
+                {x:0.72,y:0.22},  // 5 handle mid
+                {x:0.90,y:0.12},  // 6 handle end
+            ],
+            connections: [[0,1],[1,2],[2,3],[3,0],[2,4],[4,5],[5,6]],
+        },
+        {
+            name: "Cassiopeia",
+            // W shape, 5 stars
+            stars: [
+                {x:0.08,y:0.56},  // 0
+                {x:0.28,y:0.26},  // 1
+                {x:0.50,y:0.50},  // 2
+                {x:0.72,y:0.24},  // 3
+                {x:0.92,y:0.54},  // 4
+            ],
+            connections: [[0,1],[1,2],[2,3],[3,4]],
+        },
+        {
+            name: "Leo",
+            // Sickle (head) + triangle (hindquarters)
+            stars: [
+                {x:0.20,y:0.72},  // 0 Regulus (bottom of sickle)
+                {x:0.18,y:0.54},  // 1
+                {x:0.22,y:0.38},  // 2
+                {x:0.34,y:0.24},  // 3
+                {x:0.48,y:0.28},  // 4
+                {x:0.52,y:0.44},  // 5
+                {x:0.38,y:0.54},  // 6 sickle bottom
+                {x:0.66,y:0.56},  // 7 triangle top
+                {x:0.72,y:0.74},  // 8 triangle right
+            ],
+            connections: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0],[5,7],[7,8]],
+        },
+        {
+            name: "Scorpius",
+            // Curved tail shape
+            stars: [
+                {x:0.34,y:0.16},  // 0 Antares (heart)
+                {x:0.24,y:0.22},  // 1 right claw
+                {x:0.44,y:0.22},  // 2 left claw
+                {x:0.36,y:0.34},  // 3
+                {x:0.40,y:0.46},  // 4
+                {x:0.46,y:0.56},  // 5
+                {x:0.54,y:0.64},  // 6
+                {x:0.64,y:0.72},  // 7
+            ],
+            connections: [[1,0],[0,2],[0,3],[3,4],[4,5],[5,6],[6,7]],
+        },
+        {
+            name: "Gemini",
+            // Two parallel figures (twins Castor & Pollux)
+            stars: [
+                {x:0.22,y:0.10},  // 0 Castor head
+                {x:0.52,y:0.10},  // 1 Pollux head
+                {x:0.20,y:0.30},  // 2 Castor shoulder
+                {x:0.50,y:0.28},  // 3 Pollux shoulder
+                {x:0.18,y:0.50},  // 4 Castor body
+                {x:0.48,y:0.48},  // 5 Pollux body
+                {x:0.22,y:0.72},  // 6 Castor feet
+                {x:0.50,y:0.70},  // 7 Pollux feet
+            ],
+            connections: [[0,2],[1,3],[2,3],[2,4],[3,5],[4,6],[5,7],[6,7]],
+        },
+        {
+            name: "Taurus",
+            // V-shape face + horns
+            stars: [
+                {x:0.50,y:0.50},  // 0 Aldebaran (eye)
+                {x:0.38,y:0.44},  // 1 Hyades left
+                {x:0.32,y:0.36},  // 2 Hyades tip
+                {x:0.62,y:0.44},  // 3 Hyades right
+                {x:0.58,y:0.32},  // 4 horn base
+                {x:0.44,y:0.18},  // 5 left horn tip
+                {x:0.72,y:0.18},  // 6 right horn tip
+            ],
+            connections: [[2,1],[1,0],[0,3],[1,5],[3,4],[4,5],[4,6]],
+        },
+        {
+            name: "Cygnus",
+            // Northern Cross
+            stars: [
+                {x:0.50,y:0.08},  // 0 top of cross (Deneb)
+                {x:0.50,y:0.38},  // 1 center
+                {x:0.50,y:0.68},  // 2 bottom
+                {x:0.18,y:0.38},  // 3 left wing
+                {x:0.82,y:0.38},  // 4 right wing
+            ],
+            connections: [[0,1],[1,2],[3,1],[1,4]],
+        },
+    ];
+
+    // ── Game constants ──────────────────────────────────────────────────────────
+    const ROUNDS        = 8;
+    const ROUND_TIME    = 30;
+    const HIT_THRESHOLD = 25;   // px — how close a drawn segment must pass to both endpoints
+    const SHOW_RESULT_MS= 2200; // how long to show solution flash
+
+    // ── State ───────────────────────────────────────────────────────────────────
+    let round       = 0;
+    let totalScore  = 0;
+    let timeLeft    = ROUND_TIME;
+    let timerId     = null;
+    let gameRunning = false;
+    let puzzle      = null;
+    let puzzleOrder = [];
+
+    // Drawing state
+    let playerSegments = [];    // committed segments: [{x1,y1,x2,y2}]
+    let currentStroke  = null;  // {x1,y1,x2,y2} in progress
+    let isDrawing      = false;
+
+    // ── DOM refs ────────────────────────────────────────────────────────────────
+    const canvas      = document.getElementById('gameCanvas');
+    const ctx         = canvas.getContext('2d');
+    const canvasWrap  = document.getElementById('canvasWrap');
+    const scoreEl     = document.getElementById('scoreVal');
+    const timerEl     = document.getElementById('timerVal');
+    const roundEl     = document.getElementById('roundVal');
+    const constNameEl = document.getElementById('constName');
+    const instructEl  = document.getElementById('instruction');
+    const progBarEl   = document.getElementById('progBar');
+    const overlay     = document.getElementById('overlay');
+    const ovIcon      = document.getElementById('ovIcon');
+    const ovTitle     = document.getElementById('ovTitle');
+    const ovSub       = document.getElementById('ovSub');
+    const ovScoreEl   = document.getElementById('ovScore');
+    const ovGradeEl   = document.getElementById('ovGrade');
+    const btnGo       = document.getElementById('btnGo');
+    const roundOverlay= document.getElementById('roundOverlay');
+    const rovIcon     = document.getElementById('rovIcon');
+    const rovScoreEl  = document.getElementById('rovScore');
+    const rovMsg      = document.getElementById('rovMsg');
+    const rovDetail   = document.getElementById('rovDetail');
+    const btnNext     = document.getElementById('btnNext');
+    const btnUndo     = document.getElementById('btnUndo');
+    const btnClear    = document.getElementById('btnClear');
+
+    // ── Canvas sizing ────────────────────────────────────────────────────────────
+    function sizeCanvas() {
+        const available = document.querySelector('.game-area');
+        const areaH = available ? available.clientHeight : window.innerHeight - 130;
+        // Reserve space for name, prog bar, toolbar, instruction (~120px)
+        const maxW = Math.min(window.innerWidth - 32, 540);
+        const maxH = Math.min(areaH - 120, 420);
+        const size = Math.min(maxW, maxH);
+        canvas.width  = size;
+        canvas.height = size;
+        canvasWrap.style.width  = size + 'px';
+        canvasWrap.style.height = size + 'px';
+    }
+    sizeCanvas();
+    window.addEventListener('resize', () => { sizeCanvas(); if (puzzle) renderFrame(); });
+
+    // ── Coordinate helpers ───────────────────────────────────────────────────────
+    const PAD = () => canvas.width * 0.10;
+    function toCanvasX(nx) { return PAD() + nx * (canvas.width  - 2 * PAD()); }
+    function toCanvasY(ny) { return PAD() + ny * (canvas.height - 2 * PAD()); }
+
+    function getCanvasPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width  / rect.width;
+        const scaleY = canvas.height / rect.height;
+        if (e.touches) {
+            return {
+                x: (e.touches[0].clientX - rect.left) * scaleX,
+                y: (e.touches[0].clientY - rect.top)  * scaleY,
+            };
+        }
+        return {
+            x: (e.clientX - rect.left) * scaleX,
+            y: (e.clientY - rect.top)  * scaleY,
+        };
+    }
+
+    // ── Scoring: segment–endpoint proximity ─────────────────────────────────────
+    // Returns the minimum distance from point P to line segment AB
+    function pointToSegmentDist(px, py, ax, ay, bx, by) {
+        const dx = bx - ax, dy = by - ay;
+        const lenSq = dx*dx + dy*dy;
+        if (lenSq === 0) return Math.hypot(px-ax, py-ay);
+        const t = Math.max(0, Math.min(1, ((px-ax)*dx + (py-ay)*dy) / lenSq));
+        return Math.hypot(px - (ax + t*dx), py - (ay + t*dy));
+    }
+
+    // A drawn segment "covers" a reference connection if it passes within HIT_THRESHOLD
+    // of BOTH star endpoints of that connection.
+    function segmentCoversConnection(seg, starA, starB, threshold) {
+        const ax = toCanvasX(starA.x), ay = toCanvasY(starA.y);
+        const bx = toCanvasX(starB.x), by = toCanvasY(starB.y);
+        // Check dist from each star endpoint to the drawn segment
+        const dA = pointToSegmentDist(ax, ay, seg.x1, seg.y1, seg.x2, seg.y2);
+        const dB = pointToSegmentDist(bx, by, seg.x1, seg.y1, seg.x2, seg.y2);
+        return dA <= threshold && dB <= threshold;
+    }
+
+    // Returns set of connection indices covered by any player segment
+    function evaluateDrawing() {
+        const covered = new Set();
+        puzzle.connections.forEach(([a, b], idx) => {
+            for (const seg of playerSegments) {
+                if (segmentCoversConnection(seg, puzzle.stars[a], puzzle.stars[b], HIT_THRESHOLD)) {
+                    covered.add(idx);
+                    break;
+                }
+            }
+        });
+        return covered;
+    }
+
+    // ── Rendering ────────────────────────────────────────────────────────────────
+    let animId = null;
+    let flashState = null; // null | {covered: Set, timeoutEnd: number}
+
+    function renderFrame() {
+        if (animId) cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(_draw);
+    }
+
+    function _draw() {
+        animId = null;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (!puzzle) return;
+
+        // Faint reference skeleton (always visible as hint)
+        puzzle.connections.forEach(([a, b]) => {
+            const ax = toCanvasX(puzzle.stars[a].x), ay = toCanvasY(puzzle.stars[a].y);
+            const bx = toCanvasX(puzzle.stars[b].x), by = toCanvasY(puzzle.stars[b].y);
+            ctx.beginPath();
+            ctx.moveTo(ax, ay);
+            ctx.lineTo(bx, by);
+            ctx.strokeStyle = 'rgba(196,168,255,0.10)';
+            ctx.lineWidth   = 1.2;
+            ctx.setLineDash([4, 6]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        });
+
+        // Flash state: show correct (green) / missed (red) connections
+        if (flashState) {
+            puzzle.connections.forEach(([a, b], idx) => {
+                const ax = toCanvasX(puzzle.stars[a].x), ay = toCanvasY(puzzle.stars[a].y);
+                const bx = toCanvasX(puzzle.stars[b].x), by = toCanvasY(puzzle.stars[b].y);
+                const ok = flashState.covered.has(idx);
+                ctx.beginPath();
+                ctx.moveTo(ax, ay);
+                ctx.lineTo(bx, by);
+                ctx.strokeStyle = ok ? 'rgba(80,240,120,0.75)' : 'rgba(255,80,100,0.6)';
+                ctx.lineWidth   = 2.5;
+                ctx.shadowColor = ok ? '#50f078' : '#ff5064';
+                ctx.shadowBlur  = 8;
+                ctx.stroke();
+                ctx.shadowBlur  = 0;
+            });
+        }
+
+        // Player's committed segments
+        playerSegments.forEach(seg => {
+            ctx.beginPath();
+            ctx.moveTo(seg.x1, seg.y1);
+            ctx.lineTo(seg.x2, seg.y2);
+            ctx.strokeStyle = 'rgba(196,168,255,0.65)';
+            ctx.lineWidth   = 2.2;
+            ctx.lineCap     = 'round';
+            ctx.shadowColor = '#c4a8ff';
+            ctx.shadowBlur  = 6;
+            ctx.stroke();
+            ctx.shadowBlur  = 0;
+        });
+
+        // Live stroke in progress
+        if (isDrawing && currentStroke) {
+            ctx.beginPath();
+            ctx.moveTo(currentStroke.x1, currentStroke.y1);
+            ctx.lineTo(currentStroke.x2, currentStroke.y2);
+            ctx.strokeStyle = 'rgba(196,168,255,0.40)';
+            ctx.lineWidth   = 2.0;
+            ctx.lineCap     = 'round';
+            ctx.stroke();
+        }
+
+        // Stars
+        puzzle.stars.forEach(s => {
+            const sx = toCanvasX(s.x), sy = toCanvasY(s.y);
+
+            // Outer glow
+            const grd = ctx.createRadialGradient(sx, sy, 0, sx, sy, 22);
+            grd.addColorStop(0, 'rgba(196,168,255,0.30)');
+            grd.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.beginPath();
+            ctx.arc(sx, sy, 22, 0, Math.PI*2);
+            ctx.fillStyle = grd;
+            ctx.fill();
+
+            // Core dot
+            ctx.beginPath();
+            ctx.arc(sx, sy, 4.5, 0, Math.PI*2);
+            ctx.fillStyle  = '#e0d8ff';
+            ctx.shadowColor = '#c4a8ff';
+            ctx.shadowBlur  = 12;
+            ctx.fill();
+            ctx.shadowBlur  = 0;
+
+            // Inner bright center
+            ctx.beginPath();
+            ctx.arc(sx, sy, 2, 0, Math.PI*2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+        });
+
+        // Continue animation while game is running or drawing
+        if (gameRunning || isDrawing || flashState) {
+            animId = requestAnimationFrame(_draw);
+        }
+    }
+
+    // ── Drawing input handlers ────────────────────────────────────────────────────
+    function startDraw(e) {
+        if (!gameRunning) return;
+        e.preventDefault();
+        const pos = getCanvasPos(e);
+        isDrawing    = true;
+        currentStroke = { x1: pos.x, y1: pos.y, x2: pos.x, y2: pos.y };
+        if (!animId) animId = requestAnimationFrame(_draw);
+    }
+
+    function moveDraw(e) {
+        if (!isDrawing || !gameRunning) return;
+        e.preventDefault();
+        const pos = getCanvasPos(e);
+        currentStroke.x2 = pos.x;
+        currentStroke.y2 = pos.y;
+    }
+
+    function endDraw(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        isDrawing = false;
+        if (currentStroke) {
+            const dx = currentStroke.x2 - currentStroke.x1;
+            const dy = currentStroke.y2 - currentStroke.y1;
+            // Only commit if the stroke is long enough to be intentional (>8px)
+            if (Math.hypot(dx, dy) > 8) {
+                playerSegments.push({ ...currentStroke });
+                SFX.connect();
+                updateProgress();
+            }
+        }
+        currentStroke = null;
+        renderFrame();
+    }
+
+    canvas.addEventListener('mousedown',  startDraw);
+    canvas.addEventListener('mousemove',  moveDraw);
+    canvas.addEventListener('mouseup',    endDraw);
+    canvas.addEventListener('mouseleave', endDraw);
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove',  moveDraw,  { passive: false });
+    canvas.addEventListener('touchend',   endDraw,   { passive: false });
+
+    // ── Toolbar actions ────────────────────────────────────────────────────────────
+    function undoLine() {
+        if (playerSegments.length > 0) {
+            playerSegments.pop();
+            updateProgress();
+            renderFrame();
+        }
+    }
+
+    function clearLines() {
+        playerSegments = [];
+        updateProgress();
+        renderFrame();
+    }
+
+    // ── Progress update ────────────────────────────────────────────────────────────
+    function updateProgress() {
+        if (!puzzle) return;
+        const covered = evaluateDrawing();
+        const pct = puzzle.connections.length > 0
+            ? (covered.size / puzzle.connections.length) * 100
+            : 0;
+        progBarEl.style.width = pct + '%';
+        instructEl.textContent = covered.size > 0
+            ? `${covered.size} / ${puzzle.connections.length} connections matched`
+            : 'Draw lines connecting the stars to trace the constellation';
+    }
+
+    // ── Puzzle order ────────────────────────────────────────────────────────────────
+    function buildPuzzleOrder() {
+        const indices = CONSTELLATIONS.map((_, i) => i);
+        // Simple Fisher-Yates shuffle
+        for (let i = indices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [indices[i], indices[j]] = [indices[j], indices[i]];
+        }
+        puzzleOrder = indices.slice(0, ROUNDS);
+    }
+
+    // ── Round logic ────────────────────────────────────────────────────────────────
+    function startRound() {
+        puzzle          = CONSTELLATIONS[puzzleOrder[round]];
+        playerSegments  = [];
+        currentStroke   = null;
+        isDrawing       = false;
+        flashState      = null;
+        timeLeft        = ROUND_TIME;
+
+        roundEl.textContent     = `${round + 1} / ${ROUNDS}`;
+        constNameEl.textContent = puzzle.name.toUpperCase();
+        timerEl.textContent     = timeLeft;
+        timerEl.classList.remove('urgent');
+        progBarEl.style.width   = '0%';
+        instructEl.textContent  = 'Draw lines connecting the stars to trace the constellation';
+        gameRunning = true;
+
+        renderFrame();
+
+        clearInterval(timerId);
+        timerId = setInterval(() => {
+            timeLeft--;
+            timerEl.textContent = timeLeft;
+            if (timeLeft <= 8) timerEl.classList.add('urgent');
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                endRound();
+            }
+        }, 1000);
+    }
+
+    function endRound() {
+        gameRunning = false;
+        clearInterval(timerId);
+
+        const covered   = evaluateDrawing();
+        const total     = puzzle.connections.length;
+        const matched   = covered.size;
+        // Score: 0–100 per round based on fraction of connections matched
+        const roundScore = Math.round((matched / Math.max(total, 1)) * 100);
+        totalScore += roundScore;
+        scoreEl.textContent = totalScore;
+
+        // Flash solution on canvas
+        flashState = { covered };
+        renderFrame();
+
+        // Populate round overlay
+        const icons = roundScore >= 90 ? '🌟' : roundScore >= 70 ? '⭐' : roundScore >= 40 ? '🔭' : '🌑';
+        const msgs  = roundScore >= 90 ? 'Perfect trace!' : roundScore >= 70 ? 'Great work!' : roundScore >= 40 ? 'Getting there!' : 'Keep practicing!';
+        rovIcon.textContent    = icons;
+        rovScoreEl.textContent = roundScore;
+        rovMsg.textContent     = msgs;
+        rovDetail.textContent  = `${matched} of ${total} connections matched`;
+
+        SFX.correct();
+
+        // Show round overlay after brief flash
+        setTimeout(() => {
+            flashState = null;
+            roundOverlay.classList.remove('hidden');
+        }, SHOW_RESULT_MS);
+    }
+
+    btnNext.addEventListener('click', () => {
+        roundOverlay.classList.add('hidden');
+        round++;
+        if (round >= ROUNDS) {
+            showFinalResult();
+        } else {
+            startRound();
+        }
+    });
+
+    // ── Final result ────────────────────────────────────────────────────────────────
+    function getGrade(score) {
+        if (score >= 750) return 'S';
+        if (score >= 600) return 'A';
+        if (score >= 450) return 'B';
+        if (score >= 300) return 'C';
+        return 'D';
+    }
+
+    function showFinalResult() {
+        clearInterval(timerId);
+        gameRunning = false;
+
+        const scRes   = ScoreManager.save('constdraw', totalScore);
+        const grade   = getGrade(totalScore);
+        const won     = totalScore >= 450;
+        SFX.gameOver(won);
+
+        const gradeMessages = {
+            S: 'Stellar cartographer! Perfect constellation mastery.',
+            A: 'Excellent star tracer! Near-perfect accuracy.',
+            B: 'Good work! You know your constellations well.',
+            C: 'Decent tracing. Keep practicing the night sky!',
+            D: 'Keep stargazing — you\'ll get there!',
+        };
+
+        let rankHtml = '';
+        if (scRes.rank === 1)         rankHtml = '<br><span style="color:#f5c518;font-weight:700">🏆 New Best!</span>';
+        else if (scRes.isNew)         rankHtml = `<br><span style="color:#c4a8ff;font-weight:700">Rank #${scRes.rank}</span>`;
+
+        ovIcon.textContent      = grade === 'S' ? '🏆' : grade === 'A' ? '🌟' : grade === 'B' ? '⭐' : '🔭';
+        ovTitle.textContent     = 'Game Over!';
+        ovSub.innerHTML         = `${gradeMessages[grade]}${rankHtml}`;
+        ovScoreEl.textContent   = `${totalScore} / 800`;
+        ovScoreEl.classList.remove('hidden');
+
+        ovGradeEl.innerHTML = `<div class="ov-grade grade-${grade}">${grade}</div>`;
+
+        btnGo.textContent  = 'Play Again';
+        btnGo.onclick      = () => {
+            overlay.classList.add('hidden');
+            ovScoreEl.classList.add('hidden');
+            ovGradeEl.innerHTML = '';
+            resetGame();
+        };
+
+        overlay.classList.remove('hidden');
+    }
+
+    // ── Reset / boot ────────────────────────────────────────────────────────────────
+    function resetGame() {
+        round      = 0;
+        totalScore = 0;
+        scoreEl.textContent = '0';
+        buildPuzzleOrder();
+        startRound();
+    }
+
+    btnGo.addEventListener('click', () => {
+        overlay.classList.add('hidden');
+        resetGame();
+    });
+
+    // Load best score
+    document.getElementById('bestVal').textContent = ScoreManager.getBest('constdraw');
+
+    // i18n init if available
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof initLang === 'function') initLang();
+    });
+    </script>
+</body>
+</html>

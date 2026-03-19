@@ -124,6 +124,24 @@
         .card-cta  { font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--cc);opacity:0.7; display:flex;align-items:center;gap:6px;transition:opacity 0.2s,gap 0.2s; }
         .game-card:hover .card-cta { opacity:1; gap:10px; }
         .card-diff { font-size:0.7rem;color:rgba(255,255,255,0.22);letter-spacing:0.08em; }
+        .card-score-badge { display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:50px;padding:3px 10px;font-size:0.7rem;color:rgba(255,255,255,0.45);transition:background 0.2s,color 0.2s; }
+        .card-score-badge.has-score { background:color-mix(in srgb,var(--cc) 15%,transparent);border-color:color-mix(in srgb,var(--cc) 35%,transparent);color:var(--cc); }
+        .card-score-badge .badge-star { font-size:0.75rem; }
+
+        /* ── Achievements section ──────────────────────────────── */
+        .achievements-section { position:relative;z-index:10;max-width:1060px;margin:0 auto;padding:0 24px 80px; }
+        .ach-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px; }
+        .ach-card { background:rgba(10,10,22,0.88);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:transform 0.2s,border-color 0.2s; }
+        .ach-card.earned { border-color:rgba(196,168,255,0.25);background:rgba(196,168,255,0.06); }
+        .ach-card:hover { transform:translateY(-3px); }
+        .ach-icon { font-size:1.8rem;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08); }
+        .ach-card.earned .ach-icon { background:rgba(196,168,255,0.12);border-color:rgba(196,168,255,0.25); }
+        .ach-card:not(.earned) .ach-icon { filter:grayscale(1);opacity:0.4; }
+        .ach-body {}
+        .ach-name { font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:3px; }
+        .ach-card:not(.earned) .ach-name { color:rgba(255,255,255,0.35); }
+        .ach-desc { font-size:0.73rem;color:rgba(255,255,255,0.3);line-height:1.45; }
+        .ach-card.earned .ach-desc { color:rgba(196,168,255,0.55); }
 
         .game-card.featured { grid-column:span 2; flex-direction:row; align-items:center; gap:28px; padding:30px 32px; }
         @media(max-width:700px){ .game-card.featured{grid-column:span 1;flex-direction:column;} }
@@ -334,6 +352,7 @@
             <a href="#games" data-i18n="nav_games">Games</a>
             <a href="/wiki#guide" data-i18n="nav_const">Constellations</a>
             <a href="/wiki" data-i18n="nav_wiki">★ Wiki Stars</a>
+            <a href="#achievements">🏅 Achievements</a>
             <select class="lang-select" onchange="setLang(this.value)" title="Language">
                 <option value="en">🌐 EN</option>
                 <option value="fr">🌐 FR</option>
@@ -380,7 +399,10 @@
                         <div class="card-title">{{ g.title }}</div>
                     </div>
                     <div class="card-desc">{{ g.description }}</div>
-                    <div class="card-cta" data-i18n="card_play_now">Play now →</div>
+                    <div class="card-footer">
+                        <div class="card-cta" data-i18n="card_play_now">Play now →</div>
+                        <div class="card-score-badge" id="badge-{{ g.id }}"><span class="badge-star">★</span> —</div>
+                    </div>
                 </div>
                 {% else %}
                 <div class="card-top">
@@ -393,7 +415,7 @@
                 <div class="card-desc">{{ g.description }}</div>
                 <div class="card-footer">
                     <div class="card-cta" data-i18n="card_play">Play →</div>
-                    <div class="card-diff">{{ g.difficulty if g.difficulty else '' }}</div>
+                    <div class="card-score-badge" id="badge-{{ g.id }}"><span class="badge-star">★</span> —</div>
                 </div>
                 {% endif %}
             </a>
@@ -413,6 +435,17 @@
         <div id="scoresGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;"></div>
     </div>
 
+    <!-- ── Achievements Section ───────────────────────────────────── -->
+    <div class="achievements-section" id="achievements">
+        <div class="section-header">
+            <div>
+                <div class="section-title">🏅 Achievements</div>
+                <div class="section-sub" id="achSubtitle">Loading…</div>
+            </div>
+        </div>
+        <div class="ach-grid" id="achGrid"></div>
+    </div>
+
     <!-- ── Knowledge Section ──────────────────────────────────────── -->
     <div class="knowledge-section" id="knowledge">
         <div class="knowledge-header">
@@ -426,7 +459,44 @@
     <footer data-i18n="footer">© 2026 StarGames — Play Beyond The Universe</footer>
 
     <script src="/static/i18n.js"></script>
+    <script src="/static/scores.js"></script>
+    <script src="/static/achievements.js"></script>
     <script>
+    // ── Score badges on game cards ─────────────────────────────────────────────
+    const GAME_IDS = ['constellation','starcatch','starmemory','dotconnect','numquiz','planetorbit','trivia','asteroid','constdraw'];
+    function refreshScoreBadges() {
+        GAME_IDS.forEach(id => {
+            const el = document.getElementById('badge-' + id);
+            if (!el) return;
+            const best = (typeof ScoreManager !== 'undefined') ? ScoreManager.getBest(id) : 0;
+            if (best > 0) {
+                el.textContent = '★ ' + best.toLocaleString();
+                el.classList.add('has-score');
+                el.title = 'Your best score';
+            } else {
+                el.innerHTML = '<span class="badge-star">★</span> —';
+                el.classList.remove('has-score');
+            }
+        });
+    }
+
+    // ── Achievements grid ──────────────────────────────────────────────────────
+    function renderAchievements() {
+        if (typeof Achievements === 'undefined') return;
+        const all = Achievements.getAll();
+        const earned = all.filter(a => a.earned).length;
+        document.getElementById('achSubtitle').textContent = earned + ' / ' + all.length + ' unlocked';
+        const grid = document.getElementById('achGrid');
+        grid.innerHTML = all.map(a => `
+            <div class="ach-card ${a.earned ? 'earned' : ''}">
+                <div class="ach-icon">${a.icon}</div>
+                <div class="ach-body">
+                    <div class="ach-name">${a.earned ? a.name : '???'}</div>
+                    <div class="ach-desc">${a.earned ? a.description : 'Keep playing to unlock'}</div>
+                </div>
+            </div>`).join('');
+    }
+
     // ── Starfield ──────────────────────────────────────────────────────────────
     const canvas = document.getElementById('starfield');
     const ctx    = canvas.getContext('2d');
@@ -471,6 +541,9 @@
 
     // Lang change hook — set up after page loads
     window.addEventListener('load', () => {
+        refreshScoreBadges();
+        renderAchievements();
+
         const _sl = window.setLang;
         window.setLang = function(lang) {
             _sl(lang);

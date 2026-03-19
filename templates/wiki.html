@@ -87,6 +87,8 @@
         .tab-btn[data-tab="stars"].active    { background:rgba(110,231,255,0.1); border-color:rgba(110,231,255,0.32); color:#6ee7ff; box-shadow:0 0 20px rgba(110,231,255,0.1); }
         .tab-btn[data-tab="anecdotes"].active{ background:rgba(255,110,180,0.12); border-color:rgba(255,110,180,0.3); color:#ff9fd4; box-shadow:0 0 20px rgba(255,110,180,0.1); }
         .tab-btn[data-tab="guide"].active    { background:rgba(0,200,100,0.1); border-color:rgba(0,200,100,0.3); color:#5dffa5; box-shadow:0 0 20px rgba(0,200,100,0.1); }
+        .tab-btn[data-tab="galaxies"].active  { background:rgba(100,180,255,0.1); border-color:rgba(100,180,255,0.32); color:#7ecfff; box-shadow:0 0 20px rgba(100,180,255,0.1); }
+        .tab-btn[data-tab="solarsystem"].active { background:rgba(255,165,0,0.11); border-color:rgba(255,165,0,0.32); color:#ffcc66; box-shadow:0 0 20px rgba(255,165,0,0.1); }
 
         /* Sections */
         .wiki-section { position:relative; z-index:10; max-width:1120px; margin:0 auto; padding:0 24px 80px; display:none; }
@@ -228,6 +230,8 @@
             <a href="#stars" class="tab-link" data-tab="stars">★ Famous Stars</a>
             <a href="#history" class="tab-link" data-tab="history">History</a>
             <a href="#guide" class="tab-link" data-tab="guide">Constellations</a>
+            <a href="#galaxies" class="tab-link" data-tab="galaxies">Galaxies</a>
+            <a href="#solarsystem" class="tab-link" data-tab="solarsystem">Solar System</a>
             <a href="#anecdotes" class="tab-link" data-tab="anecdotes">Anecdotes</a>
             <select class="lang-select" onchange="setLang(this.value)">
                 <option value="en">🌐 EN</option>
@@ -249,6 +253,8 @@
         <button class="tab-btn" data-tab="stars">⭐ Famous Stars</button>
         <button class="tab-btn" data-tab="history">📜 History</button>
         <button class="tab-btn" data-tab="guide">🌌 Constellation Guide</button>
+        <button class="tab-btn" data-tab="galaxies">🔭 Galaxies</button>
+        <button class="tab-btn" data-tab="solarsystem">🪐 Solar System</button>
         <button class="tab-btn" data-tab="anecdotes">💫 Anecdotes</button>
     </div>
 
@@ -299,6 +305,26 @@
         <div class="const-grid" id="guideGrid"></div>
     </div>
 
+    <!-- ── Galaxies ────────────────────────────────────────────────────── -->
+    <div class="wiki-section" id="sec-galaxies" style="--sc:#7ecfff">
+        <div class="sec-header">
+            <div class="sec-tag">Island Universes</div>
+            <h2 class="sec-title">Galaxies</h2>
+            <p class="sec-sub">From our own Milky Way to the most distant giants — a guide to the great island universes that make up the fabric of the cosmos.</p>
+        </div>
+        <div class="const-grid" id="galaxiesGrid"></div>
+    </div>
+
+    <!-- ── Solar System ─────────────────────────────────────────────────── -->
+    <div class="wiki-section" id="sec-solarsystem" style="--sc:#ffcc66">
+        <div class="sec-header">
+            <div class="sec-tag">Our Cosmic Neighbourhood</div>
+            <h2 class="sec-title">Solar System</h2>
+            <p class="sec-sub">The Sun, eight planets, moons, dwarf planets, comets and asteroids — everything in our local corner of the Milky Way.</p>
+        </div>
+        <div class="const-grid" id="solarsystemGrid"></div>
+    </div>
+
     <!-- ── Anecdotes ───────────────────────────────────────────────────── -->
     <div class="wiki-section" id="sec-anecdotes" style="--sc:#ff6eb4">
         <div class="sec-header">
@@ -341,7 +367,7 @@
     window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
 
     // ── Tab system ───────────────────────────────────────────────────────────
-    const TABS = ['general','stars','history','guide','anecdotes'];
+    const TABS = ['general','stars','history','guide','galaxies','solarsystem','anecdotes'];
     function switchTab(id) {
         TABS.forEach(t => {
             document.querySelector(`.tab-btn[data-tab="${t}"]`)?.classList.toggle('active', t===id);
@@ -1595,6 +1621,428 @@
             fr:{ cat:'Fait Étrange', title:'Les anneaux de Saturne sont ultra-fins',
                  body:'Les anneaux de Saturne s\'étendent sur 282 000 km mais n\'ont qu\'~10 mètres d\'épaisseur moyenne. À l\'échelle d\'un terrain de foot, ils seraient plus fins qu\'une feuille de papier.',
                  footer:'Découverts par Galilée en 1610' },
+        },
+    ];
+
+    // ── Galaxies ─────────────────────────────────────────────────────────────
+    const GALAXIES_DATA = [
+        {
+            icon:'🌌', color:'#f5c518', featured:true,
+            en:{ tag:'Our Home · Barred Spiral', name:'Milky Way', sub:'The Galaxy We Live In',
+                 desc:'Our home galaxy — a barred spiral containing 200–400 billion stars, approximately 100,000 light-years across, with a supermassive black hole Sagittarius A* (4 million solar masses) at its centre.',
+                 detail:'Type: Barred Spiral (SBbc) · Diameter: ~100,000 ly · Distance: 0 · Stars: 200–400 billion' },
+            fr:{ tag:'Notre Foyer · Spirale Barrée', name:'Voie Lactée', sub:'La Galaxie Dans Laquelle Nous Vivons',
+                 desc:'Notre galaxie natale — une spirale barrée contenant 200 à 400 milliards d\'étoiles sur environ 100 000 années-lumière, avec le trou noir supermassif Sagittarius A* en son centre.',
+                 detail:'Type : Spirale barrée (SBbc) · Diamètre : ~100 000 al · Distance : 0 · Étoiles : 200–400 milliards' },
+        },
+        {
+            icon:'🌌', color:'#6ee7ff',
+            en:{ tag:'Nearest Large Galaxy · Spiral', name:'Andromeda (M31)', sub:'The Great Spiral',
+                 desc:'The nearest large galaxy to the Milky Way and the most distant object visible to the naked eye. On a collision course with us — in ~4.5 billion years the two will merge into a giant elliptical nicknamed "Milkomeda".',
+                 detail:'Type: Spiral (SA(s)b) · Distance: 2.537 million ly · Stars: ~1 trillion' },
+            fr:{ tag:'Galaxie la Plus Proche · Spirale', name:'Andromède (M31)', sub:'La Grande Spirale',
+                 desc:'La galaxie la plus grande et la plus proche de la Voie Lactée, et l\'objet le plus lointain visible à l\'œil nu. Dans ~4,5 milliards d\'années, nos deux galaxies fusionneront en "Milkomeda".',
+                 detail:'Type : Spirale (SA(s)b) · Distance : 2,537 millions al · Étoiles : ~1 billion' },
+        },
+        {
+            icon:'🌀', color:'#c4a8ff',
+            en:{ tag:'Local Group · Spiral', name:'Triangulum (M33)', sub:'The Pinwheel of the North',
+                 desc:'The third-largest galaxy in the Local Group after the Milky Way and Andromeda. Under perfect dark-sky conditions, M33 is the most distant object the naked eye can see.',
+                 detail:'Type: Spiral (SA(s)cd) · Distance: 2.73 million ly · Stars: ~40 billion' },
+            fr:{ tag:'Groupe Local · Spirale', name:'Triangulum (M33)', sub:'La Spirale du Triangle',
+                 desc:'La troisième plus grande galaxie du Groupe Local après la Voie Lactée et Andromède. Dans des conditions de ciel parfait, M33 est l\'objet le plus lointain visible à l\'œil nu.',
+                 detail:'Type : Spirale (SA(s)cd) · Distance : 2,73 millions al · Étoiles : ~40 milliards' },
+        },
+        {
+            icon:'✨', color:'#ff9f43',
+            en:{ tag:'Satellite · Irregular', name:'Large Magellanic Cloud', sub:'Our Nearest Companion Galaxy',
+                 desc:'The third-closest galaxy to the Milky Way and our largest satellite. Visible to the naked eye from the Southern Hemisphere as a detached patch of the Milky Way. Hosted the closest supernova to Earth in modern times — SN 1987A.',
+                 detail:'Type: Irregular/Barred Spiral (SBm) · Distance: 160,000 ly · Stars: ~30 billion' },
+            fr:{ tag:'Satellite · Irrégulière', name:'Grand Nuage de Magellan', sub:'Notre Plus Grande Galaxie Satellite',
+                 desc:'La troisième galaxie la plus proche de la Voie Lactée et notre plus grand satellite. Visible à l\'œil nu depuis l\'hémisphère sud. A accueilli la supernova SN 1987A, la plus proche en ère moderne.',
+                 detail:'Type : Irrégulière/Spirale barrée (SBm) · Distance : 160 000 al · Étoiles : ~30 milliards' },
+        },
+        {
+            icon:'✨', color:'#a78bff',
+            en:{ tag:'Satellite · Irregular', name:'Small Magellanic Cloud', sub:'A Dwarf Irregular Satellite',
+                 desc:'A companion to the Large Magellanic Cloud and a satellite of the Milky Way. Contains the spectacular globular cluster 47 Tucanae (NGC 104) — one of the most massive and brightest in the sky — which actually lies in the foreground.',
+                 detail:'Type: Irregular dwarf (Im) · Distance: 197,000 ly · Stars: ~3 billion' },
+            fr:{ tag:'Satellite · Irrégulière', name:'Petit Nuage de Magellan', sub:'Une Galaxie Naine Irrégulière Satellite',
+                 desc:'Un compagnon du Grand Nuage de Magellan et satellite de la Voie Lactée. L\'amas globulaire 47 Tucanae — l\'un des plus massifs du ciel — se trouve en avant-plan.',
+                 detail:'Type : Naine irrégulière (Im) · Distance : 197 000 al · Étoiles : ~3 milliards' },
+        },
+        {
+            icon:'🌀', color:'#00c8ff',
+            en:{ tag:'Interacting Pair · Spiral', name:'Whirlpool (M51)', sub:'The First Spiral',
+                 desc:'The first galaxy in which spiral structure was observed (by Lord Rosse in 1845). M51 is actively interacting with its dwarf companion NGC 5195, pulling tidal streams of stars between them.',
+                 detail:'Type: Grand Design Spiral (SA(s)bc) · Distance: 23 million ly · Companion: NGC 5195' },
+            fr:{ tag:'Paire Interactive · Spirale', name:'Tourbillon (M51)', sub:'La Première Spirale Observée',
+                 desc:'La première galaxie dans laquelle une structure spirale fut observée (par Lord Rosse en 1845). M51 est en interaction active avec sa compagne naine NGC 5195.',
+                 detail:'Type : Spirale grand dessin (SA(s)bc) · Distance : 23 millions al · Compagne : NGC 5195' },
+        },
+        {
+            icon:'🪩', color:'#ff6eb4',
+            en:{ tag:'Lenticular · Edge-On', name:'Sombrero (M104)', sub:'The Hat Galaxy',
+                 desc:'One of the most photogenic galaxies — a large bright bulge ringed by a prominent dust lane gives it the profile of a Mexican sombrero hat. Its huge central black hole has a mass of ~1 billion suns.',
+                 detail:'Type: Lenticular/Spiral (SA(s)a) · Distance: 31 million ly · Black hole: ~1 billion solar masses' },
+            fr:{ tag:'Lenticulaire · Vue de la Tranche', name:'Sombrero (M104)', sub:'La Galaxie Chapeau',
+                 desc:'L\'une des galaxies les plus photogéniques — un grand bulbe brillant cerclé d\'un couloir de poussière donnant le profil d\'un chapeau mexicain. Son trou noir central pèse ~1 milliard de masses solaires.',
+                 detail:'Type : Lenticulaire/Spirale (SA(s)a) · Distance : 31 millions al · Trou noir : ~1 milliard de masses solaires' },
+        },
+        {
+            icon:'🌀', color:'#00c864',
+            en:{ tag:'Face-On Spiral', name:'Pinwheel (M101)', sub:'The Grand Design Spiral',
+                 desc:'A face-on spiral with very open, asymmetric arms making it one of the most studied nearby spirals. M101 has hosted five confirmed supernovae in recorded history, the most recent being SN 2023ixf in May 2023.',
+                 detail:'Type: Spiral (SAB(rs)cd) · Distance: 20.9 million ly · Diameter: ~170,000 ly' },
+            fr:{ tag:'Spirale Vue de Face', name:'Moulinet (M101)', sub:'La Spirale Grand Dessin',
+                 desc:'Une spirale vue de face aux bras très ouverts et asymétriques. M101 a abrité cinq supernovae confirmées, la plus récente étant SN 2023ixf en mai 2023.',
+                 detail:'Type : Spirale (SAB(rs)cd) · Distance : 20,9 millions al · Diamètre : ~170 000 al' },
+        },
+        {
+            icon:'🌻', color:'#f5c518',
+            en:{ tag:'Flocculent Spiral', name:'Sunflower (M63)', sub:'The Sunflower Galaxy',
+                 desc:'A flocculent spiral — one with many disconnected short spiral arm segments rather than grand sweeping arms — giving it a shaggy sunflower-like appearance. It has a bright nucleus and a well-defined outer ring.',
+                 detail:'Type: Spiral (SA(rs)bc) · Distance: 29 million ly · Constellation: Canes Venatici' },
+            fr:{ tag:'Spirale Floculente', name:'Tournesol (M63)', sub:'La Galaxie Tournesol',
+                 desc:'Une spirale floculente — avec de nombreux courts segments d\'armes spirales déconnectés, donnant une apparence ébouriffée de tournesol. Elle a un noyau brillant et un anneau extérieur bien défini.',
+                 detail:'Type : Spirale (SA(rs)bc) · Distance : 29 millions al · Constellation : Chiens de Chasse' },
+        },
+        {
+            icon:'💥', color:'#ff6b6b',
+            en:{ tag:'Starburst · Irregular', name:'Cigar (M82)', sub:'The Exploding Galaxy',
+                 desc:'A starburst galaxy with star formation happening ten times faster than in the Milky Way. Spectacular polar winds of gas and dust blow perpendicular to the galaxy\'s disk. Home to the anomalous X-ray source M82 X-2.',
+                 detail:'Type: Starburst irregular (I0) · Distance: 12 million ly · Pair: interacts with M81' },
+            fr:{ tag:'Sursaut Stellaire · Irrégulière', name:'Cigare (M82)', sub:'La Galaxie Explosive',
+                 desc:'Une galaxie à sursaut stellaire avec une formation d\'étoiles dix fois plus rapide que dans la Voie Lactée. Des vents polaires spectaculaires de gaz et de poussière soufflent perpendiculairement au disque.',
+                 detail:'Type : Sursaut irrégulier (I0) · Distance : 12 millions al · Interagit avec M81' },
+        },
+        {
+            icon:'👁️', color:'#c4a8ff',
+            en:{ tag:'Face-On Spiral', name:'Black Eye (M64)', sub:'The Evil Eye Galaxy',
+                 desc:'Named for a spectacular dark band of dust in front of its bright nucleus. M64 has a unique counter-rotating gas disc — the inner stars rotate in one direction while the outer gas rotates in the opposite direction, suggesting a past galaxy merger.',
+                 detail:'Type: Spiral (RSA(rs)ab) · Distance: 24 million ly · Counter-rotating gas disc' },
+            fr:{ tag:'Spirale Vue de Face', name:'Œil Noir (M64)', sub:'La Galaxie Mauvais Œil',
+                 desc:'Nommée pour une bande de poussière sombre spectaculaire devant son noyau brillant. M64 possède un disque de gaz en contre-rotation — suggérant une fusion galactique passée.',
+                 detail:'Type : Spirale (RSA(rs)ab) · Distance : 24 millions al · Disque en contre-rotation' },
+        },
+        {
+            icon:'🎡', color:'#ff9f43',
+            en:{ tag:'Ring · Peculiar', name:'Cartwheel', sub:'A Cosmic Collision Ring',
+                 desc:'A spectacular ring galaxy formed when a smaller galaxy punched through it ~200 million years ago, sending a shockwave outward like a ripple in a cosmic pond. The outer ring is a starburst region 150,000 light-years across.',
+                 detail:'Type: Ring galaxy (S0-a pec) · Distance: 500 million ly · Outer ring: 150,000 ly diameter' },
+            fr:{ tag:'Anneau · Peculière', name:'Roue de Charrette', sub:'Un Anneau de Collision Cosmique',
+                 desc:'Une remarquable galaxie annulaire formée quand une petite galaxie l\'a traversée il y a ~200 millions d\'années, envoyant une onde de choc comme une ride dans un étang cosmique.',
+                 detail:'Type : Galaxie annulaire (S0-a pec) · Distance : 500 millions al · Anneau : 150 000 al de diamètre' },
+        },
+        {
+            icon:'🦎', color:'#6ee7ff',
+            en:{ tag:'Interacting · Peculiar', name:'Tadpole', sub:'Arp 188',
+                 desc:'A distorted barred spiral galaxy with a long tidal tail of stars stretching 280,000 light-years — twice the diameter of the Milky Way — created by the gravitational interaction with a smaller compact galaxy that passed through it.',
+                 detail:'Type: Barred spiral (SB(s)b pec) · Distance: 420 million ly · Tail: 280,000 ly long' },
+            fr:{ tag:'Interactive · Peculière', name:'Têtard', sub:'Arp 188',
+                 desc:'Une spirale barrée distordue avec une longue queue de marée de 280 000 années-lumière — deux fois le diamètre de la Voie Lactée — créée par l\'interaction gravitationnelle avec une petite galaxie compacte.',
+                 detail:'Type : Spirale barrée (SB(s)b pec) · Distance : 420 millions al · Queue : 280 000 al' },
+        },
+        {
+            icon:'🦅', color:'#ff6b6b',
+            en:{ tag:'Merging Pair · Starburst', name:'Antennae Galaxies', sub:'NGC 4038 / NGC 4039',
+                 desc:'Two colliding spiral galaxies locked in a merger that began ~900 million years ago. The collision has triggered a massive burst of star formation. Two long tidal tails of stars resemble insect antennae, giving the pair its name.',
+                 detail:'Type: Merging spirals · Distance: 45 million ly · Star formation rate: extreme' },
+            fr:{ tag:'Paire Fusionnante · Sursaut', name:'Galaxies des Antennes', sub:'NGC 4038 / NGC 4039',
+                 desc:'Deux galaxies spirales en collision engagées dans une fusion commencée il y a ~900 millions d\'années. La collision a déclenché un sursaut massif de formation d\'étoiles. Deux longues queues de marée ressemblent à des antennes d\'insecte.',
+                 detail:'Type : Spirales fusionnantes · Distance : 45 millions al · Formation stellaire : extrême' },
+        },
+        {
+            icon:'🌀', color:'#00c864',
+            en:{ tag:'Barred Spiral', name:'NGC 1300', sub:'Textbook Barred Spiral',
+                 desc:'One of the best examples of a barred spiral galaxy — a grand design spiral with a prominent central bar from which the spiral arms emerge. The bar itself contains a nuclear spiral structure that is rare even among barred spirals.',
+                 detail:'Type: Barred Spiral (SB(rs)bc) · Distance: 61 million ly · Constellation: Eridanus' },
+            fr:{ tag:'Spirale Barrée', name:'NGC 1300', sub:'Spirale Barrée de Manuel',
+                 desc:'L\'un des meilleurs exemples de galaxie spirale barrée — une spirale grand dessin avec une barre centrale proéminente. La barre elle-même contient une structure spirale nucléaire rare.',
+                 detail:'Type : Spirale barrée (SB(rs)bc) · Distance : 61 millions al · Constellation : Éridan' },
+        },
+        {
+            icon:'📻', color:'#a78bff',
+            en:{ tag:'Radio Galaxy · Elliptical', name:'Centaurus A', sub:'NGC 5128',
+                 desc:'The closest radio galaxy and the fifth brightest in the sky. A giant elliptical galaxy with a dark dust lane across its centre — the result of a merger with a spiral galaxy. Two enormous jets of particles are being launched from its central black hole at near-light speed.',
+                 detail:'Type: Peculiar elliptical / Radio galaxy · Distance: 13 million ly · Black hole: 55 million solar masses' },
+            fr:{ tag:'Radiogalaxie · Elliptique', name:'Centaurus A', sub:'NGC 5128',
+                 desc:'La radiogalaxie la plus proche et la 5e plus brillante du ciel. Une géante elliptique avec un couloir de poussière sombre résultant d\'une fusion avec une spirale. Deux jets de particules sont lancés depuis le trou noir central à quasi-vitesse lumière.',
+                 detail:'Type : Elliptique peculière / Radiogalaxie · Distance : 13 millions al · Trou noir : 55 millions masses solaires' },
+        },
+        {
+            icon:'⚫', color:'#ff6eb4',
+            en:{ tag:'Elliptical · Brightest', name:'Messier 87 (M87)', sub:'Virgo A',
+                 desc:'A supergiant elliptical galaxy at the centre of the Virgo Cluster. Its supermassive black hole M87* — 6.5 billion solar masses — was the first black hole ever photographed directly (Event Horizon Telescope, April 2019). Its relativistic jet stretches 5,000 light-years.',
+                 detail:'Type: Elliptical (cD) · Distance: 55 million ly · Black hole: 6.5 billion solar masses · First imaged BH' },
+            fr:{ tag:'Elliptique · Plus Grande', name:'Messier 87 (M87)', sub:'Virgo A',
+                 desc:'Une galaxie elliptique supergéante au centre de l\'amas de la Vierge. Son trou noir supermassif M87* — 6,5 milliards de masses solaires — fut le premier trou noir directement photographié (EHT, avril 2019). Son jet relativiste s\'étend sur 5 000 al.',
+                 detail:'Type : Elliptique (cD) · Distance : 55 millions al · Trou noir : 6,5 milliards masses solaires' },
+        },
+        {
+            icon:'🌑', color:'#6ee7ff',
+            en:{ tag:'Elliptical · Coma Cluster', name:'NGC 4889', sub:'The Brightest Coma Galaxy',
+                 desc:'The brightest galaxy in the Coma Cluster and one of the largest known elliptical galaxies. Its central black hole is one of the most massive ever measured — approximately 21 billion solar masses.',
+                 detail:'Type: Giant elliptical (cD) · Distance: 308 million ly · Black hole: ~21 billion solar masses' },
+            fr:{ tag:'Elliptique · Amas de la Chevelure', name:'NGC 4889', sub:'La Plus Brillante de l\'Amas de la Chevelure',
+                 desc:'La galaxie la plus brillante de l\'amas de la Chevelure de Bérénice et l\'une des plus grandes elliptiques connues. Son trou noir central est l\'un des plus massifs jamais mesurés — environ 21 milliards de masses solaires.',
+                 detail:'Type : Elliptique géante (cD) · Distance : 308 millions al · Trou noir : ~21 milliards masses solaires' },
+        },
+        {
+            icon:'💍', color:'#f5c518',
+            en:{ tag:'Ring · Peculiar', name:"Hoag's Object", sub:'A Perfect Cosmic Ring',
+                 desc:'One of the most perfect ring galaxies known — an outer ring of young hot blue stars surrounding a central nucleus of older yellow stars, with almost nothing in between. How it formed remains debated; a second, smaller Hoag-type galaxy is visible in the gap.',
+                 detail:'Type: Ring galaxy · Distance: 600 million ly · Outer ring: ~120,000 ly diameter · Constellation: Serpens' },
+            fr:{ tag:'Anneau · Peculière', name:"Objet de Hoag", sub:'Un Anneau Cosmique Parfait',
+                 desc:'L\'une des galaxies annulaires les plus parfaites connues — un anneau extérieur de jeunes étoiles bleues entourant un noyau d\'étoiles jaunes plus vieilles, avec presque rien entre les deux. Dans l\'écart est visible une deuxième galaxie de type Hoag.',
+                 detail:'Type : Galaxie annulaire · Distance : 600 millions al · Anneau : ~120 000 al · Constellation : Serpent' },
+        },
+        {
+            icon:'🌀', color:'#ff9f43',
+            en:{ tag:'Compact Group · Interacting', name:"Stephan's Quintet", sub:'Hickson Compact Group 92',
+                 desc:'A famous group of five galaxies — four of which are engaged in a slow violent merger, while one (NGC 7320) is actually a foreground galaxy seven times closer. The interacting four are creating spectacular shock waves, detected by the James Webb Space Telescope in 2022.',
+                 detail:'Type: Compact group · Distance: 280 million ly (4 galaxies) · JWST imaged 2022' },
+            fr:{ tag:'Groupe Compact · Interactif', name:"Quintette de Stephan", sub:'Groupe Compact de Hickson 92',
+                 desc:'Un groupe célèbre de cinq galaxies — dont quatre en fusion lente et violente, tandis qu\'une (NGC 7320) est une galaxie en avant-plan sept fois plus proche. Les quatre qui interagissent créent des ondes de choc détectées par JWST en 2022.',
+                 detail:'Type : Groupe compact · Distance : 280 millions al (4 galaxies) · Images JWST 2022' },
+        },
+        {
+            icon:'🌀', color:'#c4a8ff',
+            en:{ tag:'Spiral · Sculptor Group', name:'Sculptor Galaxy (NGC 253)', sub:'The Silver Coin',
+                 desc:'One of the brightest and most intricate galaxies in the sky, easily seen in binoculars. An edge-on starburst spiral galaxy in the Sculptor Group — the nearest galaxy group to the Local Group — forming stars at a prodigious rate.',
+                 detail:'Type: Starburst spiral (SAB(s)c) · Distance: 11.4 million ly · Easily visible in binoculars' },
+            fr:{ tag:'Spirale · Groupe du Sculpteur', name:'Galaxie du Sculpteur (NGC 253)', sub:'La Pièce d\'Argent',
+                 desc:'L\'une des galaxies les plus brillantes et les plus complexes du ciel, facilement visible aux jumelles. Une spirale à sursaut vue de la tranche dans le Groupe du Sculpteur — le groupe de galaxies le plus proche du Groupe Local.',
+                 detail:'Type : Spirale à sursaut (SAB(s)c) · Distance : 11,4 millions al · Visible aux jumelles' },
+        },
+        {
+            icon:'🌊', color:'#6ee7ff',
+            en:{ tag:'Spiral · M81 Group', name:'Bode\'s Galaxy (M81)', sub:'The Jewel of the North',
+                 desc:'One of the brightest galaxies visible from the Northern Hemisphere and one of the most detailed spirals in the sky. At the centre of the M81 Group, which includes M82 (Cigar Galaxy). A popular target for astrophotographers.',
+                 detail:'Type: Spiral (SA(s)ab) · Distance: 11.9 million ly · Constellation: Ursa Major' },
+            fr:{ tag:'Spirale · Groupe M81', name:'Galaxie de Bode (M81)', sub:'Le Joyau du Nord',
+                 desc:'L\'une des galaxies les plus brillantes visibles depuis l\'hémisphère nord et l\'une des spirales les plus détaillées du ciel. Au centre du Groupe M81 qui comprend M82. Une cible populaire pour les astrophotographes.',
+                 detail:'Type : Spirale (SA(s)ab) · Distance : 11,9 millions al · Constellation : Grande Ourse' },
+        },
+    ];
+
+    // ── Solar System ──────────────────────────────────────────────────────────
+    const SOLAR_DATA = [
+        {
+            icon:'☀️', color:'#f5c518', featured:true,
+            en:{ tag:'Star · G-type Main Sequence', name:'The Sun', sub:'Our Host Star',
+                 desc:'The star at the centre of our solar system. A middle-aged yellow dwarf that has been burning hydrogen for 4.6 billion years and will do so for another 5 billion. Its gravity holds the entire solar system together.',
+                 detail:'Type: G2V yellow dwarf · Diameter: 1,392,700 km · Age: 4.6 billion years · Temp: 5,778 K surface' },
+            fr:{ tag:'Étoile · Séquence Principale G', name:'Le Soleil', sub:'Notre Étoile Hôte',
+                 desc:'L\'étoile au centre de notre système solaire. Une naine jaune d\'âge moyen qui brûle de l\'hydrogène depuis 4,6 milliards d\'années et le fera encore pendant 5 milliards. Sa gravité maintient tout le système solaire ensemble.',
+                 detail:'Type : G2V naine jaune · Diamètre : 1 392 700 km · Âge : 4,6 milliards d\'années · Temp : 5 778 K' },
+        },
+        {
+            icon:'⚫', color:'#aaaaaa',
+            en:{ tag:'Planet · Rocky', name:'Mercury', sub:'Closest Planet to the Sun',
+                 desc:'The smallest planet and the one closest to the Sun. Despite being so close, it is not the hottest — that title goes to Venus. Mercury has almost no atmosphere, so temperatures swing from 430 °C by day to −180 °C at night.',
+                 detail:'Diameter: 4,879 km · Distance from Sun: 0.39 AU · Moons: 0 · Orbital period: 88 days' },
+            fr:{ tag:'Planète · Rocheuse', name:'Mercure', sub:'La Planète la Plus Proche du Soleil',
+                 desc:'La plus petite planète et la plus proche du Soleil. Malgré sa proximité, elle n\'est pas la plus chaude — ce titre revient à Vénus. Sans quasi atmosphère, les températures varient de 430 °C le jour à −180 °C la nuit.',
+                 detail:'Diamètre : 4 879 km · Distance du Soleil : 0,39 UA · Lunes : 0 · Période : 88 jours' },
+        },
+        {
+            icon:'🟡', color:'#ff9f43',
+            en:{ tag:'Planet · Rocky', name:'Venus', sub:'The Scorching Twin',
+                 desc:'Often called Earth\'s twin due to similar size, but Venus is the hottest planet in the solar system (462 °C average) because of its extreme greenhouse effect. Its thick atmosphere of CO₂ creates crushing pressure 90 times that on Earth.',
+                 detail:'Diameter: 12,104 km · Distance from Sun: 0.72 AU · Moons: 0 · Orbital period: 225 days' },
+            fr:{ tag:'Planète · Rocheuse', name:'Vénus', sub:'Le Jumeau Brûlant',
+                 desc:'Souvent appelée le jumeau de la Terre en raison de leur taille similaire, mais Vénus est la planète la plus chaude (462 °C en moyenne) à cause de son effet de serre extrême. Son atmosphère épaisse de CO₂ crée une pression 90 fois supérieure à celle de la Terre.',
+                 detail:'Diamètre : 12 104 km · Distance : 0,72 UA · Lunes : 0 · Période : 225 jours' },
+        },
+        {
+            icon:'🌍', color:'#00c8ff',
+            en:{ tag:'Planet · Rocky · Habitable', name:'Earth', sub:'Our Blue Marble',
+                 desc:'The only known planet to harbour life. Its precise distance from the Sun, magnetic field, liquid water, and atmospheric balance have made it the cradle of billions of species over 3.5 billion years of life.',
+                 detail:'Diameter: 12,742 km · Distance from Sun: 1 AU · Moons: 1 · Orbital period: 365.25 days' },
+            fr:{ tag:'Planète · Rocheuse · Habitable', name:'Terre', sub:'Notre Bille Bleue',
+                 desc:'La seule planète connue à abriter la vie. Sa distance précise du Soleil, son champ magnétique, son eau liquide et son équilibre atmosphérique en ont fait le berceau de milliards d\'espèces sur 3,5 milliards d\'années.',
+                 detail:'Diamètre : 12 742 km · Distance : 1 UA · Lunes : 1 · Période : 365,25 jours' },
+        },
+        {
+            icon:'🔴', color:'#ff6b6b',
+            en:{ tag:'Planet · Rocky', name:'Mars', sub:'The Red Planet',
+                 desc:'Mars has the largest volcano in the solar system (Olympus Mons — 22 km high) and a canyon system (Valles Marineris) long enough to stretch across the USA. Evidence suggests it once had liquid water and may still have water ice beneath its surface.',
+                 detail:'Diameter: 6,779 km · Distance from Sun: 1.52 AU · Moons: 2 (Phobos, Deimos) · Orbital period: 687 days' },
+            fr:{ tag:'Planète · Rocheuse', name:'Mars', sub:'La Planète Rouge',
+                 desc:'Mars possède le plus grand volcan du système solaire (Olympus Mons — 22 km) et un système de canyons (Valles Marineris) aussi long que les États-Unis. Des preuves suggèrent qu\'il y avait autrefois de l\'eau liquide.',
+                 detail:'Diamètre : 6 779 km · Distance : 1,52 UA · Lunes : 2 (Phobos, Deimos) · Période : 687 jours' },
+        },
+        {
+            icon:'🟠', color:'#ff9f43',
+            en:{ tag:'Planet · Gas Giant', name:'Jupiter', sub:'King of the Planets',
+                 desc:'The largest planet in the solar system — 1,300 Earths could fit inside it. The Great Red Spot is a storm that has been raging for over 350 years. Jupiter\'s gravity acts as a shield for the inner solar system, deflecting many comets and asteroids.',
+                 detail:'Diameter: 139,820 km · Distance from Sun: 5.2 AU · Moons: 95 · Orbital period: 11.86 years' },
+            fr:{ tag:'Planète · Géante Gazeuse', name:'Jupiter', sub:'Le Roi des Planètes',
+                 desc:'La plus grande planète du système solaire — 1 300 Terres rentreraient à l\'intérieur. La Grande Tache Rouge est une tempête qui fait rage depuis plus de 350 ans. La gravité de Jupiter agit comme bouclier pour le système interne.',
+                 detail:'Diamètre : 139 820 km · Distance : 5,2 UA · Lunes : 95 · Période : 11,86 ans' },
+        },
+        {
+            icon:'🪐', color:'#f5c518',
+            en:{ tag:'Planet · Gas Giant', name:'Saturn', sub:'Lord of the Rings',
+                 desc:'The ringed wonder of the solar system. Saturn\'s rings span 282,000 km but are only ~10 m thick on average. The planet is so low in density that it would float on water. Saturn has the most confirmed moons — 146 — of any planet.',
+                 detail:'Diameter: 116,460 km · Distance from Sun: 9.5 AU · Moons: 146 · Rings span: 282,000 km' },
+            fr:{ tag:'Planète · Géante Gazeuse', name:'Saturne', sub:'Le Seigneur des Anneaux',
+                 desc:'La merveille annelée du système solaire. Les anneaux s\'étendent sur 282 000 km mais n\'ont que ~10 m d\'épaisseur. La planète est si peu dense qu\'elle flotterait sur l\'eau. Saturne possède le plus de lunes confirmées — 146.',
+                 detail:'Diamètre : 116 460 km · Distance : 9,5 UA · Lunes : 146 · Anneaux : 282 000 km' },
+        },
+        {
+            icon:'🔵', color:'#6ee7ff',
+            en:{ tag:'Planet · Ice Giant', name:'Uranus', sub:'The Tilted Planet',
+                 desc:'Uranus rotates on its side — its axial tilt is 98°, meaning it essentially rolls around the Sun. It has the coldest planetary atmosphere in the solar system (−224 °C) despite not being the furthest from the Sun. Has a faint ring system.',
+                 detail:'Diameter: 50,724 km · Distance from Sun: 19.2 AU · Moons: 28 · Orbital period: 84 years' },
+            fr:{ tag:'Planète · Géante de Glace', name:'Uranus', sub:'La Planète Inclinée',
+                 desc:'Uranus tourne sur le côté — son inclinaison axiale est de 98°, ce qui signifie qu\'elle roule autour du Soleil. Elle a l\'atmosphère planétaire la plus froide (−224 °C) malgré n\'étant pas la plus éloignée du Soleil.',
+                 detail:'Diamètre : 50 724 km · Distance : 19,2 UA · Lunes : 28 · Période : 84 ans' },
+        },
+        {
+            icon:'🌊', color:'#4080ff',
+            en:{ tag:'Planet · Ice Giant', name:'Neptune', sub:'The Windy Giant',
+                 desc:'The windiest planet in the solar system — winds reach 2,100 km/h. Neptune was the first planet predicted mathematically before being observed (1846). Its largest moon Triton orbits backwards and will eventually be torn apart to form a ring.',
+                 detail:'Diameter: 49,244 km · Distance from Sun: 30.1 AU · Moons: 16 · Orbital period: 165 years' },
+            fr:{ tag:'Planète · Géante de Glace', name:'Neptune', sub:'Le Géant Venteux',
+                 desc:'La planète la plus venteuse du système solaire — vents jusqu\'à 2 100 km/h. Neptune fut la première planète prédite mathématiquement avant d\'être observée (1846). Sa grande lune Triton orbite à l\'envers.',
+                 detail:'Diamètre : 49 244 km · Distance : 30,1 UA · Lunes : 16 · Période : 165 ans' },
+        },
+        {
+            icon:'🌕', color:'#e0d0a0',
+            en:{ tag:'Moon · Earth', name:'The Moon', sub:'Earth\'s Natural Satellite',
+                 desc:'Our only natural satellite and the largest relative to its host planet in the solar system. The only extraterrestrial body humans have walked on. The Moon\'s gravity stabilises Earth\'s axial tilt and drives the ocean tides.',
+                 detail:'Diameter: 3,474 km · Distance from Earth: 384,400 km avg · Orbital period: 27.3 days' },
+            fr:{ tag:'Lune · Terre', name:'La Lune', sub:'Le Satellite Naturel de la Terre',
+                 desc:'Notre seul satellite naturel et le plus grand par rapport à sa planète hôte dans le système solaire. Le seul corps extraterrestre sur lequel les humains ont marché. La gravité lunaire stabilise l\'inclinaison axiale terrestre.',
+                 detail:'Diamètre : 3 474 km · Distance de la Terre : 384 400 km moy · Période : 27,3 jours' },
+        },
+        {
+            icon:'🟤', color:'#ff9f43',
+            en:{ tag:'Moon · Saturn', name:'Titan', sub:'Saturn\'s Giant Moon',
+                 desc:'The second-largest moon in the solar system, larger than Mercury. Unique among moons for having a dense atmosphere — mostly nitrogen — and liquid methane lakes and rivers on its surface. A candidate for life.',
+                 detail:'Diameter: 5,150 km · Parent planet: Saturn · Atmosphere: thick nitrogen + methane' },
+            fr:{ tag:'Lune · Saturne', name:'Titan', sub:'La Grande Lune de Saturne',
+                 desc:'La deuxième plus grande lune du système solaire, plus grande que Mercure. Unique parmi les lunes pour avoir une atmosphère dense — surtout azote — et des lacs et rivières de méthane liquide en surface. Candidate à la vie.',
+                 detail:'Diamètre : 5 150 km · Planète mère : Saturne · Atmosphère : azote + méthane épais' },
+        },
+        {
+            icon:'🟤', color:'#a78bff',
+            en:{ tag:'Moon · Jupiter', name:'Ganymede', sub:'The Largest Moon',
+                 desc:'The largest moon in the solar system — larger than the planet Mercury. It is the only moon known to have its own magnetic field, generating a mini-magnetosphere inside Jupiter\'s. May have a salty subsurface ocean.',
+                 detail:'Diameter: 5,268 km · Parent planet: Jupiter · Unique: own magnetic field' },
+            fr:{ tag:'Lune · Jupiter', name:'Ganymède', sub:'La Plus Grande Lune',
+                 desc:'La plus grande lune du système solaire — plus grande que Mercure. C\'est la seule lune connue à posséder son propre champ magnétique, générant une mini-magnétosphère dans celle de Jupiter. Possède peut-être un océan souterrain salé.',
+                 detail:'Diamètre : 5 268 km · Planète mère : Jupiter · Unique : champ magnétique propre' },
+        },
+        {
+            icon:'🔵', color:'#6ee7ff',
+            en:{ tag:'Moon · Jupiter', name:'Europa', sub:'The Ocean Moon',
+                 desc:'Europa\'s smooth icy surface covers a vast global liquid water ocean, kept liquid by tidal heating from Jupiter\'s gravity. With more liquid water than all Earth\'s oceans combined, Europa is one of the top candidates for extraterrestrial life.',
+                 detail:'Diameter: 3,122 km · Parent planet: Jupiter · Ocean depth: ~100 km · Subsurface liquid water' },
+            fr:{ tag:'Lune · Jupiter', name:'Europe', sub:'La Lune Océane',
+                 desc:'La surface glacée lisse d\'Europe recouvre un vaste océan d\'eau liquide mondial, maintenu liquide par le chauffage de marée de Jupiter. Avec plus d\'eau liquide que tous les océans terrestres, Europe est candidate à la vie extraterrestre.',
+                 detail:'Diamètre : 3 122 km · Planète mère : Jupiter · Profondeur de l\'océan : ~100 km' },
+        },
+        {
+            icon:'🟤', color:'#c4a8ff',
+            en:{ tag:'Moon · Jupiter', name:'Callisto', sub:'The Ancient Moon',
+                 desc:'The most heavily cratered object in the solar system — its ancient surface has not been geologically active for billions of years. Callisto also has a possible subsurface ocean and orbits beyond Jupiter\'s main radiation belts.',
+                 detail:'Diameter: 4,821 km · Parent planet: Jupiter · Most cratered body in solar system' },
+            fr:{ tag:'Lune · Jupiter', name:'Callisto', sub:'La Lune Ancienne',
+                 desc:'L\'objet le plus criblé de cratères du système solaire — sa surface ancienne n\'a pas été géologiquement active depuis des milliards d\'années. Callisto possède aussi peut-être un océan souterrain.',
+                 detail:'Diamètre : 4 821 km · Planète mère : Jupiter · Corps le plus cratérisé du système solaire' },
+        },
+        {
+            icon:'🔴', color:'#ff6b6b',
+            en:{ tag:'Moon · Jupiter', name:'Io', sub:'The Volcanic Moon',
+                 desc:'The most volcanically active body in the solar system — tidal forces from Jupiter squeeze it continuously, producing hundreds of volcanoes. Some eruptions send sulphur plumes 300 km into space. Its surface is constantly being repaved.',
+                 detail:'Diameter: 3,643 km · Parent planet: Jupiter · Hundreds of active volcanoes · Tidal heating' },
+            fr:{ tag:'Lune · Jupiter', name:'Io', sub:'La Lune Volcanique',
+                 desc:'Le corps le plus volcaniquement actif du système solaire — les forces de marée de Jupiter le compriment continuellement, produisant des centaines de volcans. Certaines éruptions envoient des panaches de soufre à 300 km dans l\'espace.',
+                 detail:'Diamètre : 3 643 km · Planète mère : Jupiter · Centaines de volcans actifs · Chauffage de marée' },
+        },
+        {
+            icon:'🔵', color:'#4080ff',
+            en:{ tag:'Moon · Neptune', name:'Triton', sub:'The Backwards Moon',
+                 desc:'The only large moon in the solar system with a retrograde orbit — it orbits Neptune backwards. This strongly suggests it was captured from the Kuiper Belt. Triton has active nitrogen geysers and will eventually be torn apart by Neptune\'s gravity in ~3.6 billion years.',
+                 detail:'Diameter: 2,707 km · Parent planet: Neptune · Retrograde orbit · Nitrogen geysers' },
+            fr:{ tag:'Lune · Neptune', name:'Triton', sub:'La Lune à Rebours',
+                 desc:'La seule grande lune du système solaire en orbite rétrograde — elle orbite Neptune à l\'envers. Fortement capturée de la ceinture de Kuiper. Triton a des geysers d\'azote actifs et sera éventuellement déchiré par Neptune dans ~3,6 milliards d\'années.',
+                 detail:'Diamètre : 2 707 km · Planète mère : Neptune · Orbite rétrograde · Geysers d\'azote' },
+        },
+        {
+            icon:'❄️', color:'#c4a8ff',
+            en:{ tag:'Moon · Saturn', name:'Enceladus', sub:'The Geyser Moon',
+                 desc:'Saturn\'s sixth-largest moon is one of the most scientifically exciting worlds. Enceladus has an active water ocean beneath its ice shell, venting plumes of water vapour and ice into space through cracks in its south pole — replenishing Saturn\'s E ring.',
+                 detail:'Diameter: 504 km · Parent planet: Saturn · Subsurface liquid ocean · Active water geysers' },
+            fr:{ tag:'Lune · Saturne', name:'Encelade', sub:'La Lune aux Geysers',
+                 desc:'La sixième plus grande lune de Saturne est l\'un des mondes les plus excitants scientifiquement. Encelade a un océan d\'eau actif sous sa coquille de glace, éjectant des panaches de vapeur d\'eau à travers des fissures au pôle sud.',
+                 detail:'Diamètre : 504 km · Planète mère : Saturne · Océan liquide · Geysers d\'eau actifs' },
+        },
+        {
+            icon:'🩶', color:'#aaaaaa',
+            en:{ tag:'Dwarf Planet · Kuiper Belt', name:'Pluto', sub:'The Beloved Dwarf',
+                 desc:'Once the 9th planet, reclassified as a dwarf planet in 2006. NASA\'s New Horizons flyby in 2015 revealed a surprisingly complex world with nitrogen glaciers, a hazy atmosphere, and a heart-shaped plain called Tombaugh Regio.',
+                 detail:'Diameter: 2,377 km · Distance from Sun: 39 AU avg · Moons: 5 (Charon, Nix, Hydra, Kerberos, Styx)' },
+            fr:{ tag:'Planète Naine · Ceinture de Kuiper', name:'Pluton', sub:'La Planète Naine Bien-Aimée',
+                 desc:'Autrefois la 9e planète, reclassée comme planète naine en 2006. Le survol de New Horizons en 2015 a révélé un monde étonnamment complexe avec des glaciers d\'azote, une atmosphère brumeuse et une plaine en forme de cœur.',
+                 detail:'Diamètre : 2 377 km · Distance : 39 UA moy · Lunes : 5 (Charon, Nix, Hydra, Kerberos, Styx)' },
+        },
+        {
+            icon:'⚪', color:'#ff9f43',
+            en:{ tag:'Dwarf Planet · Scattered Disc', name:'Eris', sub:'The Troublemaker',
+                 desc:'Eris\'s discovery in 2005 directly triggered the reclassification of Pluto because it is slightly larger. One of the most reflective objects in the solar system, covered in nitrogen ice. Located in the scattered disc far beyond Pluto.',
+                 detail:'Diameter: 2,326 km · Distance from Sun: 96 AU avg · Moons: 1 (Dysnomia)' },
+            fr:{ tag:'Planète Naine · Disque Dispersé', name:'Éris', sub:'La Trouble-Fête',
+                 desc:'La découverte d\'Éris en 2005 a directement déclenché la reclassification de Pluton car elle est légèrement plus grande. L\'un des objets les plus réfléchissants du système solaire, recouvert de glace d\'azote.',
+                 detail:'Diamètre : 2 326 km · Distance : 96 UA moy · Lunes : 1 (Dysnomia)' },
+        },
+        {
+            icon:'🩵', color:'#6ee7ff',
+            en:{ tag:'Dwarf Planet · Asteroid Belt', name:'Ceres', sub:'Queen of the Asteroid Belt',
+                 desc:'The only dwarf planet in the inner solar system, located in the asteroid belt between Mars and Jupiter. NASA\'s Dawn spacecraft revealed bright spots on its surface — regions of salt deposits left by ancient brine that once bubbled up from below.',
+                 detail:'Diameter: 945 km · Distance from Sun: 2.77 AU · Brightest spots: salt deposits (Occator Crater)' },
+            fr:{ tag:'Planète Naine · Ceinture d\'Astéroïdes', name:'Cérès', sub:'Reine de la Ceinture d\'Astéroïdes',
+                 desc:'La seule planète naine du système interne, dans la ceinture d\'astéroïdes entre Mars et Jupiter. La sonde Dawn a révélé des points brillants à sa surface — des dépôts de sel laissés par d\'anciennes saumures remontant du sous-sol.',
+                 detail:'Diamètre : 945 km · Distance : 2,77 UA · Points brillants : dépôts de sel (cratère Occator)' },
+        },
+        {
+            icon:'🟤', color:'#c4a8ff',
+            en:{ tag:'Dwarf Planet · Kuiper Belt', name:'Makemake', sub:'The Easter Dwarf',
+                 desc:'Discovered just after Easter 2005, Makemake is one of the largest known Kuiper Belt objects. Its bright reddish surface is covered in frozen methane and ethane. In 2016, a small dark moon (MK2) was discovered orbiting it.',
+                 detail:'Diameter: ~1,430 km · Distance from Sun: 45 AU avg · Moons: 1 (MK2) · Reddish surface' },
+            fr:{ tag:'Planète Naine · Ceinture de Kuiper', name:'Makemake', sub:'Le Nain de Pâques',
+                 desc:'Découvert juste après Pâques 2005, Makemake est l\'un des plus grands objets connus de la ceinture de Kuiper. Sa surface rougeâtre brillante est couverte de méthane et d\'éthane gelés.',
+                 detail:'Diamètre : ~1 430 km · Distance : 45 UA moy · Lunes : 1 (MK2) · Surface rougeâtre' },
+        },
+        {
+            icon:'🥚', color:'#ff6eb4',
+            en:{ tag:'Dwarf Planet · Kuiper Belt', name:'Haumea', sub:'The Egg-Shaped Dwarf',
+                 desc:'Haumea is one of the fastest-rotating large objects in the solar system — a day lasts only 3.9 hours — causing it to be stretched into an elongated egg shape. It has two moons and a faint ring system discovered in 2017.',
+                 detail:'Dimensions: 2,322 × 1,704 × 1,138 km · Rotation: 3.9 hours · Moons: 2 (Hi\'iaka, Namaka) · Ring: yes' },
+            fr:{ tag:'Planète Naine · Ceinture de Kuiper', name:'Hauméa', sub:'La Planète Naine en Forme d\'Œuf',
+                 desc:'Haumea est l\'un des grands objets en rotation la plus rapide du système solaire — une journée dure seulement 3,9 heures — ce qui l\'étire en forme de fuseau. Elle a deux lunes et un anneau découvert en 2017.',
+                 detail:'Dimensions : 2 322 × 1 704 × 1 138 km · Rotation : 3,9 h · Lunes : 2 (Hi\'iaka, Namaka) · Anneau : oui' },
+        },
+        {
+            icon:'☄️', color:'#a0c8ff',
+            en:{ tag:'Comet · Periodic', name:'Halley\'s Comet', sub:'1P/Halley',
+                 desc:'The most famous comet of all, with records of its sightings going back over 2,000 years. Edmond Halley correctly predicted its return in 1759, proving comets follow elliptical orbits. Last perihelion: 1986. Next perihelion: July 2061.',
+                 detail:'Orbital period: ~75–76 years · Last perihelion: 1986 · Next: 2061 · Nucleus: ~15 × 8 km' },
+            fr:{ tag:'Comète · Périodique', name:'Comète de Halley', sub:'1P/Halley',
+                 desc:'La comète la plus célèbre, avec des observations remontant à plus de 2 000 ans. Edmond Halley a correctement prédit son retour en 1759, prouvant que les comètes suivent des orbites elliptiques. Dernier périhélie : 1986. Prochain : juillet 2061.',
+                 detail:'Période : ~75–76 ans · Dernier périhélie : 1986 · Prochain : 2061 · Noyau : ~15 × 8 km' },
+        },
+        {
+            icon:'🪨', color:'#c4a8ff',
+            en:{ tag:'Asteroid · Main Belt', name:'Vesta', sub:'4 Vesta',
+                 desc:'One of the largest asteroids and the second-most-massive body in the asteroid belt. Vesta is differentiated — it has a distinct crust, mantle, and iron core, more like a small planet than a typical asteroid. NASA\'s Dawn visited it 2011–2012.',
+                 detail:'Diameter: 525 km · Distance: 2.36 AU avg · NASA Dawn orbited 2011–2012 · Differentiated body' },
+            fr:{ tag:'Astéroïde · Ceinture Principale', name:'Vesta', sub:'4 Vesta',
+                 desc:'L\'un des plus grands astéroïdes et le deuxième corps le plus massif de la ceinture. Vesta est différencié — il possède une croûte, un manteau et un noyau de fer distincts, plus proche d\'une petite planète. Dawn l\'a visité 2011–2012.',
+                 detail:'Diamètre : 525 km · Distance : 2,36 UA moy · Dawn en orbite 2011–2012 · Corps différencié' },
         },
     ];
 
@@ -3178,6 +3626,68 @@
         renderStars(lang, q);
     }
 
+    function renderGalaxies(lang) {
+        const grid = document.getElementById('galaxiesGrid');
+        if (!grid) return;
+        grid.innerHTML = GALAXIES_DATA.map(g => {
+            const d = g[lang] || g['en'];
+            if (g.featured) return `
+            <div class="const-card featured" style="--cc2:${g.color}">
+                <div class="const-feat-icon">${g.icon}</div>
+                <div class="const-feat-body">
+                    <div class="cc-tag">${d.tag}</div>
+                    <div class="cc-title">${d.name} <span style="font-weight:400;opacity:0.45;font-size:0.88rem">· ${d.sub}</span></div>
+                    <div class="cc-desc">${d.desc}</div>
+                    <div class="cc-detail">${d.detail}</div>
+                </div>
+            </div>`;
+            return `
+            <div class="const-card" style="--cc2:${g.color}">
+                <div class="cc-top">
+                    <div class="cc-icon">${g.icon}</div>
+                    <div class="cc-meta">
+                        <div class="cc-tag">${d.tag}</div>
+                        <div class="cc-title">${d.name}</div>
+                        <div class="cc-sub">${d.sub}</div>
+                    </div>
+                </div>
+                <div class="cc-desc">${d.desc}</div>
+                <div class="cc-detail">${d.detail}</div>
+            </div>`;
+        }).join('');
+    }
+
+    function renderSolarSystem(lang) {
+        const grid = document.getElementById('solarsystemGrid');
+        if (!grid) return;
+        grid.innerHTML = SOLAR_DATA.map(s => {
+            const d = s[lang] || s['en'];
+            if (s.featured) return `
+            <div class="const-card featured" style="--cc2:${s.color}">
+                <div class="const-feat-icon">${s.icon}</div>
+                <div class="const-feat-body">
+                    <div class="cc-tag">${d.tag}</div>
+                    <div class="cc-title">${d.name} <span style="font-weight:400;opacity:0.45;font-size:0.88rem">· ${d.sub}</span></div>
+                    <div class="cc-desc">${d.desc}</div>
+                    <div class="cc-detail">${d.detail}</div>
+                </div>
+            </div>`;
+            return `
+            <div class="const-card" style="--cc2:${s.color}">
+                <div class="cc-top">
+                    <div class="cc-icon">${s.icon}</div>
+                    <div class="cc-meta">
+                        <div class="cc-tag">${d.tag}</div>
+                        <div class="cc-title">${d.name}</div>
+                        <div class="cc-sub">${d.sub}</div>
+                    </div>
+                </div>
+                <div class="cc-desc">${d.desc}</div>
+                <div class="cc-detail">${d.detail}</div>
+            </div>`;
+        }).join('');
+    }
+
     // ── Boot ─────────────────────────────────────────────────────────────────
     (function boot() {
         const lang = localStorage.getItem('sg_lang') || 'en';
@@ -3187,6 +3697,8 @@
         renderAnecdotes(lang);
         renderStars(lang, '');
         renderGuide(lang);
+        renderGalaxies(lang);
+        renderSolarSystem(lang);
     })();
 
     // Re-render on lang switch
@@ -3199,6 +3711,8 @@
             renderAnecdotes(lang);
             renderStars(lang, document.getElementById('starsSearch')?.value || '');
             renderGuide(lang);
+            renderGalaxies(lang);
+            renderSolarSystem(lang);
         };
     });
     </script>
