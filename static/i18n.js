@@ -104,13 +104,60 @@ const TRANSLATIONS = {
     const_title:     'Star Constellations',
     const_sub:       'Navigate the night sky',
 
-    // Wiki Stars
+    // Wiki Stars (index page)
     wiki_title:      'Wiki Stars',
     wiki_sub:        'from infinity and beyond',
     wiki_tab_all:      'All',
     wiki_tab_general:  'General Knowledge',
     wiki_tab_history:  'History',
     wiki_tab_anec:     'Anecdotes',
+
+    // Wiki page — hero
+    wiki_badge:      '★ Star Knowledge Base',
+    wiki_h1a:        'Explore',
+    wiki_h1b:        'The Universe',
+    wiki_page_sub:   'Science, history, myths and curious anecdotes about the cosmos — all in one place.',
+
+    // Wiki page — nav tab links
+    tab_nav_general:     'General',
+    tab_nav_stars:       '★ Famous Stars',
+    tab_nav_history:     'History',
+    tab_nav_guide:       'Constellations',
+    tab_nav_galaxies:    'Galaxies',
+    tab_nav_solarsystem: 'Solar System',
+    tab_nav_anecdotes:   'Anecdotes',
+
+    // Wiki page — tab buttons
+    tab_general:         '🔭 General Knowledge',
+    tab_stars:           '⭐ Famous Stars',
+    tab_history:         '📜 History',
+    tab_guide:           '🌌 Constellation Guide',
+    tab_galaxies:        '🔭 Galaxies',
+    tab_solarsystem:     '🪐 Solar System',
+    tab_anecdotes:       '💫 Anecdotes',
+
+    // Wiki page — section headers
+    sec_general_tag:     'Stars & Constellations',
+    sec_general_title:   'General Knowledge',
+    sec_general_sub:     'The essentials — star life cycles, types, clusters, and the structure of the cosmos.',
+    sec_stars_tag:       'Individual Stars',
+    sec_stars_title:     'Famous Stars',
+    sec_stars_sub:       'The brightest, the biggest, the closest, the strangest — stars that have shaped history and science.',
+    sec_history_tag:     '5,000 Years of Discovery',
+    sec_history_title:   'History of Astronomy',
+    sec_history_sub:     "From Babylonian clay tablets to the first image of a black hole — a timeline of humanity's quest to understand the cosmos.",
+    sec_guide_tag:       'Navigate the Night Sky',
+    sec_guide_title:     'Constellation Guide',
+    sec_guide_sub:       'Everything you need to know about the 88 officially recognised star patterns — with seasonal visibility, mythology, and key stars.',
+    sec_galaxies_tag:    'Island Universes',
+    sec_galaxies_title:  'Galaxies',
+    sec_galaxies_sub:    'From our own Milky Way to the most distant giants — a guide to the great island universes that make up the fabric of the cosmos.',
+    sec_solarsystem_tag: 'Our Cosmic Neighbourhood',
+    sec_solarsystem_title: 'Solar System',
+    sec_solarsystem_sub: 'The Sun, eight planets, moons, dwarf planets, comets and asteroids — everything in our local corner of the Milky Way.',
+    sec_anecdotes_tag:   'Curious & Surprising',
+    sec_anecdotes_title: 'Cosmic Anecdotes',
+    sec_anecdotes_sub:   "The cosmos is full of surprises — and so are the people who study it. Bizarre blunders, lucky accidents, and legendary moments from behind the science.",
 
     // Footer
     footer:          '© 2026 StarGames — Play Beyond The Universe',
@@ -215,13 +262,60 @@ const TRANSLATIONS = {
     const_title:     'Constellations',
     const_sub:       'Naviguer le ciel nocturne',
 
-    // Wiki Stars
+    // Wiki Stars (index page)
     wiki_title:      'Wiki Étoiles',
-    wiki_sub:        'de l\'infini et au-delà',
+    wiki_sub:        "de l'infini et au-delà",
     wiki_tab_all:      'Tout',
     wiki_tab_general:  'Savoir Général',
     wiki_tab_history:  'Histoire',
     wiki_tab_anec:     'Anecdotes',
+
+    // Wiki page — hero
+    wiki_badge:      '★ Base de Connaissances',
+    wiki_h1a:        'Explorez',
+    wiki_h1b:        "L'Univers",
+    wiki_page_sub:   "Sciences, histoire, mythes et anecdotes curieuses sur le cosmos — tout en un seul endroit.",
+
+    // Wiki page — nav tab links
+    tab_nav_general:     'Général',
+    tab_nav_stars:       '★ Étoiles Célèbres',
+    tab_nav_history:     'Histoire',
+    tab_nav_guide:       'Constellations',
+    tab_nav_galaxies:    'Galaxies',
+    tab_nav_solarsystem: 'Système Solaire',
+    tab_nav_anecdotes:   'Anecdotes',
+
+    // Wiki page — tab buttons
+    tab_general:         '🔭 Savoir Général',
+    tab_stars:           '⭐ Étoiles Célèbres',
+    tab_history:         '📜 Histoire',
+    tab_guide:           '🌌 Guide des Constellations',
+    tab_galaxies:        '🔭 Galaxies',
+    tab_solarsystem:     '🪐 Système Solaire',
+    tab_anecdotes:       '💫 Anecdotes',
+
+    // Wiki page — section headers
+    sec_general_tag:     'Étoiles & Constellations',
+    sec_general_title:   'Savoir Général',
+    sec_general_sub:     "L'essentiel — cycles de vie des étoiles, types, amas et structure du cosmos.",
+    sec_stars_tag:       'Étoiles Individuelles',
+    sec_stars_title:     'Étoiles Célèbres',
+    sec_stars_sub:       "Les plus brillantes, les plus grandes, les plus proches, les plus étranges — des étoiles qui ont marqué l'histoire.",
+    sec_history_tag:     '5 000 Ans de Découvertes',
+    sec_history_title:   "Histoire de l'Astronomie",
+    sec_history_sub:     "Des tablettes d'argile babyloniennes à la première image d'un trou noir — une chronologie de la quête humaine vers le cosmos.",
+    sec_guide_tag:       'Naviguer le Ciel Nocturne',
+    sec_guide_title:     'Guide des Constellations',
+    sec_guide_sub:       "Tout ce qu'il faut savoir sur les 88 constellations officielles — visibilité saisonnière, mythologie et étoiles clés.",
+    sec_galaxies_tag:    'Univers-Îles',
+    sec_galaxies_title:  'Galaxies',
+    sec_galaxies_sub:    "De notre Voie Lactée aux géantes les plus lointaines — un guide des grands univers-îles qui forment le cosmos.",
+    sec_solarsystem_tag: 'Notre Voisinage Cosmique',
+    sec_solarsystem_title: 'Système Solaire',
+    sec_solarsystem_sub: "Le Soleil, huit planètes, lunes, planètes naines, comètes et astéroïdes — tout dans notre coin de la Voie Lactée.",
+    sec_anecdotes_tag:   'Curieux & Surprenant',
+    sec_anecdotes_title: 'Anecdotes Cosmiques',
+    sec_anecdotes_sub:   "Le cosmos est plein de surprises — tout comme ceux qui l'étudient. Bévues étranges, accidents heureux et moments légendaires.",
 
     // Footer
     footer:          '© 2026 StarGames — Jouez au-delà de l\'Univers',

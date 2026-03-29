@@ -228,13 +228,13 @@
         <div class="logo">★ StarGames</div>
         <div class="nav-links">
             <a href="/" data-i18n="nav_home">← Games</a>
-            <a href="#general" class="tab-link" data-tab="general">General</a>
-            <a href="#stars" class="tab-link" data-tab="stars">★ Famous Stars</a>
-            <a href="#history" class="tab-link" data-tab="history">History</a>
-            <a href="#guide" class="tab-link" data-tab="guide">Constellations</a>
-            <a href="#galaxies" class="tab-link" data-tab="galaxies">Galaxies</a>
-            <a href="#solarsystem" class="tab-link" data-tab="solarsystem">Solar System</a>
-            <a href="#anecdotes" class="tab-link" data-tab="anecdotes">Anecdotes</a>
+            <a href="#general" class="tab-link" data-tab="general" data-i18n="tab_nav_general">General</a>
+            <a href="#stars" class="tab-link" data-tab="stars" data-i18n="tab_nav_stars">★ Famous Stars</a>
+            <a href="#history" class="tab-link" data-tab="history" data-i18n="tab_nav_history">History</a>
+            <a href="#guide" class="tab-link" data-tab="guide" data-i18n="tab_nav_guide">Constellations</a>
+            <a href="#galaxies" class="tab-link" data-tab="galaxies" data-i18n="tab_nav_galaxies">Galaxies</a>
+            <a href="#solarsystem" class="tab-link" data-tab="solarsystem" data-i18n="tab_nav_solarsystem">Solar System</a>
+            <a href="#anecdotes" class="tab-link" data-tab="anecdotes" data-i18n="tab_nav_anecdotes">Anecdotes</a>
             <select class="lang-select" onchange="setLang(this.value)">
                 <option value="en">🌐 EN</option>
                 <option value="fr">🌐 FR</option>
@@ -247,18 +247,18 @@
     <div class="wiki-hero">
         <div class="wiki-hero-badge"><span class="badge-dot"></span><span data-i18n="wiki_badge">★ Star Knowledge Base</span></div>
         <h1><span data-i18n="wiki_h1a">Explore</span> <span class="grad" data-i18n="wiki_h1b">The Universe</span></h1>
-        <p data-i18n="wiki_sub">Science, history, myths and curious anecdotes about the cosmos — all in one place.</p>
+        <p data-i18n="wiki_page_sub">Science, history, myths and curious anecdotes about the cosmos — all in one place.</p>
     </div>
 
     <!-- Tab navigation -->
     <div class="tab-nav">
-        <button class="tab-btn active" data-tab="general">🔭 General Knowledge</button>
-        <button class="tab-btn" data-tab="stars">⭐ Famous Stars</button>
-        <button class="tab-btn" data-tab="history">📜 History</button>
-        <button class="tab-btn" data-tab="guide">🌌 Constellation Guide</button>
-        <button class="tab-btn" data-tab="galaxies">🔭 Galaxies</button>
-        <button class="tab-btn" data-tab="solarsystem">🪐 Solar System</button>
-        <button class="tab-btn" data-tab="anecdotes">💫 Anecdotes</button>
+        <button class="tab-btn active" data-tab="general" data-i18n="tab_general">🔭 General Knowledge</button>
+        <button class="tab-btn" data-tab="stars" data-i18n="tab_stars">⭐ Famous Stars</button>
+        <button class="tab-btn" data-tab="history" data-i18n="tab_history">📜 History</button>
+        <button class="tab-btn" data-tab="guide" data-i18n="tab_guide">🌌 Constellation Guide</button>
+        <button class="tab-btn" data-tab="galaxies" data-i18n="tab_galaxies">🔭 Galaxies</button>
+        <button class="tab-btn" data-tab="solarsystem" data-i18n="tab_solarsystem">🪐 Solar System</button>
+        <button class="tab-btn" data-tab="anecdotes" data-i18n="tab_anecdotes">💫 Anecdotes</button>
     </div>
 
     <!-- ── General Knowledge ───────────────────────────────────────────── -->
@@ -311,9 +311,9 @@
     <!-- ── Galaxies ────────────────────────────────────────────────────── -->
     <div class="wiki-section" id="sec-galaxies" style="--sc:#7ecfff">
         <div class="sec-header">
-            <div class="sec-tag">Island Universes</div>
-            <h2 class="sec-title">Galaxies</h2>
-            <p class="sec-sub">From our own Milky Way to the most distant giants — a guide to the great island universes that make up the fabric of the cosmos.</p>
+            <div class="sec-tag" data-i18n="sec_galaxies_tag">Island Universes</div>
+            <h2 class="sec-title" data-i18n="sec_galaxies_title">Galaxies</h2>
+            <p class="sec-sub" data-i18n="sec_galaxies_sub">From our own Milky Way to the most distant giants — a guide to the great island universes that make up the fabric of the cosmos.</p>
         </div>
         <div class="const-grid" id="galaxiesGrid"></div>
     </div>
@@ -321,9 +321,9 @@
     <!-- ── Solar System ─────────────────────────────────────────────────── -->
     <div class="wiki-section" id="sec-solarsystem" style="--sc:#ffcc66">
         <div class="sec-header">
-            <div class="sec-tag">Our Cosmic Neighbourhood</div>
-            <h2 class="sec-title">Solar System</h2>
-            <p class="sec-sub">The Sun, eight planets, moons, dwarf planets, comets and asteroids — everything in our local corner of the Milky Way.</p>
+            <div class="sec-tag" data-i18n="sec_solarsystem_tag">Our Cosmic Neighbourhood</div>
+            <h2 class="sec-title" data-i18n="sec_solarsystem_title">Solar System</h2>
+            <p class="sec-sub" data-i18n="sec_solarsystem_sub">The Sun, eight planets, moons, dwarf planets, comets and asteroids — everything in our local corner of the Milky Way.</p>
         </div>
         <div class="const-grid" id="solarsystemGrid"></div>
     </div>
