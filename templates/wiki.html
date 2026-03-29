@@ -216,6 +216,78 @@
 
         /* Footer */
         footer { position:relative;z-index:10;text-align:center;padding:28px;border-top:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.45);font-size:0.78rem;letter-spacing:0.05em; }
+
+        /* ── Light mode ─────────────────────────────────────────────────────── */
+        html.light body { background: #f0f2ff; color: #0d0d1a; }
+        html.light .nebula-1, html.light .nebula-2, html.light .nebula-3 { opacity: 0; }
+        html.light #starfield { opacity: 0.1; }
+
+        /* Nav */
+        html.light nav { background: rgba(240,242,255,0.9); border-bottom-color: rgba(0,0,30,0.1); }
+        html.light .nav-links a { color: rgba(0,0,30,0.55); }
+        html.light .nav-links a:hover { color: #0d0d1a; }
+        html.light .lang-select { background: rgba(0,0,30,0.05); border-color: rgba(0,0,30,0.15); color: rgba(0,0,30,0.6); }
+        html.light .lang-select option { background: #f0f2ff; color: #0d0d1a; }
+        html.light #themeToggle { background: rgba(0,0,30,0.06); border-color: rgba(0,0,30,0.15); color: rgba(0,0,30,0.6); }
+        html.light #themeToggle:hover { color: #0d0d1a; border-color: rgba(0,0,30,0.3); }
+
+        /* Hero */
+        html.light .wiki-hero h1 { color: #0d0d1a; }
+        html.light .wiki-hero p { color: rgba(0,0,30,0.55); }
+        html.light .wiki-hero-badge { background: rgba(245,197,24,0.12); border-color: rgba(245,197,24,0.4); color: #7a5c00; }
+
+        /* Tab buttons */
+        html.light .tab-btn { background: rgba(0,0,30,0.04); border-color: rgba(0,0,30,0.1); color: rgba(0,0,30,0.6); }
+        html.light .tab-btn:hover { background: rgba(0,0,30,0.08); color: #0d0d1a; }
+        html.light .tab-btn.active { background: rgba(90,63,191,0.1); border-color: rgba(90,63,191,0.3); color: #5a3fbf; box-shadow: 0 0 16px rgba(90,63,191,0.1); }
+        html.light .tab-btn[data-tab="history"].active  { background: rgba(160,120,0,0.1); border-color: rgba(160,120,0,0.3); color: #7a5c00; box-shadow: none; }
+        html.light .tab-btn[data-tab="stars"].active    { background: rgba(0,140,190,0.1); border-color: rgba(0,140,190,0.3); color: #006a8a; box-shadow: none; }
+        html.light .tab-btn[data-tab="anecdotes"].active{ background: rgba(180,50,120,0.1); border-color: rgba(180,50,120,0.25); color: #8a1a55; box-shadow: none; }
+        html.light .tab-btn[data-tab="guide"].active    { background: rgba(0,140,70,0.1); border-color: rgba(0,140,70,0.25); color: #005a30; box-shadow: none; }
+        html.light .tab-btn[data-tab="galaxies"].active  { background: rgba(30,120,200,0.1); border-color: rgba(30,120,200,0.28); color: #0a5290; box-shadow: none; }
+        html.light .tab-btn[data-tab="solarsystem"].active { background: rgba(200,120,0,0.1); border-color: rgba(200,120,0,0.28); color: #7a4800; box-shadow: none; }
+
+        /* Sections */
+        html.light .sec-title { color: #0d0d1a; }
+        html.light .sec-sub   { color: rgba(0,0,30,0.55); }
+
+        /* Knowledge cards */
+        html.light .know-card { background: rgba(255,255,255,0.94); border-color: rgba(0,0,30,0.09); box-shadow: 0 4px 20px rgba(0,0,30,0.07); }
+        html.light .know-card:hover { border-color: rgba(0,0,30,0.16); box-shadow: 0 14px 40px rgba(0,0,30,0.12); }
+        html.light .kc-icon   { background: rgba(0,0,30,0.05); border-color: rgba(0,0,30,0.09); }
+        html.light .kc-title  { color: #0d0d1a; }
+        html.light .kc-body   { color: rgba(0,0,30,0.68); }
+        html.light .kc-fact   { color: rgba(0,0,30,0.55); }
+        html.light .kc-footer { color: rgba(0,0,30,0.42); border-top-color: rgba(0,0,30,0.07); }
+
+        /* Star cards */
+        html.light .star-card { background: rgba(255,255,255,0.94); border-color: rgba(0,0,30,0.09); box-shadow: 0 6px 24px rgba(0,0,30,0.07); }
+        html.light .star-card:hover { border-color: rgba(0,0,30,0.16); box-shadow: 0 16px 48px rgba(0,0,30,0.12); }
+        html.light .sc-icon   { background: rgba(0,0,30,0.05); border-color: rgba(0,0,30,0.09); }
+        html.light .sc-title  { color: #0d0d1a; }
+        html.light .sc-desc   { color: rgba(0,0,30,0.68); }
+        html.light .sc-fact   { color: rgba(0,0,30,0.55); }
+        html.light .sc-footer { color: rgba(0,0,30,0.42); border-top-color: rgba(0,0,30,0.07); }
+
+        /* Constellation cards */
+        html.light .const-card { background: rgba(255,255,255,0.94); border-color: rgba(0,0,30,0.09); box-shadow: 0 4px 18px rgba(0,0,30,0.07); }
+        html.light .const-card:hover { box-shadow: 0 14px 40px rgba(0,0,30,0.12); }
+        html.light .cc-icon, html.light .const-feat-icon { background: rgba(0,0,30,0.05); border-color: rgba(0,0,30,0.09); }
+        html.light .cc-title  { color: #0d0d1a; }
+        html.light .cc-sub    { color: rgba(0,0,30,0.5); }
+        html.light .cc-desc   { color: rgba(0,0,30,0.68); }
+        html.light .cc-detail { color: rgba(0,0,30,0.42); border-top-color: rgba(0,0,30,0.07); }
+
+        /* Search */
+        html.light .search-input { background: rgba(0,0,30,0.05); border-color: rgba(0,0,30,0.12); color: #0d0d1a; }
+        html.light .search-input::placeholder { color: rgba(0,0,30,0.35); }
+        html.light .search-input:focus { border-color: rgba(90,63,191,0.35); background: rgba(0,0,30,0.07); }
+        html.light .search-icon { color: rgba(0,0,30,0.3); }
+        html.light .search-count { color: rgba(0,0,30,0.4); }
+        html.light .no-results { color: rgba(0,0,30,0.45); }
+
+        /* Footer */
+        html.light footer { border-top-color: rgba(0,0,30,0.08); color: rgba(0,0,30,0.35); }
     </style>
 </head>
 <body>
