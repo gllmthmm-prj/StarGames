@@ -17,6 +17,8 @@
         .lang-select { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.82rem; cursor:pointer; outline:none; }
         .lang-select:hover { border-color:rgba(255,255,255,0.28); color:#fff; }
         .lang-select option { background:#12122a; color:#e8e8ff; }
+        #themeToggle { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:5px 10px; color:rgba(255,255,255,0.65); font-size:0.9rem; cursor:pointer; transition:all 0.2s; font-family:inherit; }
+        #themeToggle:hover { color:#fff; border-color:rgba(255,255,255,0.28); }
         nav {
             display: flex; align-items: center; justify-content: space-between;
             padding: 16px 32px;
@@ -126,7 +128,7 @@
         <div class="logo">★ StarGames</div>
         <div style="display:flex;align-items:center;gap:16px">
             <a href="/" data-i18n="nav_back">← Back to games</a>
-            <select class="lang-select" onchange="setLang(this.value)"><option value="en">🌐 EN</option><option value="fr">🌐 FR</option></select><button class="egg-btn" onclick="openEgg()" title="🥚">🥚</button>
+            <select class="lang-select" onchange="setLang(this.value)"><option value="en">🌐 EN</option><option value="fr">🌐 FR</option></select><button class="egg-btn" onclick="openEgg()" title="🥚">🥚</button><button id="themeToggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
         </div>
     </nav>
     <div class="arena">
@@ -321,6 +323,6 @@
     </script>
     <script src="/static/i18n.js"></script>
     <script src="/static/spacebg.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', initLang);</script>
+    <script>document.addEventListener('DOMContentLoaded', initLang); function applyTheme(isLight){document.documentElement.classList.toggle('light',isLight);const b=document.getElementById('themeToggle');if(b)b.textContent=isLight?'☀️':'🌙';localStorage.setItem('sg_theme',isLight?'light':'dark');}function toggleTheme(){applyTheme(!document.documentElement.classList.contains('light'));}applyTheme(localStorage.getItem('sg_theme')==='light');</script>
 </body>
 </html>
